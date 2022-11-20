@@ -40,16 +40,17 @@ namespace RalsShooterWindowMenu
         {
             InitializeComponent();
             readHighScoreFromFile();
-            //highScoreList.Add(new HighScore("Max", 4500, 23));
-            //highScoreList.Add(new HighScore("Lisa", 6500, 23));
-            //highScoreList.Add(new HighScore("Uffe", 1500, 23));
-            //highScoreList.Add(new HighScore("Johnny", 7500, 23));
-            //highScoreList.Add(new HighScore("Conny", 400, 23));
             sortHighScore();
-            showHighScoreList();
+            //showHighScoreList();
 
 
-
+            foreach (HighScore highScore in highScoreList)
+            {
+                Label label = new Label();
+                label.FontSize = 20;
+                label.Content = highScore.name + " " + highScore.score;
+                HSStack.Children.Add(label);
+            }
 
 
         }
