@@ -99,7 +99,9 @@ namespace RalsShooterWindowMenu
                 }
                 else if (HighLight == 2)
                 {
-                    HighLight = 1;
+                    HighScore highScore = new HighScore();
+                    this.Hide();
+                    highScore.Show();
 
                 }
                 else if (HighLight == 3)

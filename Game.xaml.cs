@@ -204,9 +204,29 @@ namespace RalsShooterWindowMenu
                 //MessageBox.Show("Du har förhindrat " + score + " kr i lönehöjning" + Environment.NewLine + "öch släppt igenom " + bajsMackor + " bajsmackor till pilotkollektivet!");
                 //MessageBox.Show("Däremot är lönehöjningen redan upp i 4500 kr, vilket är helt oaccaptabelt. Du får därmed sparken!");
                 gameOver();
+                checkHighScore();
+                
                 //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
                 //Application.Current.Shutdown();
             }
+        }
+
+        public void checkHighScore()
+        {
+            HighScore highscore = new HighScore();
+            int placement;
+            if (score > highscore.lowestHighScore())
+            {
+                highscore.highScoreList.Add(new HighScore("Maximus", score, bajsMackor));
+                highscore.sortHighScore();
+                placement = highscore.getPlaceInHighScoreList("Maximus");
+                MessageBox.Show(placement.ToString());
+            }
+            else
+            {
+                MessageBox.Show("To low score to be on highscorelist");
+            }
+            highscore.showHighScoreList();
         }
 
         public void gameOver()
@@ -216,7 +236,7 @@ namespace RalsShooterWindowMenu
             label.Content = "Spelet är slut. Du släppte igenom " + bajsMackor + " bajsmackor på pilotkollektivet \r\n" +
                 "Du förhindrade " + score + " i lönehöjning!";
             Canvas.SetTop(label, 300);
-            Canvas.SetLeft(label, 200);
+            Canvas.SetLeft(label, 100);
             MyCanvas.Children.Add(label);
         }
         private void OnKeyDown(object sender, KeyEventArgs e)
