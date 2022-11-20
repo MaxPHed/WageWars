@@ -88,6 +88,20 @@ namespace RalsShooterWindowMenu
             }
         }
 
+        public void writeHighScoreToFile()
+        {
+            DirectoryInfo currentdirectory = new DirectoryInfo(".");
+            string itemPath = currentdirectory.FullName + "\\Files" + @"\Items.txt";
+            string[] arrLine = new string[5];
+            string hs;
+            for (int i = 0; i < 5; i++)
+            {
+                hs = highScoreList[i].name + ","+ highScoreList[i].score+"," + highScoreList[i].bajsmackor;
+                arrLine[i] = hs;
+            }
+            File.WriteAllLines(itemPath, arrLine); //Skriver en ny textfil med arrayen vi skapade två rader upp.
+        }
+
         public void showHighScoreList()
         {
             foreach (HighScore highScore in highScoreList)

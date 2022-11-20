@@ -220,6 +220,7 @@ namespace RalsShooterWindowMenu
                 highscore.highScoreList.Add(new HighScore("Maximus", score, bajsMackor));
                 highscore.sortHighScore();
                 placement = highscore.getPlaceInHighScoreList("Maximus");
+                highscore.writeHighScoreToFile();
                 MessageBox.Show(placement.ToString());
             }
             else
