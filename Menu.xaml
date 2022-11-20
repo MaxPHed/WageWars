@@ -1,0 +1,47 @@
+﻿<Window x:Class="RalsShooterWindowMenu.Menu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RalsShooterWindowMenu"
+        mc:Ignorable="d"
+        Title="Menu" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen">
+    <Grid Background="White">
+
+        <WrapPanel KeyboardNavigation.DirectionalNavigation="Cycle" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,8">
+            <Grid Name="NewGame" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" Source="/Images/edstrom.jpg" Stretch="Uniform" Margin="2" Height="50"/>
+                <TextBlock Grid.Column="1" Text="New Game" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Black" FontSize="30" VerticalAlignment="Center"/>
+                <Rectangle Grid.Column="0" Name="NGLine" Fill="Transparent" Stroke="RoyalBlue" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
+
+
+
+            </Grid>
+            <Grid Name="HighScore" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" Source="/Images/money.png" Stretch="Uniform" Margin="2" Height="50"/>
+                <TextBlock Grid.Column="1" Text="High Score" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Black" FontSize="30" VerticalAlignment="Center"/>
+                <Rectangle Grid.Column="0" Name="HSLine" Fill="Transparent" Stroke="RoyalBlue" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
+            </Grid>
+            <Grid Name="HowToPlay">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" Source="/Images/pooop.png" Stretch="Uniform" Margin="2" Height="50"/>
+                <TextBlock Grid.Column="1" Text="How to play" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Black" FontSize="30" VerticalAlignment="Center"/>
+                <Rectangle Grid.Column="0" Name="HTPLine" Fill="Transparent" Stroke="RoyalBlue" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
+            </Grid>
+        </WrapPanel>
+    </Grid>
+</Window>
