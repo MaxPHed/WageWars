@@ -1,5 +1,7 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
@@ -15,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace RalsShooterWindowMenu
 {
@@ -28,7 +31,8 @@ namespace RalsShooterWindowMenu
         List<Rectangle> itemRemover = new List<Rectangle>();
 
         Random rand = new Random();
-
+        bool timerOn;
+        bool newHighScore;
         int enemyCounter = 50;
         int pooCounter = 100;
         int playerSpeed = 10;
@@ -46,6 +50,7 @@ namespace RalsShooterWindowMenu
             gameTimer.Interval = TimeSpan.FromMilliseconds(20);
             gameTimer.Tick += GameLoop;
             gameTimer.Start();
+            timerOn = true;
 
             MyCanvas.Focus();
 
@@ -60,6 +65,11 @@ namespace RalsShooterWindowMenu
             ImageBrush playerImage = new ImageBrush();
             playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom.jpg"));
             player.Fill = playerImage;
+        }
+        public Game(string n)
+        {
+            string newHighScoreName = n;
+
         }
         private void GameLoop(object sender, EventArgs e)
         {
@@ -199,10 +209,9 @@ namespace RalsShooterWindowMenu
             if (damage > 100)
             {
                 gameTimer.Stop();
-                //damageText.Content = "Damage: 100";
+                timerOn = false;
                 damageText.Foreground = Brushes.Red;
-                //MessageBox.Show("Du har förhindrat " + score + " kr i lönehöjning" + Environment.NewLine + "öch släppt igenom " + bajsMackor + " bajsmackor till pilotkollektivet!");
-                //MessageBox.Show("Däremot är lönehöjningen redan upp i 4500 kr, vilket är helt oaccaptabelt. Du får därmed sparken!");
+                
                 gameOver();
                 checkHighScore();
                 
@@ -211,17 +220,23 @@ namespace RalsShooterWindowMenu
             }
         }
 
-        public void checkHighScore()
+        public void checkHighScore() 
         {
             HighScore highscore = new HighScore();
             int placement;
             if (score > highscore.lowestHighScore())
             {
+                newHighScore=true;
+                placement = highscore.getPlaceInHighScoreList(score);
+
+                string content1 = "NEW HIGH SCORE\n Your current rank: " + placement;
+                string content2 = "Press enter to add your name";
+                addLabelToGrid(content1, 40, 0);
+                addLabelToGrid(content2, 30, 2);
+                string name = readNameFromFile();
                 highscore.highScoreList.Add(new HighScore("Maximus", score, bajsMackor));
                 highscore.sortHighScore();
-                placement = highscore.getPlaceInHighScoreList("Maximus");
                 highscore.writeHighScoreToFile();
-                MessageBox.Show(placement.ToString());
             }
             else
             {
@@ -232,13 +247,25 @@ namespace RalsShooterWindowMenu
 
         public void gameOver()
         {
-            Label label = new Label();
-            label.FontSize = 20;
-            label.Content = "Spelet är slut. Du släppte igenom " + bajsMackor + " bajsmackor på pilotkollektivet \r\n" +
+            string content = "Spelet är slut. Du släppte igenom " + bajsMackor + " bajsmackor på pilotkollektivet \r\n" +
                 "Du förhindrade " + score + " i lönehöjning!";
-            Canvas.SetTop(label, 300);
-            Canvas.SetLeft(label, 100);
-            MyCanvas.Children.Add(label);
+            addLabelToGrid(content, 20, 1);
+        }
+        public void addLabelToGrid(string content, int size, int row)
+        {
+            Label label = new Label();
+            label.FontSize = size;
+            label.Content = content;
+            label.HorizontalAlignment = HorizontalAlignment.Center;
+            Grid.SetRow(label, row);
+            GameGrid.Children.Add(label);
+        }
+        public string readNameFromFile()
+        {
+            DirectoryInfo currentdirectory = new DirectoryInfo(".");
+            string filePath = currentdirectory.FullName + "\\Files" + @"\Name.txt";
+            string name = File.ReadAllText(filePath);
+            return name;
         }
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -252,11 +279,30 @@ namespace RalsShooterWindowMenu
             }
             if (e.Key == Key.Enter)
             {
-                Menu menu = new Menu();
-                this.Hide();
-                menu.Show();
+                if (timerOn == true)
+                {
+                    Menu menu = new Menu();
+                    this.Close();
+                    menu.Show();
+                }
+                if (timerOn == false)
+                {
+                    if (newHighScore == true)
+                    {
+                        this.Hide();
+                        NewHighScore newhighScoreName = new NewHighScore(this);
+                        newhighScoreName.Show();
+                        newHighScore = false;
+                    }
+                    else if (newHighScore == false)
+                    {
+                        Menu menu = new Menu();
+                        this.Close();
+                        menu.Show();
+                    }
+                }
+                
             }
-
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e)
@@ -319,5 +365,7 @@ namespace RalsShooterWindowMenu
             Canvas.SetLeft(newPoo, rand.Next(30, 430));
             MyCanvas.Children.Add(newPoo);
         }
+
+        
     }
 }

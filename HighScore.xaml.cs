@@ -42,20 +42,13 @@ namespace RalsShooterWindowMenu
             readHighScoreFromFile();
             sortHighScore();
             //showHighScoreList();
+            addHighScoresLabelsOnHighScorePage();
 
 
-            foreach (HighScore highScore in highScoreList)
-            {
-                Label label = new Label();
-                label.FontSize = 20;
-                label.Content = highScore.name + " " + highScore.score;
-                HSStack.Children.Add(label);
-            }
+            
 
 
         }
-
-
 
         public HighScore(string name, int score, int bajsmackor)
         {
@@ -65,6 +58,17 @@ namespace RalsShooterWindowMenu
             highScoreList.Add(this);
             sortHighScore();
 
+        }
+
+        public void addHighScoresLabelsOnHighScorePage()
+        {
+            foreach (HighScore highScore in highScoreList)
+            {
+                Label label = new Label();
+                label.FontSize = 20;
+                label.Content = highScore.name + " " + highScore.score;
+                HSStack.Children.Add(label);
+            }
         }
         
         public void readHighScoreFromFile()
@@ -91,7 +95,7 @@ namespace RalsShooterWindowMenu
         public void writeHighScoreToFile()
         {
             DirectoryInfo currentdirectory = new DirectoryInfo(".");
-            string itemPath = currentdirectory.FullName + "\\Files" + @"\Items.txt";
+            string filePath = currentdirectory.FullName + "\\Files" + @"\HighScore.txt";
             string[] arrLine = new string[5];
             string hs;
             for (int i = 0; i < 5; i++)
@@ -99,7 +103,7 @@ namespace RalsShooterWindowMenu
                 hs = highScoreList[i].name + ","+ highScoreList[i].score+"," + highScoreList[i].bajsmackor;
                 arrLine[i] = hs;
             }
-            File.WriteAllLines(itemPath, arrLine); //Skriver en ny textfil med arrayen vi skapade två rader upp.
+            File.WriteAllLines(filePath, arrLine); //Skriver en ny textfil med arrayen vi skapade två rader upp.
         }
 
         public void showHighScoreList()
@@ -112,10 +116,19 @@ namespace RalsShooterWindowMenu
             MessageBox.Show(utskrift);
         }
 
-        public int getPlaceInHighScoreList(string name)
+        public int getPlaceInHighScoreList(int score)
         {
-            string myName = name;
-            int placement = highScoreList.FindIndex(p => p.name == myName);
+            int myScore = score;
+            int placement = 0;
+            foreach (HighScore highscore in highScoreList)
+            {
+                int oldScore = highscore.score;
+                if (oldScore < myScore)
+                {
+                    placement = highScoreList.IndexOf(highscore)+1;
+                    break;
+                }
+            }
             return placement;
         }
 

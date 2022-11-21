@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RalsShooterWindowMenu"
         mc:Ignorable="d"
-        Title="Menu" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen">
-    <Grid Background="White">
+        Title="Menu" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid Height="650" Width="540" Background="White">
 
         <WrapPanel KeyboardNavigation.DirectionalNavigation="Cycle" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,8">
             <Grid Name="NewGame" Margin="0,0,0,20">

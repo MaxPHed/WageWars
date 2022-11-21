@@ -14,6 +14,13 @@
         <Label Name="damageText" Content="Damage: 0" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="34" />
         <Label Name="pooText" Content="Damage: 0" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="70" />
         <Label Content="Pilotkollektivet" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" FontSize="30" FontWeight="Bold" Foreground="White" BorderBrush="Yellow" BorderThickness="5"  HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Left="10" Canvas.Top="570" Width="520"  />
-
+        <Grid x:Name="GameGrid"  VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="70" Canvas.Top="150" Width="400" Height="360">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        </Grid>
     </Canvas>
+    
 </Window>

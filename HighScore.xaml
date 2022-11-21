@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RalsShooterWindowMenu"
         mc:Ignorable="d"
-        Title="HighScore" WindowState="Maximized" WindowStartupLocation="CenterScreen">
-    <Grid>
+        Title="HighScore" WindowState="Maximized" WindowStartupLocation="CenterScreen" Background="Black">
+    <Grid Height="650" Width="540" Background="White">
         <StackPanel x:Name="HSStack" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
             
         </StackPanel>
