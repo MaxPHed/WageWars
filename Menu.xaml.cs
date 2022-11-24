@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
@@ -23,14 +25,31 @@ namespace RalsShooterWindowMenu
     /// </summary>
     public partial class Menu : Window
     {
+
         int _highLight = 1;
         public int HighLight { get => _highLight; set => _highLight = value; }
+        List<HighScore> highScoreList = new List<HighScore>();
+
 
         public Menu()
         {
+            
             InitializeComponent();
+            readHighScoreFromFile();
             highLightFrame();
             
+        }
+        public Menu(List<HighScore> highScoreList)
+        {
+            this.highScoreList = highScoreList;
+            sortHighScoreList();
+            writeHighScoreToFile();
+            InitializeComponent();
+            highLightFrame();
+        }
+        public void sortHighScoreList()
+        {
+            highScoreList.Sort((x, y) => y.score.CompareTo(x.score));
         }
         private void highLightFrame()
         {
@@ -93,15 +112,15 @@ namespace RalsShooterWindowMenu
             {
                 if (HighLight == 1)
                 {
-                    Game game = new Game();
-                    this.Hide();
-                    game.Show();
+                    Game game = new Game(highScoreList);
+                    this.Close();
+                    game.ShowDialog();
                 }
                 else if (HighLight == 2)
                 {
-                    HighScore highScore = new HighScore();
+                    HighScoreWindow highScoreWindow = new HighScoreWindow(this, highScoreList);
                     this.Hide();
-                    highScore.Show();
+                    highScoreWindow.ShowDialog();
 
                 }
                 else if (HighLight == 3)
@@ -110,6 +129,39 @@ namespace RalsShooterWindowMenu
                 }
             }
             highLightFrame();
+        }
+        public void writeHighScoreToFile()
+        {
+            DirectoryInfo currentdirectory = new DirectoryInfo(".");
+            string filePath = currentdirectory.FullName + "\\Files" + @"\HighScore.txt";
+            string[] arrLine = new string[5];
+            string hs;
+            for (int i = 0; i < 5; i++)
+            {
+                hs = highScoreList[i].name + "," + highScoreList[i].score + "," + highScoreList[i].bajsmackor;
+                arrLine[i] = hs;
+            }
+            File.WriteAllLines(filePath, arrLine); //Skriver en ny textfil med arrayen vi skapade två rader upp.
+        }
+        public void readHighScoreFromFile()
+        {
+            DirectoryInfo currentdirectory = new DirectoryInfo(".");
+            string filePath = currentdirectory.FullName + "\\Files" + @"\HighScore.txt";
+            string[] readLine = File.ReadAllLines(filePath);
+
+            foreach (string hsLine in readLine)
+            {
+                if (String.IsNullOrEmpty(hsLine))
+                {
+                    break;
+                }
+                string[] hsData = hsLine.Split(','); //Varje string som separeras med ett komma blir en string i denna array.
+                string name = hsData[0]; //Platsen för var i arrayen avgör vilken typ av string det är.
+                int score = Convert.ToInt32(hsData[1]);
+                int bajsmackor = Convert.ToInt32(hsData[2]);
+
+                highScoreList.Add(new HighScore(name, score, bajsmackor));
+            }
         }
     }
 }

@@ -31,6 +31,7 @@ namespace RalsShooterWindowMenu
         List<Rectangle> itemRemover = new List<Rectangle>();
 
         Random rand = new Random();
+        List<HighScore> highScoreList;
         bool timerOn;
         bool newHighScore;
         int enemyCounter = 50;
@@ -44,9 +45,10 @@ namespace RalsShooterWindowMenu
         int bajsMackor = 0;
 
         Rect playerHitBox;
-        public Game()
+        public Game(List<HighScore> highScoreList)
         {
             InitializeComponent();
+            this.highScoreList = highScoreList;
             gameTimer.Interval = TimeSpan.FromMilliseconds(20);
             gameTimer.Tick += GameLoop;
             gameTimer.Start();
@@ -66,11 +68,7 @@ namespace RalsShooterWindowMenu
             playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom.jpg"));
             player.Fill = playerImage;
         }
-        public Game(string n)
-        {
-            string newHighScoreName = n;
-
-        }
+        
         private void GameLoop(object sender, EventArgs e)
         {
             playerHitBox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
@@ -212,40 +210,44 @@ namespace RalsShooterWindowMenu
                 timerOn = false;
                 damageText.Foreground = Brushes.Red;
                 
-                gameOver();
+                addGameOverTextToCanvas();
                 checkHighScore();
+                //Lägg in kommando för "Wait for user input" eller nåt. Kanske en bool som ändrar funktion av enter
+                
+
                 
                 //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
                 //Application.Current.Shutdown();
             }
         }
+        
 
         public void checkHighScore() 
         {
-            HighScore highscore = new HighScore();
+            //HighScoreWindow highscore = new HighScoreWindow();
             int placement;
-            if (score > highscore.lowestHighScore())
+            HighScore highScore = new HighScore(highScoreList);
+            if (score > highScore.lowestHighScore())
             {
                 newHighScore=true;
-                placement = highscore.getPlaceInHighScoreList(score);
+                placement = highScore.getPlaceInHighScoreList(score);
 
-                string content1 = "NEW HIGH SCORE\n Your current rank: " + placement;
+                string content1 = "NEW HIGH SCORE!\n Your current rank: " + placement;
                 string content2 = "Press enter to add your name";
                 addLabelToGrid(content1, 40, 0);
                 addLabelToGrid(content2, 30, 2);
-                string name = readNameFromFile();
-                highscore.highScoreList.Add(new HighScore("Maximus", score, bajsMackor));
-                highscore.sortHighScore();
-                highscore.writeHighScoreToFile();
             }
             else
             {
-                MessageBox.Show("To low score to be on highscorelist");
+                string content1 = "Too low score for High Score ";
+                string content2 = "Press enter to go back to main menu";
+                addLabelToGrid(content1, 40, 0);
+                addLabelToGrid(content2, 30, 2);
             }
-            highscore.showHighScoreList();
+            highScore.showHighScoreListInMessageBox();
         }
 
-        public void gameOver()
+        public void addGameOverTextToCanvas()
         {
             string content = "Spelet är slut. Du släppte igenom " + bajsMackor + " bajsmackor på pilotkollektivet \r\n" +
                 "Du förhindrade " + score + " i lönehöjning!";
@@ -289,10 +291,10 @@ namespace RalsShooterWindowMenu
                 {
                     if (newHighScore == true)
                     {
-                        this.Hide();
-                        NewHighScore newhighScoreName = new NewHighScore(this);
-                        newhighScoreName.Show();
                         newHighScore = false;
+                        NewHighScore newhighScoreName = new NewHighScore(this, highScoreList, score, bajsMackor);
+                        this.Close();
+                        newhighScoreName.Show();
                     }
                     else if (newHighScore == false)
                     {
@@ -365,7 +367,5 @@ namespace RalsShooterWindowMenu
             Canvas.SetLeft(newPoo, rand.Next(30, 430));
             MyCanvas.Children.Add(newPoo);
         }
-
-        
     }
 }

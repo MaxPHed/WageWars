@@ -26,17 +26,25 @@ namespace RalsShooterWindowMenu
         int indexCounter = 0;
         Label labelFixed = new Label();
         Label labelPending = new Label();
+        int score;
+        int bajsMackor;
+        List<HighScore> highScoreList;
 
         string[] alphabet = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Å", "Ä", "Ö" };
 
         
 
-        public NewHighScore(Window game)
+        public NewHighScore(Window game, List<HighScore> highScoreList, int score, int bajsMackor)
         {
             InitializeComponent();
+            this.highScoreList = highScoreList;
             parent = game;
             HSStack.Children.Add(labelFixed);
             HSStack.Children.Add(labelPending);
+            this.score = score;
+            this.bajsMackor = bajsMackor;
+
+
         }
 
         private void addLetter()
@@ -82,9 +90,10 @@ namespace RalsShooterWindowMenu
                 }
                 if (name.Length >= 3)
                 {
-                    writeNameToFile();
+                    highScoreList.Add(new HighScore(name, score, bajsMackor));
+                    Menu menu = new Menu(highScoreList);
                     this.Close();
-                    parent.Show();
+                    menu.Show();
                 }
             }
         }
