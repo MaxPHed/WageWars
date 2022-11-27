@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -20,6 +21,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
+using Image = System.Windows.Controls.Image;
 
 namespace RalsShooterWindowMenu
 {
@@ -38,7 +41,7 @@ namespace RalsShooterWindowMenu
         bool newHighScore;
         int enemyCounter = 50;
         int pooCounter = 100;
-        int playerSpeed = 10;
+        int playerSpeed = 15;
         int limit = 50;
         int score = 0;
         int damage = 0;
@@ -46,6 +49,7 @@ namespace RalsShooterWindowMenu
         int pooSpeed = 10;
         int bajsMackor = 0;
         int pBarProgress;
+        bool floskelExist = false;
 
         Rect playerHitBox;
         public Game(List<HighScore> highScoreList)
@@ -189,7 +193,18 @@ namespace RalsShooterWindowMenu
                 }
 
             }
+            foreach (Image floskel in MyCanvas.Children.OfType<Image>().ToList())
+            {
+                Canvas.SetTop(floskel, Canvas.GetTop(floskel) - 10);
 
+                if (Canvas.GetTop(floskel) < 10)
+                {
+                    MyCanvas.Children.Remove(floskel);
+
+                }
+            }
+            
+            
             foreach (Rectangle i in itemRemover)
             {
                 MyCanvas.Children.Remove(i);
@@ -211,7 +226,7 @@ namespace RalsShooterWindowMenu
                 enemySpeed = 15;
             }
 
-            if (damage > 100)
+            if (damage > 4500)
             {
                 gameTimer.Stop();
                 timerOn = false;
@@ -219,7 +234,6 @@ namespace RalsShooterWindowMenu
 
                 addGameOverTextToCanvas();
                 checkHighScore();
-                //Lägg in kommando för "Wait for user input" eller nåt. Kanske en bool som ändrar funktion av enter
 
 
 
@@ -322,7 +336,7 @@ namespace RalsShooterWindowMenu
             }
             if (e.Key == Key.Up)
             {
-                if (pBarProgress >= 3)
+                if (pBarProgress >= 10)
                 {
                     foreach (var y in MyCanvas.Children.OfType<Rectangle>())
                     {
@@ -332,8 +346,17 @@ namespace RalsShooterWindowMenu
                                 score += 100;
                         }
                     }
+                    pBarProgress = 0;
+                    Image floskel = new Image();
+                    floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel.png", UriKind.Relative));
+                    floskel.Width = 250;
+                    floskel.Stretch = Stretch.Uniform;
+                    Canvas.SetLeft(floskel, Canvas.GetLeft(player) + player.Width);
+                    Canvas.SetTop(floskel, Canvas.GetTop(player) -40);
+                    floskelExist = true;
+                    MyCanvas.Children.Add(floskel);
+
                 }
-                pBarProgress=0;
             }
         }
 

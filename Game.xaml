@@ -31,7 +31,7 @@
 
         <Rectangle x:Name="player" Height="50" Width="60" Fill="Yellow" Canvas.Left="240" Canvas.Top="520" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-        <ProgressBar x:Name="pBar" Foreground="Yellow" Canvas.Top="109" Maximum="3" Height="15" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <ProgressBar x:Name="pBar" Foreground="Yellow" Canvas.Top="109" Maximum="10" Height="15" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" />
         <Label Name="scoreText" Content="Score: 0" FontSize="18" FontWeight="Bold" Foreground="Yellow" BorderBrush="GreenYellow"/>
         <Label Name="damageText" Content="Damage: 0" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="34" />
         <Label Name="pooText" Content="Damage: 0" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="70" />
