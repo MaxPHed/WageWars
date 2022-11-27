@@ -55,21 +55,32 @@ namespace RalsShooterWindowMenu
         {
             if (HighLight == 1)
             {
-                NGLine.StrokeThickness = 10;
+                NGLine.StrokeThickness = 8;
+                NGLine.Stroke = Brushes.Yellow;
                 HSLine.StrokeThickness = 3;
+                HSLine.Stroke = Brushes.RoyalBlue;
                 HTPLine.StrokeThickness = 3;
+                HTPLine.Stroke = Brushes.RoyalBlue;
+
             }
             if (HighLight == 2)
             {
                 NGLine.StrokeThickness = 3;
-                HSLine.StrokeThickness = 10;
+                NGLine.Stroke = Brushes.RoyalBlue;
+                HSLine.StrokeThickness = 8;
+                HSLine.Stroke = Brushes.Yellow;
                 HTPLine.StrokeThickness = 3;
+                HTPLine.Stroke = Brushes.RoyalBlue;
+
             }
             if (HighLight == 3)
             {
                 NGLine.StrokeThickness = 3;
+                NGLine.Stroke = Brushes.RoyalBlue;
                 HSLine.StrokeThickness = 3;
-                HTPLine.StrokeThickness = 10;
+                HSLine.Stroke = Brushes.RoyalBlue;
+                HTPLine.StrokeThickness = 8;
+                HTPLine.Stroke = Brushes.Yellow;
             }
         }
 

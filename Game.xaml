@@ -6,10 +6,32 @@
         xmlns:local="clr-namespace:RalsShooterWindowMenu"
         mc:Ignorable="d"
         Title="Game" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="Label" x:Key="Labelz">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <ControlTemplate x:Key="GlowingLabel" TargetType="Label">
+            <Label Name="GlowingLabel" Content="New High Score">
+                <Label.Triggers>
+                    <EventTrigger RoutedEvent="Label.Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard BeginTime="00:00:00" RepeatBehavior="Forever" Storyboard.TargetName="GlowingLabel" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">
+                                    <ColorAnimation From="Black" To="Red" Duration="0:0:1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Label.Triggers>
+            </Label>
+        </ControlTemplate>
+    </Window.Resources>
     <Canvas x:Name="MyCanvas" Focusable="True"  Height="650" Width="540" Background="Black" KeyDown="OnKeyDown" KeyUp="OnKeyUp">
 
         <Rectangle x:Name="player" Height="50" Width="60" Fill="Yellow" Canvas.Left="240" Canvas.Top="520" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
+        <ProgressBar x:Name="pBar" Foreground="Yellow" Canvas.Top="109" Maximum="3" Height="15" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" />
         <Label Name="scoreText" Content="Score: 0" FontSize="18" FontWeight="Bold" Foreground="Yellow" BorderBrush="GreenYellow"/>
         <Label Name="damageText" Content="Damage: 0" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="34" />
         <Label Name="pooText" Content="Damage: 0" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="70" />
@@ -20,7 +42,8 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+
         </Grid>
     </Canvas>
-    
+
 </Window>

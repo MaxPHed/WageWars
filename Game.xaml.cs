@@ -13,6 +13,8 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -43,6 +45,7 @@ namespace RalsShooterWindowMenu
         int enemySpeed = 10;
         int pooSpeed = 10;
         int bajsMackor = 0;
+        int pBarProgress;
 
         Rect playerHitBox;
         public Game(List<HighScore> highScoreList)
@@ -53,7 +56,6 @@ namespace RalsShooterWindowMenu
             gameTimer.Tick += GameLoop;
             gameTimer.Start();
             timerOn = true;
-
             MyCanvas.Focus();
 
             ImageBrush bg = new ImageBrush();
@@ -68,12 +70,14 @@ namespace RalsShooterWindowMenu
             playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom.jpg"));
             player.Fill = playerImage;
         }
-        
+
         private void GameLoop(object sender, EventArgs e)
         {
             playerHitBox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             enemyCounter -= 1;
             pooCounter -= 1;
+            pBar.Value = pBarProgress;
+
 
             scoreText.Content = "Förhindrad lönehöjning: " + (score) + " kr";
             damageText.Content = "Lönehöjning " + (damage) + "kr";
@@ -99,6 +103,8 @@ namespace RalsShooterWindowMenu
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + playerSpeed);
             }
+
+
 
             foreach (var x in MyCanvas.Children.OfType<Rectangle>())
             {
@@ -170,6 +176,7 @@ namespace RalsShooterWindowMenu
                     {
                         itemRemover.Add(x);
                         bajsMackor += 1;
+                        pBarProgress += 1;
                     }
 
                     Rect pooHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
@@ -209,27 +216,27 @@ namespace RalsShooterWindowMenu
                 gameTimer.Stop();
                 timerOn = false;
                 damageText.Foreground = Brushes.Red;
-                
+
                 addGameOverTextToCanvas();
                 checkHighScore();
                 //Lägg in kommando för "Wait for user input" eller nåt. Kanske en bool som ändrar funktion av enter
-                
 
-                
+
+
                 //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
                 //Application.Current.Shutdown();
             }
         }
-        
 
-        public void checkHighScore() 
+
+        public void checkHighScore()
         {
             //HighScoreWindow highscore = new HighScoreWindow();
             int placement;
             HighScore highScore = new HighScore(highScoreList);
             if (score > highScore.lowestHighScore())
             {
-                newHighScore=true;
+                newHighScore = true;
                 placement = highScore.getPlaceInHighScoreList(score);
 
                 string content1 = "NEW HIGH SCORE!\n Your current rank: " + placement;
@@ -249,8 +256,8 @@ namespace RalsShooterWindowMenu
 
         public void addGameOverTextToCanvas()
         {
-            string content = "Spelet är slut. Du släppte igenom " + bajsMackor + " bajsmackor på pilotkollektivet \r\n" +
-                "Du förhindrade " + score + " i lönehöjning!";
+            string content = "Spelet är slut. Du släppte igenom " + bajsMackor + " bajsmackor \r\npå pilotkollektivet och" +
+                "förhindrade " + score + " i lönehöjning!";
             addLabelToGrid(content, 20, 1);
         }
         public void addLabelToGrid(string content, int size, int row)
@@ -259,9 +266,17 @@ namespace RalsShooterWindowMenu
             label.FontSize = size;
             label.Content = content;
             label.HorizontalAlignment = HorizontalAlignment.Center;
+            if (content.StartsWith("NEW H"))
+            {
+                ControlTemplate controlTemplate = new ControlTemplate();
+                controlTemplate = (ControlTemplate)Resources["GlowingLabel"];
+                label.Template = controlTemplate;
+
+            }
             Grid.SetRow(label, row);
             GameGrid.Children.Add(label);
         }
+        
         public string readNameFromFile()
         {
             DirectoryInfo currentdirectory = new DirectoryInfo(".");
@@ -303,7 +318,22 @@ namespace RalsShooterWindowMenu
                         menu.Show();
                     }
                 }
-                
+
+            }
+            if (e.Key == Key.Up)
+            {
+                if (pBarProgress >= 3)
+                {
+                    foreach (var y in MyCanvas.Children.OfType<Rectangle>())
+                    {
+                        if (y is Rectangle && (string)y.Tag == "enemy")
+                        {
+                                itemRemover.Add(y);
+                                score += 100;
+                        }
+                    }
+                }
+                pBarProgress=0;
             }
         }
 
@@ -334,7 +364,24 @@ namespace RalsShooterWindowMenu
                 MyCanvas.Children.Add(newBullet);
             }
         }
+        private void MakeExplosion(double x, double y)
+        {
+            ImageBrush explosionSprite = new ImageBrush();
+            explosionSprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/explosion.png"));
+            Rectangle newExplosion = new Rectangle
+            {
+                Visibility = Visibility.Collapsed,
+                Tag = "explosion",
+                Height = 50,
+                Width = 56,
+                Fill = explosionSprite
+            };
 
+            Canvas.SetTop(newExplosion, x);
+            Canvas.SetLeft(newExplosion, y);
+            MyCanvas.Children.Add(newExplosion);
+
+        }
         private void MakeEnemies()
         {
             ImageBrush enemySprite = new ImageBrush();

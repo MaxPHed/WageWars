@@ -4,6 +4,20 @@
              xmlns:local="clr-namespace:RalsShooterWindowMenu"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ControlTemplate x:Key="GlowingLabel" TargetType="Label">
+            <Label Name="GlowingLabel" Content="New High Score">
+                <Label.Triggers>
+                    <EventTrigger RoutedEvent="Label.Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard BeginTime="00:00:00" RepeatBehavior="Forever" Storyboard.TargetName="GlowingLabel" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">
+                                    <ColorAnimation From="Black" To="Red" Duration="0:0:1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Label.Triggers>
+            </Label>
+        </ControlTemplate>
     </Application.Resources>
 </Application>
