@@ -153,5 +153,10 @@
   <ItemGroup>
     <Resource Include="Images\Floskel.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\55.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
