@@ -40,7 +40,7 @@ namespace RalsShooterWindowMenu
         bool timerOn;
         bool newHighScore;
         int enemyCounter = 50;
-        int pooCounter = 100;
+        int pooCounter = 110;
         int playerSpeed = 15;
         int limit = 50;
         int score = 0;
@@ -48,7 +48,6 @@ namespace RalsShooterWindowMenu
         int enemySpeed = 10;
         int pooSpeed = 10;
         int bajsMackor = 0;
-        int pBarProgress;
         bool floskelExist = false;
 
         Rect playerHitBox;
@@ -80,7 +79,6 @@ namespace RalsShooterWindowMenu
             playerHitBox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             enemyCounter -= 1;
             pooCounter -= 1;
-            pBar.Value = pBarProgress;
 
 
             scoreText.Content = "Förhindrad lönehöjning: " + (score) + " kr";
@@ -96,7 +94,7 @@ namespace RalsShooterWindowMenu
             if (pooCounter < 0)
             {
                 MakePoo();
-                pooCounter = 50;
+                pooCounter = 55;
             }
 
             if (moveLeft == true && Canvas.GetLeft(player) > 0)
@@ -107,6 +105,12 @@ namespace RalsShooterWindowMenu
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + playerSpeed);
             }
+
+            if (pBar.Value == pBar.Maximum)
+            {
+                pBar.Opacity = 1;
+            }
+
 
 
 
@@ -158,7 +162,7 @@ namespace RalsShooterWindowMenu
                 if (x is Rectangle && (string)x.Tag == "enemy")
                 {
                     Canvas.SetTop(x, Canvas.GetTop(x) + enemySpeed);
-                    if (Canvas.GetTop(x) > 600)
+                    if (Canvas.GetTop(x) > 750)
                     {
                         itemRemover.Add(x);
                         damage += 100;
@@ -176,11 +180,12 @@ namespace RalsShooterWindowMenu
                 if (x is Rectangle && (string)x.Tag == "poo")
                 {
                     Canvas.SetTop(x, Canvas.GetTop(x) + pooSpeed);
-                    if (Canvas.GetTop(x) > 600)
+                    if (Canvas.GetTop(x) > 750)
                     {
                         itemRemover.Add(x);
                         bajsMackor += 1;
-                        pBarProgress += 1;
+                        pBar.Value += 1;
+
                     }
 
                     Rect pooHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
@@ -203,8 +208,8 @@ namespace RalsShooterWindowMenu
 
                 }
             }
-            
-            
+
+
             foreach (Rectangle i in itemRemover)
             {
                 MyCanvas.Children.Remove(i);
@@ -226,7 +231,7 @@ namespace RalsShooterWindowMenu
                 enemySpeed = 15;
             }
 
-            if (damage > 4500)
+            if (damage > 100)
             {
                 gameTimer.Stop();
                 timerOn = false;
@@ -241,7 +246,6 @@ namespace RalsShooterWindowMenu
                 //Application.Current.Shutdown();
             }
         }
-
 
         public void checkHighScore()
         {
@@ -289,8 +293,10 @@ namespace RalsShooterWindowMenu
             }
             Grid.SetRow(label, row);
             GameGrid.Children.Add(label);
+            //Panel.SetZIndex(label, 0);
+
         }
-        
+
         public string readNameFromFile()
         {
             DirectoryInfo currentdirectory = new DirectoryInfo(".");
@@ -336,23 +342,26 @@ namespace RalsShooterWindowMenu
             }
             if (e.Key == Key.Up)
             {
-                if (pBarProgress >= 10)
+                if (pBar.Value >= pBar.Maximum)
                 {
                     foreach (var y in MyCanvas.Children.OfType<Rectangle>())
                     {
                         if (y is Rectangle && (string)y.Tag == "enemy")
                         {
-                                itemRemover.Add(y);
-                                score += 100;
+                            itemRemover.Add(y);
+                            score += 100;
+                            
                         }
                     }
-                    pBarProgress = 0;
+                    pBar.Value = 0;
+                    pBar.Opacity = 0.5;
+                    pBar.Foreground = Brushes.Yellow;
                     Image floskel = new Image();
                     floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel.png", UriKind.Relative));
                     floskel.Width = 250;
                     floskel.Stretch = Stretch.Uniform;
                     Canvas.SetLeft(floskel, Canvas.GetLeft(player) + player.Width);
-                    Canvas.SetTop(floskel, Canvas.GetTop(player) -40);
+                    Canvas.SetTop(floskel, Canvas.GetTop(player) - 40);
                     floskelExist = true;
                     MyCanvas.Children.Add(floskel);
 
