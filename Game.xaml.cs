@@ -97,7 +97,7 @@ namespace RalsShooterWindowMenu
             if (pooCounter < 0)
             {
                 MakePoo();
-                pooCounter = 55;
+                pooCounter = 55; 
             }
             if (pensionCounter < 0)
             {
