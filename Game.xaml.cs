@@ -51,6 +51,7 @@ namespace RalsShooterWindowMenu
         int pensionSpeed = 10;
         int bajsMackor = 0;
         bool pensionLeft = false;
+        bool floskelAlive = false;
 
         Rect playerHitBox;
         public Game(List<HighScore> highScoreList)
@@ -87,7 +88,119 @@ namespace RalsShooterWindowMenu
             scoreText.Content = "Förhindrad lönehöjning: " + (score) + " kr";
             damageText.Content = "Lönehöjning " + (damage) + "kr";
             pooText.Content = "Bajsmackor igenomsläppta " + bajsMackor;
+            makeObjects();
+            checkMovement();
+            progressBarLook();
 
+            checkIfBulletHit();
+            floskelKill();
+            moveFloskel();
+            removeItems();
+            checkGameOverAndIncreaseSpeed();
+        }
+
+        private void floskelKill()
+        {
+            if (floskelAlive == true)
+
+            {
+                ImageBrush playerImage = new ImageBrush();
+                playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/hulk.png"));
+                player.Fill = playerImage;
+                foreach (var y in MyCanvas.Children.OfType<Rectangle>())
+                {
+                    if (y is Rectangle && (string)y.Tag == "enemy")
+                    {
+                        itemRemover.Add(y);
+                        score += 100;
+                    }
+                    if (y is Rectangle && (string)y.Tag == "55")
+                    {
+                        itemRemover.Add(y);
+                        score += 1000;
+                    }
+                }
+            }
+        }
+
+        private void progressBarLook()
+        {
+            if (pBar.Value == pBar.Maximum)
+            {
+                pBar.Opacity = 1;
+            }
+        }
+
+        private void checkGameOverAndIncreaseSpeed()
+        {
+            if (score > 500)
+            {
+                limit = 20;
+                enemySpeed = 11;
+            }
+            if (score > 1000)
+            {
+                limit = 20;
+                enemySpeed = 12;
+            }
+            if (score > 2000)
+            {
+                limit = 20;
+                enemySpeed = 15;
+            }
+
+            if (damage > 4500)
+            {
+                gameTimer.Stop();
+                timerOn = false;
+                damageText.Foreground = Brushes.Red;
+
+                addGameOverTextToCanvas();
+                checkHighScore();
+                //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                //Application.Current.Shutdown();
+            }
+        }
+
+        private void removeItems()
+        {
+            foreach (Rectangle i in itemRemover)
+            {
+                MyCanvas.Children.Remove(i);
+            }
+        }
+
+        private void moveFloskel()
+        {
+            foreach (Image floskel in MyCanvas.Children.OfType<Image>().ToList())
+            {
+                Canvas.SetTop(floskel, Canvas.GetTop(floskel) - 10);
+
+                if (Canvas.GetTop(floskel) < 10)
+                {
+                    MyCanvas.Children.Remove(floskel);
+                    floskelAlive = false;
+                    ImageBrush playerImage = new ImageBrush();
+                    playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom.jpg"));
+                    player.Fill = playerImage;
+                }
+            }
+        }
+
+        private void checkMovement()
+        {
+            if (moveLeft == true && Canvas.GetLeft(player) > 0)
+            {
+                Canvas.SetLeft(player, Canvas.GetLeft(player) - playerSpeed);
+            }
+            if (moveRight == true && Canvas.GetLeft(player) + 90 < (MyCanvas.ActualWidth + (player.Width / 2)))//Application.Current.MainWindow.Width)
+            {
+                Canvas.SetLeft(player, Canvas.GetLeft(player) + playerSpeed);
+            }
+        }
+
+        private void makeObjects()
+        {
             if (enemyCounter < 0)
             {
                 MakeEnemies();
@@ -97,31 +210,17 @@ namespace RalsShooterWindowMenu
             if (pooCounter < 0)
             {
                 MakePoo();
-                pooCounter = 55; 
+                pooCounter = 55;
             }
             if (pensionCounter < 0)
             {
                 MakePension();
                 pensionCounter = 900;
             }
+        }
 
-            if (moveLeft == true && Canvas.GetLeft(player) > 0)
-            {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) - playerSpeed);
-            }
-            if (moveRight == true && Canvas.GetLeft(player) + 90 < (MyCanvas.ActualWidth + (player.Width / 2)))//Application.Current.MainWindow.Width)
-            {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) + playerSpeed);
-            }
-
-            if (pBar.Value == pBar.Maximum)
-            {
-                pBar.Opacity = 1;
-            }
-
-
-
-
+        private void checkIfBulletHit()
+        {
             foreach (var x in MyCanvas.Children.OfType<Rectangle>())
             {
                 if (x is Rectangle && (string)x.Tag == "bullet")
@@ -134,7 +233,6 @@ namespace RalsShooterWindowMenu
                     {
                         itemRemover.Add(x);
                     }
-
                     foreach (var y in MyCanvas.Children.OfType<Rectangle>())
                     {
                         if (y is Rectangle && (string)y.Tag == "enemy")
@@ -149,24 +247,6 @@ namespace RalsShooterWindowMenu
                             }
 
                         }
-                    }
-                    foreach (var y in MyCanvas.Children.OfType<Rectangle>())
-                    {
-                        if (y is Rectangle && (string)y.Tag == "55")
-                        {
-                            Rect pensionHit = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
-
-                            if (bulletHitBox.IntersectsWith(pensionHit))
-                            {
-                                itemRemover.Add(x);
-                                itemRemover.Add(y);
-                                score += 500;
-                            }
-
-                        }
-                    }
-                    foreach (var y in MyCanvas.Children.OfType<Rectangle>())
-                    {
                         if (y is Rectangle && (string)y.Tag == "poo")
                         {
                             Rect pooHit = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
@@ -177,7 +257,17 @@ namespace RalsShooterWindowMenu
                                 itemRemover.Add(y);
                                 score -= 50;
                             }
+                        }
+                        if (y is Rectangle && (string)y.Tag == "55")
+                        {
+                            Rect pensionHit = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
 
+                            if (bulletHitBox.IntersectsWith(pensionHit))
+                            {
+                                itemRemover.Add(x);
+                                itemRemover.Add(y);
+                                score += 500;
+                            }
                         }
                     }
                 }
@@ -202,10 +292,10 @@ namespace RalsShooterWindowMenu
                 }
                 if (x is Rectangle && (string)x.Tag == "55")
                 {
-                    Canvas.SetTop(x, Canvas.GetTop(x) + (pensionSpeed/2));
+                    Canvas.SetTop(x, Canvas.GetTop(x) + (pensionSpeed / 2));
                     if (Canvas.GetLeft(x) < 28)
                     {
-                        pensionLeft=false;
+                        pensionLeft = false;
                     }
                     if (pensionLeft == false)
                     {
@@ -255,53 +345,6 @@ namespace RalsShooterWindowMenu
 
                 }
 
-            }
-            foreach (Image floskel in MyCanvas.Children.OfType<Image>().ToList())
-            {
-                Canvas.SetTop(floskel, Canvas.GetTop(floskel) - 10);
-
-                if (Canvas.GetTop(floskel) < 10)
-                {
-                    MyCanvas.Children.Remove(floskel);
-
-                }
-            }
-
-
-            foreach (Rectangle i in itemRemover)
-            {
-                MyCanvas.Children.Remove(i);
-            }
-
-            if (score > 500)
-            {
-                limit = 20;
-                enemySpeed = 11;
-            }
-            if (score > 1000)
-            {
-                limit = 20;
-                enemySpeed = 12;
-            }
-            if (score > 2000)
-            {
-                limit = 20;
-                enemySpeed = 15;
-            }
-
-            if (damage > 4500)
-            {
-                gameTimer.Stop();
-                timerOn = false;
-                damageText.Foreground = Brushes.Red;
-
-                addGameOverTextToCanvas();
-                checkHighScore();
-
-
-
-                //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                //Application.Current.Shutdown();
             }
         }
 
@@ -401,27 +444,24 @@ namespace RalsShooterWindowMenu
             {
                 if (pBar.Value >= pBar.Maximum)
                 {
-                    foreach (var y in MyCanvas.Children.OfType<Rectangle>())
-                    {
-                        if (y is Rectangle && (string)y.Tag == "enemy")
-                        {
-                            itemRemover.Add(y);
-                            score += 100;
-                        }
-                        if (y is Rectangle && (string)y.Tag == "55")
-                        {
-                            itemRemover.Add(y);
-                            score += 1000;
-                        }
-                    }
+                    floskelAlive = true;
+
                     pBar.Value = 0;
                     pBar.Opacity = 0.5;
                     pBar.Foreground = Brushes.Yellow;
                     Image floskel = new Image();
                     floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel.png", UriKind.Relative));
-                    floskel.Width = 250;
+                    floskel.Width = 240;
                     floskel.Stretch = Stretch.Uniform;
-                    Canvas.SetLeft(floskel, Canvas.GetLeft(player) + player.Width);
+                    if (Canvas.GetLeft(player) > 300)
+                    {
+                        Canvas.SetLeft(floskel, 300);
+                    }
+                    else
+                    {
+                        Canvas.SetLeft(floskel, Canvas.GetLeft(player) + player.Width);
+                    }
+                    
                     Canvas.SetTop(floskel, Canvas.GetTop(player) - 40);
                     MyCanvas.Children.Add(floskel);
 
@@ -456,7 +496,7 @@ namespace RalsShooterWindowMenu
                 MyCanvas.Children.Add(newBullet);
             }
         }
- 
+
         private void MakeEnemies()
         {
             ImageBrush enemySprite = new ImageBrush();
@@ -492,7 +532,7 @@ namespace RalsShooterWindowMenu
         private void MakePension()
         {
             ImageBrush p55Sprite = new ImageBrush();
-            p55Sprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/55.jpg"));
+            p55Sprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/55.png"));
             Rectangle newPension = new Rectangle
             {
                 Tag = "55",
