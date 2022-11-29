@@ -450,7 +450,7 @@ namespace RalsShooterWindowMenu
                     pBar.Opacity = 0.5;
                     pBar.Foreground = Brushes.Yellow;
                     Image floskel = new Image();
-                    floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel.png", UriKind.Relative));
+                    floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel2.png", UriKind.Relative));
                     floskel.Width = 240;
                     floskel.Stretch = Stretch.Uniform;
                     if (Canvas.GetLeft(player) > 300)
