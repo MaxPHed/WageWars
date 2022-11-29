@@ -327,7 +327,6 @@ namespace RalsShooterWindowMenu
                 addLabelToGrid(content1, 40, 0);
                 addLabelToGrid(content2, 30, 2);
             }
-            highScore.showHighScoreListInMessageBox();
         }
 
         public void addGameOverTextToCanvas()

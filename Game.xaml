@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RalsShooterWindowMenu"
         mc:Ignorable="d"
-        Title="Game" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen">
+        Title="Game" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Window.Resources>
         <Style TargetType="Label" x:Key="Labelz">
             <Setter Property="HorizontalAlignment" Value="Center"/>

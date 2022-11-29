@@ -23,7 +23,9 @@
             </Label>
         </ControlTemplate>
         
+        
     </Window.Resources>
+    
     <Grid Height="650" Width="540" Background="White">
         <Label FontWeight="Bold" FontSize="70" HorizontalAlignment="Center" Template="{StaticResource GlowingLabel}" Margin="0,70,0,0">
         </Label>
