@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:RalsShooterWindowMenu"
         mc:Ignorable="d"
         Title="NewHighScore" WindowState="Maximized" WindowStartupLocation="CenterScreen" Background="Black">
+    <Window.Resources>
+        
+    </Window.Resources>
     <Grid Height="650" Width="540" Background="White">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <Label HorizontalAlignment="Center">Use arrow up and down to change letter</Label>

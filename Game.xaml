@@ -31,7 +31,7 @@
 
         <Rectangle x:Name="player" Height="50" Width="60" Fill="Yellow" Canvas.Left="240" Canvas.Top="680" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-        <ProgressBar x:Name="pBar" Foreground="Yellow"  Canvas.Top="109" Maximum="1" Height="15" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Opacity="0.5">
+        <ProgressBar x:Name="pBar" Foreground="Yellow"  Canvas.Top="109" Maximum="10" Height="15" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Opacity="0.5">
             <ProgressBar.Effect>
                 <DropShadowEffect ShadowDepth="1"/>
             </ProgressBar.Effect>
