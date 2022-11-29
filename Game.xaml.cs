@@ -41,15 +41,16 @@ namespace RalsShooterWindowMenu
         bool newHighScore;
         int enemyCounter = 50;
         int pooCounter = 110;
-        int pensionCounter = 20;
+        int pensionCounter = 900;
         int playerSpeed = 15;
         int limit = 50;
         int score = 0;
         int damage = 0;
         int enemySpeed = 10;
         int pooSpeed = 10;
+        int pensionSpeed = 10;
         int bajsMackor = 0;
-        bool floskelExist = false;
+        bool pensionLeft = false;
 
         Rect playerHitBox;
         public Game(List<HighScore> highScoreList)
@@ -101,7 +102,7 @@ namespace RalsShooterWindowMenu
             if (pensionCounter < 0)
             {
                 MakePension();
-                pensionCounter = 55;
+                pensionCounter = 900;
             }
 
             if (moveLeft == true && Canvas.GetLeft(player) > 0)
@@ -201,16 +202,33 @@ namespace RalsShooterWindowMenu
                 }
                 if (x is Rectangle && (string)x.Tag == "55")
                 {
-                    Canvas.SetTop(x, Canvas.GetTop(x) + enemySpeed);
+                    Canvas.SetTop(x, Canvas.GetTop(x) + (pensionSpeed/2));
+                    if (Canvas.GetLeft(x) < 28)
+                    {
+                        pensionLeft=false;
+                    }
+                    if (pensionLeft == false)
+                    {
+                        Canvas.SetLeft(x, Canvas.GetLeft(x) + (pensionSpeed));
+                    }
+                    if (Canvas.GetLeft(x) > 512)
+                    {
+                        pensionLeft = true;
+                    }
+                    if (pensionLeft == true)
+                    {
+                        Canvas.SetLeft(x, Canvas.GetLeft(x) - (pensionSpeed));
+                    }
+
                     if (Canvas.GetTop(x) > 750)
                     {
                         itemRemover.Add(x);
                         damage += 1000;
                     }
 
-                    Rect enemyHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    Rect pensionHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
-                    if (playerHitBox.IntersectsWith(enemyHitBox))
+                    if (playerHitBox.IntersectsWith(pensionHitBox))
                     {
                         itemRemover.Add(x);
                         damage += 50;
@@ -390,7 +408,11 @@ namespace RalsShooterWindowMenu
                         {
                             itemRemover.Add(y);
                             score += 100;
-                            
+                        }
+                        if (y is Rectangle && (string)y.Tag == "55")
+                        {
+                            itemRemover.Add(y);
+                            score += 1000;
                         }
                     }
                     pBar.Value = 0;
@@ -402,7 +424,6 @@ namespace RalsShooterWindowMenu
                     floskel.Stretch = Stretch.Uniform;
                     Canvas.SetLeft(floskel, Canvas.GetLeft(player) + player.Width);
                     Canvas.SetTop(floskel, Canvas.GetTop(player) - 40);
-                    floskelExist = true;
                     MyCanvas.Children.Add(floskel);
 
                 }
@@ -449,7 +470,7 @@ namespace RalsShooterWindowMenu
                 Fill = enemySprite
             };
 
-            Canvas.SetTop(newEnemy, -100);
+            Canvas.SetTop(newEnemy, 0);
             Canvas.SetLeft(newEnemy, rand.Next(30, 430));
             MyCanvas.Children.Add(newEnemy);
         }
@@ -465,7 +486,7 @@ namespace RalsShooterWindowMenu
                 Fill = pooSprite
             };
 
-            Canvas.SetTop(newPoo, -100);
+            Canvas.SetTop(newPoo, 0);
             Canvas.SetLeft(newPoo, rand.Next(30, 430));
             MyCanvas.Children.Add(newPoo);
         }
@@ -473,7 +494,7 @@ namespace RalsShooterWindowMenu
         {
             ImageBrush p55Sprite = new ImageBrush();
             p55Sprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/55.jpg"));
-            Rectangle newPoo = new Rectangle
+            Rectangle newPension = new Rectangle
             {
                 Tag = "55",
                 Height = 50,
@@ -481,9 +502,9 @@ namespace RalsShooterWindowMenu
                 Fill = p55Sprite
             };
 
-            Canvas.SetTop(newPoo, -100);
-            Canvas.SetLeft(newPoo, rand.Next(30, 430));
-            MyCanvas.Children.Add(newPoo);
+            Canvas.SetTop(newPension, 0);
+            Canvas.SetLeft(newPension, rand.Next(90, 400));
+            MyCanvas.Children.Add(newPension);
         }
     }
 }
