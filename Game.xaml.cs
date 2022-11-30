@@ -39,7 +39,7 @@ namespace RalsShooterWindowMenu
         List<HighScore> highScoreList;
         bool timerOn;
         bool newHighScore;
-        int enemyCounter = 50;
+        int moneyCounter = 50;
         int pooCounter = 110;
         int pensionCounter = 900;
         int playerSpeed = 15;
@@ -81,7 +81,7 @@ namespace RalsShooterWindowMenu
         private void GameLoop(object sender, EventArgs e)
         {
             playerHitBox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
-            enemyCounter -= 1;
+            moneyCounter -= 1;
             pooCounter -= 1;
             pensionCounter -= 1;
 
@@ -105,12 +105,10 @@ namespace RalsShooterWindowMenu
             if (floskelAlive == true)
 
             {
-                ImageBrush playerImage = new ImageBrush();
-                playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/hulk.png"));
-                player.Fill = playerImage;
+                
                 foreach (var y in MyCanvas.Children.OfType<Rectangle>())
                 {
-                    if (y is Rectangle && (string)y.Tag == "enemy")
+                    if (y is Rectangle && (string)y.Tag == "money")
                     {
                         itemRemover.Add(y);
                         score += 100;
@@ -199,27 +197,6 @@ namespace RalsShooterWindowMenu
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + playerSpeed);
             }
         }
-
-        private void makeObjects()
-        {
-            if (enemyCounter < 0)
-            {
-                MakeEnemies();
-                enemyCounter = limit;
-            }
-
-            if (pooCounter < 0)
-            {
-                MakePoo();
-                pooCounter = 55;
-            }
-            if (pensionCounter < 0)
-            {
-                MakePension();
-                pensionCounter = 900;
-            }
-        }
-
         private void checkIfBulletHit()
         {
             foreach (var x in MyCanvas.Children.OfType<Rectangle>())
@@ -236,44 +213,23 @@ namespace RalsShooterWindowMenu
                     }
                     foreach (var y in MyCanvas.Children.OfType<Rectangle>())
                     {
-                        if (y is Rectangle && (string)y.Tag == "enemy")
+
+                        if (y is Rectangle && (string)y.Tag == "money")
                         {
-                            Rect enemyHit = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
-
-                            if (bulletHitBox.IntersectsWith(enemyHit))
-                            {
-                                itemRemover.Add(x);
-                                itemRemover.Add(y);
-                                score += 100;
-                            }
-
+                            bulletHitObject(bulletHitBox, x, y, 100);
                         }
                         if (y is Rectangle && (string)y.Tag == "poo")
                         {
-                            Rect pooHit = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
-
-                            if (bulletHitBox.IntersectsWith(pooHit))
-                            {
-                                itemRemover.Add(x);
-                                itemRemover.Add(y);
-                                score -= 50;
-                            }
+                            bulletHitObject(bulletHitBox, x, y, -50);
                         }
                         if (y is Rectangle && (string)y.Tag == "55")
                         {
-                            Rect pensionHit = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
-
-                            if (bulletHitBox.IntersectsWith(pensionHit))
-                            {
-                                itemRemover.Add(x);
-                                itemRemover.Add(y);
-                                score += 500;
-                            }
+                            bulletHitObject(bulletHitBox, x, y, 500);
                         }
                     }
                 }
 
-                if (x is Rectangle && (string)x.Tag == "enemy")
+                if (x is Rectangle && (string)x.Tag == "money")
                 {
                     Canvas.SetTop(x, Canvas.GetTop(x) + enemySpeed);
                     if (Canvas.GetTop(x) > 750)
@@ -281,15 +237,7 @@ namespace RalsShooterWindowMenu
                         itemRemover.Add(x);
                         damage += 100;
                     }
-
-                    Rect enemyHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-
-                    if (playerHitBox.IntersectsWith(enemyHitBox))
-                    {
-                        itemRemover.Add(x);
-                        damage += 50;
-                    }
-
+                    objectHitPlayer(x, 50);
                 }
                 if (x is Rectangle && (string)x.Tag == "55")
                 {
@@ -316,15 +264,7 @@ namespace RalsShooterWindowMenu
                         itemRemover.Add(x);
                         damage += 1000;
                     }
-
-                    Rect pensionHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-
-                    if (playerHitBox.IntersectsWith(pensionHitBox))
-                    {
-                        itemRemover.Add(x);
-                        damage += 50;
-                    }
-
+                    objectHitPlayer(x, 50);
                 }
                 if (x is Rectangle && (string)x.Tag == "poo")
                 {
@@ -336,22 +276,36 @@ namespace RalsShooterWindowMenu
                         pBar.Value += 1;
 
                     }
-
-                    Rect pooHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-
-                    if (playerHitBox.IntersectsWith(pooHitBox))
-                    {
-                        itemRemover.Add(x);
-                    }
-
+                    objectHitPlayer(x,0);
                 }
+            }
+        }
 
+        private void objectHitPlayer(Rectangle x, int points)
+        {
+            Rect objectHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+
+            if (playerHitBox.IntersectsWith(objectHitBox))
+            {
+                itemRemover.Add(x);
+                damage += points;
+            }
+        }
+
+        private void bulletHitObject(Rect bulletHitBox, Rectangle x, Rectangle y, int v)
+        {
+            Rect hitBox = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+
+            if (bulletHitBox.IntersectsWith(hitBox))
+            {
+                itemRemover.Add(x);
+                itemRemover.Add(y);
+                score += v;
             }
         }
 
         public void checkHighScore()
         {
-            //HighScoreWindow highscore = new HighScoreWindow();
             int placement;
             HighScore highScore = new HighScore(highScoreList);
             if (score > highScore.lowestHighScore())
@@ -375,8 +329,8 @@ namespace RalsShooterWindowMenu
 
         public void addGameOverTextToCanvas()
         {
-            string content = "Spelet är slut. Du släppte igenom " + bajsMackor + " bajsmackor \r\npå pilotkollektivet och" +
-                "förhindrade " + score + " i lönehöjning!";
+            string content = "Spelet är slut. \r\n" +
+                "Du förhindrade " + score + " i lönehöjning!";
             addLabelToGrid(content, 20, 1);
         }
         public void addLabelToGrid(string content, int size, int row)
@@ -446,6 +400,9 @@ namespace RalsShooterWindowMenu
                 if (pBar.Value >= pBar.Maximum)
                 {
                     floskelAlive = true;
+                    ImageBrush playerImage = new ImageBrush();
+                    playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/hulk.png"));
+                    player.Fill = playerImage;
 
                     pBar.Value = 0;
                     pBar.Opacity = 0.5;
@@ -497,14 +454,32 @@ namespace RalsShooterWindowMenu
                 MyCanvas.Children.Add(newBullet);
             }
         }
+        private void makeObjects()
+        {
+            if (moneyCounter < 0)
+            {
+                makeEnemy("money", "pack://application:,,,/Images/money.png");
+                moneyCounter = limit;
+            }
 
-        private void MakeEnemies()
+            if (pooCounter < 0)
+            {
+                makeEnemy("poo", "pack://application:,,,/Images/pooop.png");
+                pooCounter = 55;
+            }
+            if (pensionCounter < 0)
+            {
+                makeEnemy("55", "pack://application:,,,/Images/55.png");
+                pensionCounter = 900;
+            }
+        }
+        private void makeEnemy(string type, string filePath)
         {
             ImageBrush enemySprite = new ImageBrush();
-            enemySprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/money.png"));
+            enemySprite.ImageSource = new BitmapImage(new Uri(filePath));
             Rectangle newEnemy = new Rectangle
             {
-                Tag = "enemy",
+                Tag = type,
                 Height = 50,
                 Width = 56,
                 Fill = enemySprite
@@ -514,37 +489,6 @@ namespace RalsShooterWindowMenu
             Canvas.SetLeft(newEnemy, rand.Next(30, 430));
             MyCanvas.Children.Add(newEnemy);
         }
-        private void MakePoo()
-        {
-            ImageBrush pooSprite = new ImageBrush();
-            pooSprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/pooop.png"));
-            Rectangle newPoo = new Rectangle
-            {
-                Tag = "poo",
-                Height = 50,
-                Width = 56,
-                Fill = pooSprite
-            };
 
-            Canvas.SetTop(newPoo, 0);
-            Canvas.SetLeft(newPoo, rand.Next(30, 430));
-            MyCanvas.Children.Add(newPoo);
-        }
-        private void MakePension()
-        {
-            ImageBrush p55Sprite = new ImageBrush();
-            p55Sprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/55.png"));
-            Rectangle newPension = new Rectangle
-            {
-                Tag = "55",
-                Height = 50,
-                Width = 56,
-                Fill = p55Sprite
-            };
-
-            Canvas.SetTop(newPension, 0);
-            Canvas.SetLeft(newPension, rand.Next(90, 400));
-            MyCanvas.Children.Add(newPension);
-        }
     }
 }
