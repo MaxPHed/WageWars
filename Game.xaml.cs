@@ -31,7 +31,7 @@ namespace RalsShooterWindowMenu
     /// </summary>
     public partial class Game : Window
     {
-        DispatcherTimer gameTimer = new DispatcherTimer();
+        DispatcherTimer gameTimer = new DispatcherTimer(DispatcherPriority.Send);
         bool moveLeft, moveRight;
         List<Rectangle> itemRemover = new List<Rectangle>();
 
@@ -75,6 +75,7 @@ namespace RalsShooterWindowMenu
             ImageBrush playerImage = new ImageBrush();
             playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom.jpg"));
             player.Fill = playerImage;
+            
         }
 
         private void GameLoop(object sender, EventArgs e)
@@ -193,7 +194,7 @@ namespace RalsShooterWindowMenu
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) - playerSpeed);
             }
-            if (moveRight == true && Canvas.GetLeft(player) + 90 < (MyCanvas.ActualWidth + (player.Width / 2)))//Application.Current.MainWindow.Width)
+            else if (moveRight == true && Canvas.GetLeft(player) + 90 < (MyCanvas.ActualWidth + (player.Width / 2)))//Application.Current.MainWindow.Width)
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + playerSpeed);
             }
