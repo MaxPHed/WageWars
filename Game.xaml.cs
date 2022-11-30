@@ -31,7 +31,7 @@ namespace RalsShooterWindowMenu
     /// </summary>
     public partial class Game : Window
     {
-        DispatcherTimer gameTimer = new DispatcherTimer(DispatcherPriority.Send);
+        DispatcherTimer gameTimer = new DispatcherTimer(DispatcherPriority.Loaded);
         bool moveLeft, moveRight;
         List<Rectangle> itemRemover = new List<Rectangle>();
 
