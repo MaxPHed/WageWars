@@ -151,20 +151,7 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Floskel.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\55.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\55.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\hulk.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -173,13 +160,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Images\pooopSmall.png">
+    <Resource Include="Images\edstrom_2.jpg" />
+    <Resource Include="Sounds\DangerZone.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\moneySmall.png" />
+    <Content Include="Sounds\Guns.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Money.wav" />
+    <Content Include="Sounds\pensionIncoming.wav" />
+    <Content Include="Sounds\Poop.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

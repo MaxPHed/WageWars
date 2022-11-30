@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
@@ -34,6 +35,14 @@ namespace RalsShooterWindowMenu
         DispatcherTimer gameTimer = new DispatcherTimer(DispatcherPriority.Loaded);
         bool moveLeft, moveRight;
         List<Rectangle> itemRemover = new List<Rectangle>();
+        static DirectoryInfo currentdirectory = new DirectoryInfo(".");
+        SoundPlayer gunSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Guns.Wav");
+        SoundPlayer moneySound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Money.Wav");
+        SoundPlayer poopSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Poop.Wav");
+        SoundPlayer pensionIncimingSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\PensionIncoming.Wav");
+        
+        
+
 
         Random rand = new Random();
         List<HighScore> highScoreList;
@@ -75,7 +84,11 @@ namespace RalsShooterWindowMenu
             ImageBrush playerImage = new ImageBrush();
             playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom.jpg"));
             player.Fill = playerImage;
-            
+            MediaPlayer background = new MediaPlayer();
+            background.Open(new Uri("pack://application:,,,/The.Full.Assembly.Name;component/Sounds/DangerZone.mp3"));
+            background.Play();
+            bool audio = background.HasAudio;
+            //MessageBox.Show(audio.ToString());
         }
 
         private void GameLoop(object sender, EventArgs e)
@@ -236,6 +249,7 @@ namespace RalsShooterWindowMenu
                     {
                         itemRemover.Add(x);
                         damage += 100;
+                        moneySound.Play();
                     }
                     objectHitPlayer(x, 50);
                 }
@@ -274,6 +288,7 @@ namespace RalsShooterWindowMenu
                         itemRemover.Add(x);
                         bajsMackor += 1;
                         pBar.Value += 1;
+                        poopSound.Play();
 
                     }
                     objectHitPlayer(x,0);
@@ -401,7 +416,7 @@ namespace RalsShooterWindowMenu
                 {
                     floskelAlive = true;
                     ImageBrush playerImage = new ImageBrush();
-                    playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/hulk.png"));
+                    playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom_2.jpg"));
                     player.Fill = playerImage;
 
                     pBar.Value = 0;
@@ -452,6 +467,10 @@ namespace RalsShooterWindowMenu
                 Canvas.SetTop(newBullet, Canvas.GetTop(player) - newBullet.Height);
 
                 MyCanvas.Children.Add(newBullet);
+                string path = currentdirectory.FullName + "\\Sounds" + "\\Guns.Waw";
+                //MessageBox.Show(path);
+
+                gunSound.Play();
             }
         }
         private void makeObjects()
@@ -469,7 +488,8 @@ namespace RalsShooterWindowMenu
             }
             if (pensionCounter < 0)
             {
-                makeEnemy("55", "pack://application:,,,/Images/55.png");
+                makeEnemy("55", "pack://application:,,,/Images/55.jpg");
+                pensionIncimingSound.Play();
                 pensionCounter = 900;
             }
         }
