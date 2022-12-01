@@ -1,28 +1,16 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 using Image = System.Windows.Controls.Image;
 
 namespace RalsShooterWindowMenu
@@ -40,8 +28,9 @@ namespace RalsShooterWindowMenu
         SoundPlayer moneySound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Money.Wav");
         SoundPlayer poopSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Poop.Wav");
         SoundPlayer pensionIncimingSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\PensionIncoming.Wav");
-        
-        
+        MediaPlayer backgroundMusic = new MediaPlayer();
+
+
 
 
         Random rand = new Random();
@@ -84,12 +73,9 @@ namespace RalsShooterWindowMenu
             ImageBrush playerImage = new ImageBrush();
             playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom.jpg"));
             player.Fill = playerImage;
-            MediaPlayer background = new MediaPlayer();
-            background.Open(new Uri("pack://application:,,,/The.Full.Assembly.Name;component/Sounds/DangerZone.mp3"));
-            background.Play();
-            bool audio = background.HasAudio;
-            //MessageBox.Show(audio.ToString());
-        }
+            backgroundMusic.Open(new Uri(@"Sounds/DangerZone.mp3", UriKind.Relative));
+            backgroundMusic.Play();
+        }   
 
         private void GameLoop(object sender, EventArgs e)
         {
@@ -389,6 +375,8 @@ namespace RalsShooterWindowMenu
                 if (timerOn == true)
                 {
                     Menu menu = new Menu();
+                    gameTimer.Stop();
+                    backgroundMusic.Stop();
                     this.Close();
                     menu.Show();
                 }
