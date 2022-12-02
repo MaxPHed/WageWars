@@ -29,6 +29,8 @@ namespace RalsShooterWindowMenu
         int _highLight = 1;
         public int HighLight { get => _highLight; set => _highLight = value; }
         List<HighScore> highScoreList = new List<HighScore>();
+        MediaPlayer backgroundMusic = new MediaPlayer();
+
 
 
         public Menu()
@@ -37,7 +39,9 @@ namespace RalsShooterWindowMenu
             InitializeComponent();
             readHighScoreFromFile();
             highLightFrame();
-            
+            backgroundMusic.Open(new Uri(@"Sounds/TopGunTheme.mp3", UriKind.Relative));
+            backgroundMusic.Play();
+
         }
         public Menu(List<HighScore> highScoreList)
         {
@@ -125,13 +129,15 @@ namespace RalsShooterWindowMenu
                 {
                     Game game = new Game(highScoreList);
                     this.Close();
+                    backgroundMusic.Stop();
                     game.ShowDialog();
                 }
                 else if (HighLight == 2)
                 {
                     HighScoreWindow highScoreWindow = new HighScoreWindow(this, highScoreList);
-                    this.Hide();
-                    highScoreWindow.ShowDialog();
+                    this.Close();
+                    backgroundMusic.Stop();
+                    highScoreWindow.Show();
 
                 }
                 else if (HighLight == 3)

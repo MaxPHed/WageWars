@@ -28,6 +28,7 @@ namespace RalsShooterWindowMenu
         SoundPlayer moneySound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Money.Wav");
         SoundPlayer poopSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Poop.Wav");
         SoundPlayer pensionIncimingSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\PensionIncoming.Wav");
+        SoundPlayer gameOverSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Game_Over_1.Wav");
         MediaPlayer backgroundMusic = new MediaPlayer();
 
 
@@ -150,6 +151,7 @@ namespace RalsShooterWindowMenu
             if (damage > 4500)
             {
                 gameTimer.Stop();
+                gameOverSound.Play();
                 timerOn = false;
                 damageText.Foreground = Brushes.Red;
 
@@ -393,6 +395,7 @@ namespace RalsShooterWindowMenu
                     {
                         Menu menu = new Menu();
                         this.Close();
+                        backgroundMusic.Stop();
                         menu.Show();
                     }
                 }
