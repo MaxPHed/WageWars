@@ -23,48 +23,117 @@ namespace RalsShooterWindowMenu
     {
         Window parent;
         string letter = "A";
-        string name ="";
+        string name = "";
         int indexCounter = 0;
         Label labelFixed = new Label();
         Label labelPending = new Label();
-        int score;
+        int newScore;
         int bajsMackor;
+        int placement;
         List<HighScore> highScoreList;
         private bool BlinkOn = false;
+        WrapPanel newScorePanel = new WrapPanel();
 
 
         string[] alphabet = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Å", "Ä", "Ö" };
 
-        
 
-        public NewHighScore(Window game, List<HighScore> highScoreList, int score, int bajsMackor)
+
+        public NewHighScore(Window game, List<HighScore> highScoreList, int newScore, int bajsMackor)
         {
             InitializeComponent();
             this.highScoreList = highScoreList;
             parent = game;
-            HSStack.Children.Add(labelFixed);
-            HSStack.Children.Add(labelPending);
+            HighScore highscore = new HighScore(highScoreList);
+            placement = highscore.getPlaceInHighScoreList(newScore);
+
+            this.newScore = newScore;
+
+            sortAllHighScores(placement);
+            labelPending.FontSize = 24;
+            newScorePanel.Children.Add(labelPending);
             labelPending.Content = alphabet[0];
-            this.score = score;
             this.bajsMackor = bajsMackor;
 
-            DispatcherTimer timer = new DispatcherTimer();
+            DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Loaded);
             timer.Tick += timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
             timer.Start();
 
         }
+
+        private void sortAllHighScores(int placement)
+        {
+            int place = 1;
+            foreach (HighScore highscore in highScoreList)
+            {
+
+                if (highscore.score >= newScore)
+                {
+                    AddLabelToStack(highscore, place);
+                    place++;
+                }
+            }
+
+            Label newScoreLabel = new Label();
+            newScoreLabel.FontSize = 24;
+            labelFixed.FontSize = 24;
+            labelFixed.Foreground = Brushes.RoyalBlue;
+            labelFixed.FontWeight = FontWeights.Bold;
+            newScoreLabel.Foreground = Brushes.RoyalBlue;
+            newScoreLabel.FontWeight = FontWeights.Bold;
+            newScoreLabel.Content = placement.ToString();
+            newScoreLabel.Content += "  "+ newScore.ToString();
+
+            newScorePanel.Children.Add(newScoreLabel);
+            newScorePanel.Children.Add(labelFixed);
+            HSStack.Children.Add(newScorePanel);
+            place = placement + 1;
+
+            foreach (HighScore highscore in highScoreList)
+            {
+                if (highscore.score < newScore)
+                {
+                    if(place == 6)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        AddLabelToStack(highscore, place);
+                        place++;
+                    }
+                    
+                }
+            }
+
+        }
+
+        private void AddLabelToStack(HighScore highscore, int place)
+        {
+            WrapPanel panel = new WrapPanel();
+            Label formerScoresLabel = new Label();
+            Label labelScore = new Label();
+            formerScoresLabel.Content = place.ToString();
+            formerScoresLabel.Content += "  " + highscore.score;
+
+            formerScoresLabel.Content += "  " + highscore.name;
+            panel.Children.Add(formerScoresLabel);
+            HSStack.Children.Add(panel);
+
+        }
+
         private void timer_Tick(object sender, EventArgs e)
         {
             if (BlinkOn)
             {
-                labelPending.Foreground = Brushes.Black;
+                labelPending.Foreground = Brushes.RoyalBlue;
                 labelPending.Background = Brushes.White;
             }
             else
             {
                 labelPending.Foreground = Brushes.White;
-                labelPending.Background = Brushes.Black;
+                labelPending.Background = Brushes.RoyalBlue;
             }
             BlinkOn = !BlinkOn;
         }
@@ -73,12 +142,15 @@ namespace RalsShooterWindowMenu
             letter = alphabet[indexCounter];
             name += letter;
             labelFixed.Content = name;
+            labelFixed.FontSize = 24;
+            labelFixed.Foreground = Brushes.RoyalBlue;
+            letter = alphabet[0];
         }
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (e.Key == Key.Up)
             {
-                if ((indexCounter >= 0) && (indexCounter <=27) )
+                if ((indexCounter >= 0) && (indexCounter <= 27))
                 {
                     indexCounter++;
                 }
@@ -87,15 +159,17 @@ namespace RalsShooterWindowMenu
                     indexCounter = 0;
                 }
                 labelPending.Content = alphabet[indexCounter];
+                labelPending.FontSize = 30;
+
                 HSStack.UpdateLayout();
             }
             if (e.Key == Key.Down)
             {
                 if (indexCounter == 0)
                 {
-                    indexCounter =28;
+                    indexCounter = 28;
                 }
-                else if(indexCounter <= 29)
+                else if (indexCounter <= 29)
                 {
                     indexCounter--;
                 }
@@ -104,25 +178,22 @@ namespace RalsShooterWindowMenu
             }
             if (e.Key == Key.Enter)
             {
-                if(name.Length < 3)
+                if (name.Length < 3)
                 {
                     addLetter();
 
                 }
                 if (name.Length >= 3)
                 {
-                    highScoreList.Add(new HighScore(name, score, bajsMackor));
+                    highScoreList.Add(new HighScore(name, newScore, bajsMackor));
                     Menu menu = new Menu(highScoreList);
+                    
+                    parent.Close();
+
                     this.Close();
                     menu.Show();
                 }
             }
-        }
-        public void writeNameToFile()
-        {
-            DirectoryInfo currentdirectory = new DirectoryInfo(".");
-            string filePath = currentdirectory.FullName + "\\Files" + @"\Name.txt";
-            File.WriteAllText(filePath, name);
         }
     }
 }

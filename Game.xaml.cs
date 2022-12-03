@@ -148,10 +148,10 @@ namespace RalsShooterWindowMenu
                 enemySpeed = 15;
             }
 
-            if (damage > 4500)
+            if (damage > 100)
             {
                 gameTimer.Stop();
-                gameOverSound.Play();
+                gameOverSound.Stop();
                 timerOn = false;
                 damageText.Foreground = Brushes.Red;
 
@@ -388,7 +388,7 @@ namespace RalsShooterWindowMenu
                     {
                         newHighScore = false;
                         NewHighScore newhighScoreName = new NewHighScore(this, highScoreList, score, bajsMackor);
-                        this.Close();
+                        this.Hide();
                         newhighScoreName.Show();
                     }
                     else if (newHighScore == false)
@@ -484,6 +484,12 @@ namespace RalsShooterWindowMenu
                 pensionCounter = 900;
             }
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            backgroundMusic.Stop();
+        }
+
         private void makeEnemy(string type, string filePath)
         {
             ImageBrush enemySprite = new ImageBrush();

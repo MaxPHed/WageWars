@@ -50,6 +50,8 @@ namespace RalsShooterWindowMenu
             writeHighScoreToFile();
             InitializeComponent();
             highLightFrame();
+            backgroundMusic.Open(new Uri(@"Sounds/TopGunTheme.mp3", UriKind.Relative));
+            backgroundMusic.Play();
         }
         public void sortHighScoreList()
         {
@@ -135,8 +137,8 @@ namespace RalsShooterWindowMenu
                 else if (HighLight == 2)
                 {
                     HighScoreWindow highScoreWindow = new HighScoreWindow(this, highScoreList);
-                    this.Close();
-                    backgroundMusic.Stop();
+                    this.Hide();
+                    //backgroundMusic.Stop();
                     highScoreWindow.Show();
 
                 }

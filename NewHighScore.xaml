@@ -7,14 +7,23 @@
         mc:Ignorable="d"
         Title="NewHighScore" WindowState="Maximized" WindowStartupLocation="CenterScreen" Background="Black">
     <Window.Resources>
-        
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Opacity" Value="0.7"/>
+        </Style>
+        <Style TargetType="WrapPanel">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value=" 200"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Margin" Value="2,0,0,0"/>
+        </Style>
     </Window.Resources>
     <Grid Height="650" Width="540" Background="White">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Label HorizontalAlignment="Center">Use arrow up and down to change letter</Label>
-            <Label HorizontalAlignment="Center">Press enter to add letter</Label>
-            <StackPanel x:Name="HSStack" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                
+            <Label HorizontalAlignment="Center" Opacity="1">Use arrow up and down to change letter</Label>
+            <Label HorizontalAlignment="Center" Opacity="1">Press enter to add letter</Label>
+            <StackPanel x:Name="HSStack" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+
             </StackPanel>
         </StackPanel>
 
