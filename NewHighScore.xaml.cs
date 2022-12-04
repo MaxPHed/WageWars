@@ -51,6 +51,7 @@ namespace RalsShooterWindowMenu
 
             sortAllHighScores(placement);
             labelPending.FontSize = 24;
+            newScorePanel.Height = 45;
             newScorePanel.Children.Add(labelPending);
             labelPending.Content = alphabet[0];
             this.bajsMackor = bajsMackor;

@@ -88,7 +88,6 @@ namespace RalsShooterWindowMenu
 
             scoreText.Content = "Förhindrad lönehöjning: " + (score) + " kr";
             damageText.Content = "Lönehöjning " + (damage) + "kr";
-            pooText.Content = "Bajsmackor igenomsläppta " + bajsMackor;
             makeObjects();
             checkMovement();
             progressBarLook();
@@ -127,6 +126,16 @@ namespace RalsShooterWindowMenu
             if (pBar.Value == pBar.Maximum)
             {
                 pBar.Opacity = 1;
+                progressPoop.Height = 20;
+                progessBarFullLabel.Visibility = Visibility.Visible;
+            }
+            if (pBar.Value != pBar.Maximum)
+            {
+                progessBarFullLabel.Visibility = Visibility.Hidden;
+                progressPoop.Height = 15;
+                pBar.Opacity = 0.5;
+                pBar.Foreground = Brushes.Yellow;
+
             }
         }
 
@@ -151,7 +160,7 @@ namespace RalsShooterWindowMenu
             if (damage > 100)
             {
                 gameTimer.Stop();
-                gameOverSound.Stop();
+                gameOverSound.Play();
                 timerOn = false;
                 damageText.Foreground = Brushes.Red;
 
@@ -411,8 +420,7 @@ namespace RalsShooterWindowMenu
                     player.Fill = playerImage;
 
                     pBar.Value = 0;
-                    pBar.Opacity = 0.5;
-                    pBar.Foreground = Brushes.Yellow;
+                    
                     Image floskel = new Image();
                     floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel2.png", UriKind.Relative));
                     floskel.Width = 240;
