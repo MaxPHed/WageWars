@@ -25,10 +25,10 @@ namespace RalsShooterWindowMenu
         List<Rectangle> itemRemover = new List<Rectangle>();
         static DirectoryInfo currentdirectory = new DirectoryInfo(".");
         SoundPlayer gunSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Guns.Wav");
-        SoundPlayer moneySound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Money.Wav");
-        SoundPlayer poopSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Poop.Wav");
-        SoundPlayer pensionIncimingSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\PensionIncoming.Wav");
-        SoundPlayer gameOverSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Game_Over_1.Wav");
+        //SoundPlayer moneySound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Money.Wav");
+        //SoundPlayer poopSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Poop.Wav");
+        //SoundPlayer pensionIncomingSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\PensionIncoming.Wav");
+        //SoundPlayer gameOverSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Game_Over_1.Wav");
         MediaPlayer backgroundMusic = new MediaPlayer();
 
 
@@ -99,6 +99,12 @@ namespace RalsShooterWindowMenu
             checkGameOverAndIncreaseSpeed();
         }
 
+        private void soundEffect(string soundName)
+        {
+            MediaPlayer soundEffect = new MediaPlayer();
+            soundEffect.Open(new Uri(soundName, UriKind.Relative));
+            soundEffect.Play();
+        }
         private void floskelKill()
         {
             if (floskelAlive == true)
@@ -160,7 +166,7 @@ namespace RalsShooterWindowMenu
             if (damage > 4500)
             {
                 gameTimer.Stop();
-                gameOverSound.Play();
+                //gameOverSound.Play();
                 timerOn = false;
                 damageText.Foreground = Brushes.Red;
 
@@ -246,7 +252,8 @@ namespace RalsShooterWindowMenu
                     {
                         itemRemover.Add(x);
                         damage += 100;
-                        moneySound.Play();
+                        //moneySound.Play();
+                        soundEffect(@"Sounds/Money.wav");
                     }
                     objectHitPlayer(x, 50);
                 }
@@ -285,8 +292,8 @@ namespace RalsShooterWindowMenu
                         itemRemover.Add(x);
                         bajsMackor += 1;
                         pBar.Value += 1;
-                        poopSound.Play();
-
+                        //poopSound.Play();
+                        soundEffect(@"Sounds/poop.wav");
                     }
                     objectHitPlayer(x,0);
                 }
@@ -322,6 +329,7 @@ namespace RalsShooterWindowMenu
             HighScore highScore = new HighScore(highScoreList);
             if (score > highScore.lowestHighScore())
             {
+                soundEffect(@"Sounds/Highscore_1.wav");
                 newHighScore = true;
                 placement = highScore.getPlaceInHighScoreList(score);
 
@@ -332,6 +340,7 @@ namespace RalsShooterWindowMenu
             }
             else
             {
+                soundEffect(@"Sounds/Game_over_1.wav");
                 string content1 = "Too low score for High Score ";
                 string content2 = "Press enter to go back to main menu";
                 addLabelToGrid(content1, 40, 0);
@@ -414,6 +423,7 @@ namespace RalsShooterWindowMenu
             {
                 if (pBar.Value >= pBar.Maximum)
                 {
+                    soundEffect(@"Sounds/Floskel_1.wav");
                     floskelAlive = true;
                     ImageBrush playerImage = new ImageBrush();
                     playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom_2.jpg"));
@@ -464,11 +474,7 @@ namespace RalsShooterWindowMenu
 
                 Canvas.SetLeft(newBullet, Canvas.GetLeft(player) + player.Width / 2);
                 Canvas.SetTop(newBullet, Canvas.GetTop(player) - newBullet.Height);
-
                 MyCanvas.Children.Add(newBullet);
-                string path = currentdirectory.FullName + "\\Sounds" + "\\Guns.Waw";
-                //MessageBox.Show(path);
-
                 gunSound.Play();
             }
         }
@@ -488,7 +494,8 @@ namespace RalsShooterWindowMenu
             if (pensionCounter < 0)
             {
                 makeEnemy("55", "pack://application:,,,/Images/55.jpg");
-                pensionIncimingSound.Play();
+                //pensionIncomingSound.Play();
+                soundEffect(@"Sounds/pensionIncoming.wav");
                 pensionCounter = 900;
             }
         }
