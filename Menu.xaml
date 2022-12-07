@@ -29,26 +29,21 @@
     <Grid Height="650" Width="540" Background="Black">
         <Image Source="/Images/WWStars.png" Margin="0,-257,0,257"></Image>
 
-        <WrapPanel KeyboardNavigation.DirectionalNavigation="Cycle" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,8">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,8">
             <Grid Name="NewGame" Margin="0,0,0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
-
                 <Image Grid.Column="0" Source="/Images/edstrom.jpg" Stretch="Uniform" Margin="2" Height="50"/>
                 <TextBlock Grid.Column="1" Text="New Game" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Gold" FontSize="30" VerticalAlignment="Center"/>
                 <Rectangle Grid.Column="0" Name="NGLine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
-
-
-
             </Grid>
             <Grid Name="HighScore" Margin="0,0,0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
-
                 <Image Grid.Column="0" Source="/Images/money.png" Stretch="Uniform" Margin="2" Height="50"/>
                 <TextBlock Grid.Column="1" Text="High Score" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Gold" FontSize="30" VerticalAlignment="Center"/>
                 <Rectangle Grid.Column="0" Name="HSLine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
@@ -58,21 +53,19 @@
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
-
                 <Image Grid.Column="0" Source="/Images/floskel2.png" Stretch="Uniform" Margin="2" Height="50"/>
                 <TextBlock Grid.Column="1" Text="How to play" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Gold" FontSize="30" VerticalAlignment="Center"/>
                 <Rectangle Grid.Column="0" Name="HTPLine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
             </Grid>
-            <Grid Name="Intro">
+            <Grid Name="Intro" Margin="0,0,0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
-
                 <Image Grid.Column="0" Source="/Images/pooop.png" Stretch="Uniform"  Height="50"/>
-                <TextBlock Grid.Column="1" Text="Intro" TextAlignment="Center" TextWrapping="Wrap"  Foreground="Gold" FontSize="30" VerticalAlignment="Top"/>
-                <Rectangle Grid.Column="0" Name="ILine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3"  Grid.ColumnSpan="2"/>
+                <TextBlock Grid.Column="1" Text="How to play" TextAlignment="Center" TextWrapping="Wrap"  Foreground="Gold" FontSize="30" VerticalAlignment="Top"/>
+                <Rectangle Grid.Column="0" Name="ILine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5" Grid.ColumnSpan="2"/>
             </Grid>
-        </WrapPanel>
+        </StackPanel>
     </Grid>
 </Window>

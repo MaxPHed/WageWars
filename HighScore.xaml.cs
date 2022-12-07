@@ -48,6 +48,7 @@ namespace RalsShooterWindowMenu
             {
                 Label label = new Label();
                 label.FontSize = 20;
+                label.Foreground = Brushes.Gold;
                 label.Content = highScore.name + " " + highScore.score;
                 HSStack.Children.Add(label);
             }

@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RalsShooterWindowMenu"
         mc:Ignorable="d"
-        Title="HighScore" WindowState="Maximized" WindowStartupLocation="CenterScreen" Background="Black">
-    <Grid Height="650" Width="540" Background="White">
+        Title="HighScore" WindowState="Maximized" WindowStartupLocation="CenterScreen" Background="Black" WindowStyle="None">
+    <Grid Height="650" Width="540" Background="Black">
+        <Image Source="/Images/WWStars.png" Margin="0,-257,0,257"></Image>
+
         <StackPanel x:Name="HSStack" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
             
         </StackPanel>
