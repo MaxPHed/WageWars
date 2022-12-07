@@ -144,7 +144,7 @@ namespace RalsShooterWindowMenu
                 progessBarFullLabel.Visibility = Visibility.Hidden;
                 progressPoop.Height = 15;
                 pBar.Opacity = 0.5;
-                pBar.Foreground = Brushes.Yellow;
+                pBar.Foreground = Brushes.Gold;
 
             }
         }

@@ -47,10 +47,10 @@ namespace RalsShooterWindowMenu
         }
         public Menu(List<HighScore> highScoreList)
         {
+            InitializeComponent();
             this.highScoreList = highScoreList;
             sortHighScoreList();
             writeHighScoreToFile();
-            InitializeComponent();
             highLightFrame();
             backgroundMusic.Open(new Uri(@"Sounds/TopGunTheme.mp3", UriKind.Relative));
             backgroundMusic.Play();
