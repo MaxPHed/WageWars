@@ -62,7 +62,7 @@ namespace RalsShooterWindowMenu
             if (HighLight == 1)
             {
                 NGLine.StrokeThickness = 8;
-                NGLine.Stroke = Brushes.Yellow;
+                NGLine.Stroke = Brushes.Gold;
                 HSLine.StrokeThickness = 3;
                 HSLine.Stroke = Brushes.RoyalBlue;
                 HTPLine.StrokeThickness = 3;
@@ -74,7 +74,7 @@ namespace RalsShooterWindowMenu
                 NGLine.StrokeThickness = 3;
                 NGLine.Stroke = Brushes.RoyalBlue;
                 HSLine.StrokeThickness = 8;
-                HSLine.Stroke = Brushes.Yellow;
+                HSLine.Stroke = Brushes.Gold;
                 HTPLine.StrokeThickness = 3;
                 HTPLine.Stroke = Brushes.RoyalBlue;
 
@@ -86,7 +86,7 @@ namespace RalsShooterWindowMenu
                 HSLine.StrokeThickness = 3;
                 HSLine.Stroke = Brushes.RoyalBlue;
                 HTPLine.StrokeThickness = 8;
-                HTPLine.Stroke = Brushes.Yellow;
+                HTPLine.Stroke = Brushes.Gold;
             }
         }
 

@@ -18,10 +18,12 @@
             <Setter Property="Margin" Value="2,0,0,0"/>
         </Style>
     </Window.Resources>
-    <Grid Height="650" Width="540" Background="White">
+    <Grid Height="650" Width="540" Background="black">
+        <Image Source="/Images/WWStars.png" Margin="0,-257,0,257"></Image>
+
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Label HorizontalAlignment="Center" Opacity="1">Use arrow up and down to change letter</Label>
-            <Label HorizontalAlignment="Center" Opacity="1">Press enter to add letter</Label>
+            <Label HorizontalAlignment="Center" Foreground="RoyalBlue" Opacity="1">Use arrow up and down to change letter</Label>
+            <Label HorizontalAlignment="Center" Foreground="RoyalBlue" Opacity="1">Press enter to add letter</Label>
             <StackPanel x:Name="HSStack" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
 
             </StackPanel>

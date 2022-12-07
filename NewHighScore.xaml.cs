@@ -79,9 +79,9 @@ namespace RalsShooterWindowMenu
             Label newScoreLabel = new Label();
             newScoreLabel.FontSize = 24;
             labelFixed.FontSize = 24;
-            labelFixed.Foreground = Brushes.RoyalBlue;
+            labelFixed.Foreground = Brushes.Gold;
             labelFixed.FontWeight = FontWeights.Bold;
-            newScoreLabel.Foreground = Brushes.RoyalBlue;
+            newScoreLabel.Foreground = Brushes.Gold;
             newScoreLabel.FontWeight = FontWeights.Bold;
             newScoreLabel.Content = placement.ToString();
             newScoreLabel.Content += "  "+ newScore.ToString();
@@ -119,6 +119,7 @@ namespace RalsShooterWindowMenu
             formerScoresLabel.Content += "  " + highscore.score;
 
             formerScoresLabel.Content += "  " + highscore.name;
+            formerScoresLabel.Foreground = Brushes.White;
             panel.Children.Add(formerScoresLabel);
             HSStack.Children.Add(panel);
 
@@ -128,13 +129,13 @@ namespace RalsShooterWindowMenu
         {
             if (BlinkOn)
             {
-                labelPending.Foreground = Brushes.RoyalBlue;
+                labelPending.Foreground = Brushes.Gold;
                 labelPending.Background = Brushes.White;
             }
             else
             {
                 labelPending.Foreground = Brushes.White;
-                labelPending.Background = Brushes.RoyalBlue;
+                labelPending.Background = Brushes.Gold;
             }
             BlinkOn = !BlinkOn;
         }
@@ -144,7 +145,7 @@ namespace RalsShooterWindowMenu
             name += letter;
             labelFixed.Content = name;
             labelFixed.FontSize = 24;
-            labelFixed.Foreground = Brushes.RoyalBlue;
+            labelFixed.Foreground = Brushes.Gold;
             letter = alphabet[0];
         }
         protected override void OnKeyDown(KeyEventArgs e)

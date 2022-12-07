@@ -166,6 +166,9 @@
     <Resource Include="Sounds\DangerZone.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\WWStars.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Sounds\Floskel_1.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

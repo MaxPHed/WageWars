@@ -26,8 +26,19 @@ namespace RalsShooterWindowMenu
         static DirectoryInfo currentdirectory = new DirectoryInfo(".");
         SoundPlayer gunSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Guns.Wav");
         MediaPlayer backgroundMusic = new MediaPlayer();
-        MediaPlayer floskelEffect = new MediaPlayer();
-        MediaPlayer pensionEffect = new MediaPlayer();
+        MediaPlayer moneySound = new MediaPlayer();
+        MediaPlayer poopSound = new MediaPlayer();
+        MediaPlayer highScoreSound = new MediaPlayer();
+        MediaPlayer gameOverSound = new MediaPlayer();
+        MediaPlayer floskelSound = new MediaPlayer();
+        MediaPlayer pensionSound = new MediaPlayer();
+
+
+
+
+
+
+
 
 
 
@@ -76,6 +87,7 @@ namespace RalsShooterWindowMenu
             backgroundMusic.Play();
         }
 
+
         private void GameLoop(object sender, EventArgs e)
         {
             playerHitBox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
@@ -96,25 +108,6 @@ namespace RalsShooterWindowMenu
             removeItems();
             checkGameOverAndIncreaseSpeed();
         }
-
-        private void soundEffect(string soundName)
-        {
-            MediaPlayer soundEff = new MediaPlayer();
-            soundEff.Open(new Uri(soundName, UriKind.Relative));
-            soundEff.Play();
-        }
-
-        private void floskelSound(string soundName)
-        {
-            floskelEffect.Open(new Uri(soundName, UriKind.Relative));
-            floskelEffect.Play();
-        }
-        private void pensionSound(string soundName)
-        {
-            pensionEffect.Open(new Uri(soundName, UriKind.Relative));
-            pensionEffect.Play();
-        }
-
 
         private void floskelKill()
         {
@@ -187,7 +180,6 @@ namespace RalsShooterWindowMenu
             if (damage > 4500)
             {
                 gameTimer.Stop();
-                //gameOverSound.Play();
                 timerOn = false;
                 damageText.Foreground = Brushes.Red;
 
@@ -273,8 +265,8 @@ namespace RalsShooterWindowMenu
                     {
                         itemRemover.Add(x);
                         damage += 100;
-                        //moneySound.Play();
-                        soundEffect(@"Sounds/Money.wav");
+                        moneySound.Open(new Uri(@"Sounds/Money.wav", UriKind.Relative));
+                        moneySound.Play();
                     }
                     objectHitPlayer(x, 50);
                 }
@@ -313,8 +305,9 @@ namespace RalsShooterWindowMenu
                         itemRemover.Add(x);
                         bajsMackor += 1;
                         pBar.Value += 1;
-                        //poopSound.Play();
-                        soundEffect(@"Sounds/poop.wav");
+                        poopSound.Open(new Uri(@"Sounds/Poop.wav", UriKind.Relative));
+                        poopSound.Play();
+
                     }
                     objectHitPlayer(x, 0);
                 }
@@ -350,7 +343,9 @@ namespace RalsShooterWindowMenu
             HighScore highScore = new HighScore(highScoreList);
             if (score > highScore.lowestHighScore())
             {
-                soundEffect(@"Sounds/Highscore_1.wav");
+                backgroundMusic.Volume = 0.1;
+                highScoreSound.Open(new Uri(@"Sounds/Highscore_1.wav", UriKind.Relative));
+                highScoreSound.Play();
                 newHighScore = true;
                 placement = highScore.getPlaceInHighScoreList(score);
 
@@ -361,8 +356,9 @@ namespace RalsShooterWindowMenu
             }
             else
             {
-                backgroundMusic.Volume = 0.1;
-                soundEffect(@"Sounds/Game_over_1.wav");
+                gameOverSound.Open(new Uri(@"Sounds/Game_over_1.wav", UriKind.Relative));
+                backgroundMusic.Stop();
+                gameOverSound.Play();
                 string content1 = "Too low score for High Score ";
                 string content2 = "Press enter to go back to main menu";
                 addLabelToGrid(content1, 40, 0);
@@ -426,6 +422,7 @@ namespace RalsShooterWindowMenu
                 {
                     if (newHighScore == true)
                     {
+                        backgroundMusic.Volume = 0.5;
                         newHighScore = false;
                         NewHighScore newhighScoreName = new NewHighScore(this, highScoreList, score, bajsMackor);
                         this.Hide();
@@ -443,32 +440,35 @@ namespace RalsShooterWindowMenu
             }
             if (e.Key == Key.Up)
             {
-                if (pBar.Value >= pBar.Maximum)
+                if (timerOn)
                 {
-                    floskelSound(@"Sounds/Floskel_1.wav");
-                    floskelAlive = true;
-                    ImageBrush playerImage = new ImageBrush();
-                    playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom_2.jpg"));
-                    player.Fill = playerImage;
-
-                    pBar.Value = 0;
-
-                    Image floskel = new Image();
-                    floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel2.png", UriKind.Relative));
-                    floskel.Width = 240;
-                    floskel.Stretch = Stretch.Uniform;
-                    if (Canvas.GetLeft(player) > 300)
+                    if (pBar.Value >= pBar.Maximum)
                     {
-                        Canvas.SetLeft(floskel, 300);
-                    }
-                    else
-                    {
-                        Canvas.SetLeft(floskel, Canvas.GetLeft(player) + player.Width);
-                    }
+                        floskelSound.Open(new Uri(@"Sounds/Floskel_1.wav", UriKind.Relative));
 
-                    Canvas.SetTop(floskel, Canvas.GetTop(player) - 40);
-                    MyCanvas.Children.Add(floskel);
+                        floskelSound.Play();
+                        floskelAlive = true;
+                        ImageBrush playerImage = new ImageBrush();
+                        playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom_2.jpg"));
+                        player.Fill = playerImage;
 
+                        pBar.Value = 0;
+
+                        Image floskel = new Image();
+                        floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel2.png", UriKind.Relative));
+                        floskel.Width = 240;
+                        floskel.Stretch = Stretch.Uniform;
+                        if (Canvas.GetLeft(player) > 300)
+                        {
+                            Canvas.SetLeft(floskel, 300);
+                        }
+                        else
+                        {
+                            Canvas.SetLeft(floskel, Canvas.GetLeft(player) + player.Width);
+                        }
+                        Canvas.SetTop(floskel, Canvas.GetTop(player) - 40);
+                        MyCanvas.Children.Add(floskel);
+                    }
                 }
             }
         }
@@ -485,19 +485,23 @@ namespace RalsShooterWindowMenu
             }
             if (e.Key == Key.Space)
             {
-                Rectangle newBullet = new Rectangle
+                if (timerOn)
                 {
-                    Tag = "bullet",
-                    Height = 20,
-                    Width = 5,
-                    Fill = Brushes.White,
-                    Stroke = Brushes.Red,
-                };
+                    Rectangle newBullet = new Rectangle
+                    {
+                        Tag = "bullet",
+                        Height = 20,
+                        Width = 5,
+                        Fill = Brushes.White,
+                        Stroke = Brushes.Red,
+                    };
 
-                Canvas.SetLeft(newBullet, Canvas.GetLeft(player) + player.Width / 2);
-                Canvas.SetTop(newBullet, Canvas.GetTop(player) - newBullet.Height);
-                MyCanvas.Children.Add(newBullet);
-                gunSound.Play();
+                    Canvas.SetLeft(newBullet, Canvas.GetLeft(player) + player.Width / 2);
+                    Canvas.SetTop(newBullet, Canvas.GetTop(player) - newBullet.Height);
+                    MyCanvas.Children.Add(newBullet);
+                    gunSound.Play();
+                }
+
             }
         }
         private void makeObjects()
@@ -516,8 +520,8 @@ namespace RalsShooterWindowMenu
             if (pensionCounter < 0)
             {
                 makeEnemy("55", "pack://application:,,,/Images/55.jpg");
-                //pensionIncomingSound.Play();
-                pensionSound(@"Sounds/pensionIncoming.wav");
+                pensionSound.Open(new Uri(@"Sounds/pensionIncoming.wav", UriKind.Relative));
+                pensionSound.Play();
                 pensionCounter = 900;
             }
         }
