@@ -63,7 +63,7 @@
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0" Source="/Images/pooop.png" Stretch="Uniform"  Height="50"/>
-                <TextBlock Grid.Column="1" Text="How to play" TextAlignment="Center" TextWrapping="Wrap"  Foreground="Gold" FontSize="30" VerticalAlignment="Top"/>
+                <TextBlock Grid.Column="1" Text="Intro" TextAlignment="Center" TextWrapping="Wrap"  Foreground="Gold" FontSize="30" VerticalAlignment="Top"/>
                 <Rectangle Grid.Column="0" Name="ILine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5" Grid.ColumnSpan="2"/>
             </Grid>
         </StackPanel>
