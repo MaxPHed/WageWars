@@ -28,20 +28,22 @@ namespace RalsShooterWindowMenu
 
         int _highLight = 1;
         public int HighLight { get => _highLight; set => _highLight = value; }
+        public bool IntroPlaying { get => introPlaying; set => introPlaying = value; }
+
         List<HighScore> highScoreList = new List<HighScore>();
         MediaPlayer backgroundMusic = new MediaPlayer();
+        bool introPlaying = false;
 
 
 
         public Menu()
         {
-            
+
             InitializeComponent();
             readHighScoreFromFile();
             highLightFrame();
             backgroundMusic.Open(new Uri(@"Sounds/TopGunTheme.mp3", UriKind.Relative));
             backgroundMusic.Play();
-
         }
         public Menu(List<HighScore> highScoreList)
         {
@@ -67,7 +69,8 @@ namespace RalsShooterWindowMenu
                 HSLine.Stroke = Brushes.RoyalBlue;
                 HTPLine.StrokeThickness = 3;
                 HTPLine.Stroke = Brushes.RoyalBlue;
-
+                ILine.StrokeThickness = 3;
+                ILine.Stroke = Brushes.RoyalBlue;
             }
             if (HighLight == 2)
             {
@@ -77,6 +80,8 @@ namespace RalsShooterWindowMenu
                 HSLine.Stroke = Brushes.Gold;
                 HTPLine.StrokeThickness = 3;
                 HTPLine.Stroke = Brushes.RoyalBlue;
+                ILine.StrokeThickness = 3;
+                ILine.Stroke = Brushes.RoyalBlue;
 
             }
             if (HighLight == 3)
@@ -87,67 +92,99 @@ namespace RalsShooterWindowMenu
                 HSLine.Stroke = Brushes.RoyalBlue;
                 HTPLine.StrokeThickness = 8;
                 HTPLine.Stroke = Brushes.Gold;
+                ILine.StrokeThickness = 3;
+                ILine.Stroke = Brushes.RoyalBlue;
+            }
+            if (HighLight == 4)
+            {
+                NGLine.StrokeThickness = 3;
+                NGLine.Stroke = Brushes.RoyalBlue;
+                HSLine.StrokeThickness = 3;
+                HSLine.Stroke = Brushes.RoyalBlue;
+                HTPLine.StrokeThickness = 3;
+                HTPLine.Stroke = Brushes.RoyalBlue;
+                ILine.StrokeThickness = 8;
+                ILine.Stroke = Brushes.Gold;
             }
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            if (e.Key == Key.Down)
+            if (!introPlaying)
             {
-                if (HighLight == 1)
+                if (e.Key == Key.Down)
                 {
-                    HighLight = 2;
-                }
-                else if (HighLight == 2)
-                {
-                    HighLight = 3;
-                    
-                }
-                else if (HighLight == 3)
-                {
-                    HighLight = 1;
-                    
-                }
-            }
-            if (e.Key == Key.Up)
-            {
-                if (HighLight == 1)
-                {
-                    HighLight = 3;
-                }
-                else if (HighLight == 2)
-                {
-                    HighLight = 1;
+                    if (HighLight == 1)
+                    {
+                        HighLight = 2;
+                    }
+                    else if (HighLight == 2)
+                    {
+                        HighLight = 3;
 
-                }
-                else if (HighLight == 3)
-                {
-                    HighLight = 2;
-                }
-            }
-            if (e.Key == Key.Enter)
-            {
-                if (HighLight == 1)
-                {
-                    Game game = new Game(highScoreList);
-                    this.Close();
-                    backgroundMusic.Stop();
-                    game.ShowDialog();
-                }
-                else if (HighLight == 2)
-                {
-                    HighScoreWindow highScoreWindow = new HighScoreWindow(this, highScoreList);
-                    this.Hide();
-                    //backgroundMusic.Stop();
-                    highScoreWindow.Show();
+                    }
+                    else if (HighLight == 3)
+                    {
+                        HighLight = 4;
 
+                    }
+                    else if (HighLight == 4)
+                    {
+                        HighLight = 1;
+
+                    }
                 }
-                else if (HighLight == 3)
+                if (e.Key == Key.Up)
                 {
-                    HighLight = 2;
+                    if (HighLight == 1)
+                    {
+                        HighLight = 4;
+                    }
+                    else if (HighLight == 2)
+                    {
+                        HighLight = 1;
+
+                    }
+                    else if (HighLight == 3)
+                    {
+                        HighLight = 2;
+                    }
+                    else if (HighLight == 4)
+                    {
+                        HighLight = 3;
+                    }
                 }
+                if (e.Key == Key.Enter)
+                {
+                    if (HighLight == 1)
+                    {
+                        Game game = new Game(highScoreList);
+                        this.Close();
+                        backgroundMusic.Stop();
+                        game.ShowDialog();
+                    }
+                    else if (HighLight == 2)
+                    {
+                        HighScoreWindow highScoreWindow = new HighScoreWindow(this, highScoreList);
+                        this.Hide();
+                        //backgroundMusic.Stop();
+                        highScoreWindow.Show();
+
+                    }
+                    else if (HighLight == 3)
+                    {
+                        HighLight = 2;
+                    }
+                    else if (HighLight == 4)
+                    {
+                        Intro intro = new Intro(this);
+                        intro.Show();
+                        this.Hide();
+                    }
+                }
+                highLightFrame();
             }
-            highLightFrame();
+            
         }
         public void writeHighScoreToFile()
         {

@@ -22,10 +22,10 @@
                 </Label.Triggers>
             </Label>
         </ControlTemplate>
-        
-        
+
+
     </Window.Resources>
-    
+
     <Grid Height="650" Width="540" Background="Black">
         <Image Source="/Images/WWStars.png" Margin="0,-257,0,257"></Image>
 
@@ -53,15 +53,25 @@
                 <TextBlock Grid.Column="1" Text="High Score" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Gold" FontSize="30" VerticalAlignment="Center"/>
                 <Rectangle Grid.Column="0" Name="HSLine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
             </Grid>
-            <Grid Name="HowToPlay">
+            <Grid Name="HowToPlay" Margin="0,0,0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" Source="/Images/pooop.png" Stretch="Uniform" Margin="2" Height="50"/>
+                <Image Grid.Column="0" Source="/Images/floskel2.png" Stretch="Uniform" Margin="2" Height="50"/>
                 <TextBlock Grid.Column="1" Text="How to play" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Gold" FontSize="30" VerticalAlignment="Center"/>
                 <Rectangle Grid.Column="0" Name="HTPLine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
+            </Grid>
+            <Grid Name="Intro">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" Source="/Images/pooop.png" Stretch="Uniform"  Height="50"/>
+                <TextBlock Grid.Column="1" Text="Intro" TextAlignment="Center" TextWrapping="Wrap"  Foreground="Gold" FontSize="30" VerticalAlignment="Top"/>
+                <Rectangle Grid.Column="0" Name="ILine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3"  Grid.ColumnSpan="2"/>
             </Grid>
         </WrapPanel>
     </Grid>
