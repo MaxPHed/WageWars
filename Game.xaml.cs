@@ -32,14 +32,8 @@ namespace RalsShooterWindowMenu
         MediaPlayer gameOverSound = new MediaPlayer();
         MediaPlayer floskelSound = new MediaPlayer();
         MediaPlayer pensionSound = new MediaPlayer();
-
-
-
-
-
-
-
-
+        MediaPlayer floskelHit = new MediaPlayer();
+        MediaPlayer floskelDead = new MediaPlayer();
 
 
 
@@ -49,9 +43,12 @@ namespace RalsShooterWindowMenu
         bool newHighScore;
         int moneyCounter = 50;
         int pooCounter = 110;
+
         int pensionCounter = 900;
-        int playerSpeed = 15;
-        int limit = 50;
+        int pensionSpawnRate = 900;
+        int pensionHealth = 3;
+        int playerSpeed = 14;
+        int moneySpawnRate = 50;
         int score = 0;
         int damage = 0;
         int enemySpeed = 10;
@@ -153,27 +150,29 @@ namespace RalsShooterWindowMenu
         {
             if (score > 500)
             {
-                limit = 20;
+                moneySpawnRate = 20;
                 enemySpeed = 11;
             }
             if (score > 1000)
             {
-                limit = 20;
+                moneySpawnRate = 20;
                 enemySpeed = 12;
             }
             if (score > 2000)
             {
-                limit = 20;
+                moneySpawnRate = 19;
                 enemySpeed = 13;
             }
             if (score > 4000)
             {
-                limit = 20;
+                moneySpawnRate = 18;
                 enemySpeed = 14;
+                pensionSpawnRate = 800;
             }
             if (score > 8000)
             {
-                limit = 20;
+                moneySpawnRate = 17;
+                pensionSpawnRate = 700;
                 enemySpeed = 15;
             }
 
@@ -253,7 +252,28 @@ namespace RalsShooterWindowMenu
                         }
                         if (y is Rectangle && (string)y.Tag == "55")
                         {
-                            bulletHitObject(bulletHitBox, x, y, 500);
+                            Rect hitBox = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+
+                            if (bulletHitBox.IntersectsWith(hitBox))
+                            {
+                                pensionHealth--;
+                                floskelHit.Open(new Uri(@"Sounds/Hit_Floskel.wav", UriKind.Relative));
+                                floskelHit.Play();
+                                itemRemover.Add(x);
+                                y.Stroke =Brushes.Gold;
+                                y.StrokeThickness = y.StrokeThickness + 1;
+                                y.Width = y.Width - 10;
+                                y.Height = y.Height - 10;
+                                if (pensionHealth <= 0)
+                                {
+                                    floskelDead.Open(new Uri(@"Sounds/FloskelDead.wav", UriKind.Relative));
+                                    floskelDead.Play();
+                                    itemRemover.Add(y);
+                                    score += 500;
+                                    pensionHealth = 3;
+                                }
+                              
+                            }
                         }
                     }
                 }
@@ -509,7 +529,7 @@ namespace RalsShooterWindowMenu
             if (moneyCounter < 0)
             {
                 makeEnemy("money", "pack://application:,,,/Images/money.png");
-                moneyCounter = limit;
+                moneyCounter = moneySpawnRate;
             }
 
             if (pooCounter < 0)
@@ -522,7 +542,7 @@ namespace RalsShooterWindowMenu
                 makeEnemy("55", "pack://application:,,,/Images/55.jpg");
                 pensionSound.Open(new Uri(@"Sounds/pensionIncoming.wav", UriKind.Relative));
                 pensionSound.Play();
-                pensionCounter = 900;
+                pensionCounter = pensionSpawnRate;
             }
         }
 
@@ -542,7 +562,7 @@ namespace RalsShooterWindowMenu
                 Width = 56,
                 Fill = enemySprite
             };
-
+            
             Canvas.SetTop(newEnemy, 0);
             Canvas.SetLeft(newEnemy, rand.Next(30, 430));
             MyCanvas.Children.Add(newEnemy);
