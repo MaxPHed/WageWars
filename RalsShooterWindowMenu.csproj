@@ -196,6 +196,7 @@
     <Resource Include="Images\red-button-spam.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\powerUp.png" />
     <Content Include="Sounds\FloskelDead.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

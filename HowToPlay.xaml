@@ -43,6 +43,22 @@
                 <Image Width="50" gif:AnimationBehavior.SourceUri="Images/red-button-spam.gif"></Image>
                 <TextBlock Text="Tryck på BLASTER-knappen för att skjuta"></TextBlock>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+                <Image Width="50" Source="Images/money.png"></Image>
+                <TextBlock Text="är värd 100 kr"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+                <Image Width="50" Source="Images/55.jpg"></Image>
+                <TextBlock Text="är värd 500 kr, men tål tre skott"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="5"  Grid.Column="1" Grid.ColumnSpan="2">
+                <Image Width="50" Source="Images/pooop.png"></Image>
+                <TextBlock Text="samla bajsmackor för att ladda upp din powerup"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="2">
+                <Image Width="50" Source="Images/powerUp.png"></Image>
+                <TextBlock Text="När denna blir full kan du använda din power up"></TextBlock>
+            </StackPanel>
         </Grid>
         
     </Grid>
