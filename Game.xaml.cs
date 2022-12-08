@@ -178,7 +178,7 @@ namespace RalsShooterWindowMenu
                 enemySpeed = 15;
             }
 
-            if (damage > 4500)
+            if (damage > 90)
             {
                 gameTimer.Stop();
                 timerOn = false;
@@ -386,8 +386,8 @@ namespace RalsShooterWindowMenu
                 gameOverSound.Open(new Uri(@"Sounds/Game_over_1.wav", UriKind.Relative));
                 backgroundMusic.Stop();
                 gameOverSound.Play();
-                string content1 = "Too low score for High Score ";
-                string content2 = "Press enter to go back to main menu";
+                string content1 = "Game Over";
+                string content2 = "Press ENTER";
                 addLabelToGrid(content1, 40, 0);
                 addLabelToGrid(content2, 30, 2);
             }
@@ -395,8 +395,8 @@ namespace RalsShooterWindowMenu
 
         public void addGameOverTextToCanvas()
         {
-            string content = "Spelet är slut. \r\n" +
-                "Du förhindrade " + score + " i lönehöjning!";
+            string content =
+                "Du förhindrade " + score + " kr i lönehöjning!";
             addLabelToGrid(content, 20, 1);
         }
         public void addLabelToGrid(string content, int size, int row)
@@ -405,6 +405,7 @@ namespace RalsShooterWindowMenu
             label.FontSize = size;
             label.Content = content;
             label.HorizontalAlignment = HorizontalAlignment.Center;
+            label.Foreground = Brushes.Gold;
             if (content.StartsWith("NEW H"))
             {
                 ControlTemplate controlTemplate = new ControlTemplate();

@@ -17,7 +17,7 @@
                         <EventTrigger.Actions>
                             <BeginStoryboard>
                                 <Storyboard BeginTime="00:00:00" RepeatBehavior="Forever" Storyboard.TargetName="GlowingLabel" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">
-                                    <ColorAnimation From="Black" To="Red" Duration="0:0:1" />
+                                    <ColorAnimation From="Black" To="Gold" Duration="0:0:1" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger.Actions>

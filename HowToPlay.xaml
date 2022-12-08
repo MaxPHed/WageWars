@@ -29,7 +29,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="90"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
@@ -57,11 +57,15 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="5"  Grid.Column="1" Grid.ColumnSpan="2">
                 <Image Width="50" Source="Images/pooop.png"></Image>
-                <TextBlock Text="samla bajsmackor för att ladda upp din powerup"></TextBlock>
+                <TextBlock Text="samla bajsmackor för att ladda upp din Floskelmätare"></TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="2">
                 <Image Width="50" Source="Images/powerUp.png"></Image>
-                <TextBlock Text="När denna blir full kan du använda din power up"></TextBlock>
+                <TextBlock Text="När denna blir full kan du skjuta iväg en floskel"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="7"  Grid.Column="1" Grid.ColumnSpan="2">
+                <Image Width="50" Source="Images/floskel2.png"></Image>
+                <TextBlock Text="Floskeln tar bort alla pengar och skadar pensionen!"></TextBlock>
             </StackPanel>
         </Grid>
         

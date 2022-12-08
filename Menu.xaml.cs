@@ -58,6 +58,10 @@ namespace RalsShooterWindowMenu
         public void sortHighScoreList()
         {
             highScoreList.Sort((x, y) => y.score.CompareTo(x.score));
+            if(highScoreList.Count > 10)
+            {
+                highScoreList.RemoveAt(10);
+            }
         }
         private void highLightFrame()
         {
@@ -192,7 +196,7 @@ namespace RalsShooterWindowMenu
             string filePath = currentdirectory.FullName + "\\Files" + @"\HighScore.txt";
             string[] arrLine = new string[5];
             string hs;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 10; i++)
             {
                 hs = highScoreList[i].name + "," + highScoreList[i].score + "," + highScoreList[i].bajsmackor;
                 arrLine[i] = hs;

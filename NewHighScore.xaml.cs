@@ -95,7 +95,7 @@ namespace RalsShooterWindowMenu
             {
                 if (highscore.score < newScore)
                 {
-                    if(place == 6)
+                    if(place == 11)
                     {
                         break;
                     }
@@ -130,11 +130,11 @@ namespace RalsShooterWindowMenu
             if (BlinkOn)
             {
                 labelPending.Foreground = Brushes.Gold;
-                labelPending.Background = Brushes.White;
+                labelPending.Background = Brushes.Black;
             }
             else
             {
-                labelPending.Foreground = Brushes.White;
+                labelPending.Foreground = Brushes.Black;
                 labelPending.Background = Brushes.Gold;
             }
             BlinkOn = !BlinkOn;
