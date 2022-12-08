@@ -121,8 +121,10 @@ namespace RalsShooterWindowMenu
                     }
                     if (y is Rectangle && (string)y.Tag == "55")
                     {
-                        itemRemover.Add(y);
-                        score += 1000;
+                        if(pensionHealth>1)
+                        {
+                            pensionHit(y, 1);
+                        }
                     }
                 }
             }
@@ -256,23 +258,9 @@ namespace RalsShooterWindowMenu
 
                             if (bulletHitBox.IntersectsWith(hitBox))
                             {
-                                pensionHealth--;
-                                floskelHit.Open(new Uri(@"Sounds/Hit_Floskel.wav", UriKind.Relative));
-                                floskelHit.Play();
                                 itemRemover.Add(x);
-                                y.Stroke =Brushes.Gold;
-                                y.StrokeThickness = y.StrokeThickness + 1;
-                                y.Width = y.Width - 10;
-                                y.Height = y.Height - 10;
-                                if (pensionHealth <= 0)
-                                {
-                                    floskelDead.Open(new Uri(@"Sounds/FloskelDead.wav", UriKind.Relative));
-                                    floskelDead.Play();
-                                    itemRemover.Add(y);
-                                    score += 500;
-                                    pensionHealth = 3;
-                                }
-                              
+                                pensionHit(y, 1);
+
                             }
                         }
                     }
@@ -331,6 +319,25 @@ namespace RalsShooterWindowMenu
                     }
                     objectHitPlayer(x, 0);
                 }
+            }
+        }
+
+        private void pensionHit(Rectangle y, int damage)
+        {
+            pensionHealth = pensionHealth - damage;
+            floskelHit.Open(new Uri(@"Sounds/Hit_Floskel.wav", UriKind.Relative));
+            floskelHit.Play();
+            y.Stroke = Brushes.Gold;
+            y.StrokeThickness = y.StrokeThickness + 1;
+            y.Width = y.Width - 10;
+            y.Height = y.Height - 10;
+            if (pensionHealth <= 0)
+            {
+                floskelDead.Open(new Uri(@"Sounds/FloskelDead.wav", UriKind.Relative));
+                floskelDead.Play();
+                itemRemover.Add(y);
+                score += 500;
+                pensionHealth = 3;
             }
         }
 
