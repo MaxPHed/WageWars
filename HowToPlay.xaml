@@ -12,6 +12,7 @@
             <Setter Property="Foreground" Value="Gold"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
         </Style>
     </Window.Resources>
     <Grid Height="650" Width="540" Background="Black">
@@ -32,8 +33,11 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">Målet med spelet är enkelt. Som FVC vill du förhindra<LineBreak/> pengar och 55-årspension att nå pilotkollektivet.<LineBreak/>
-                 Bajsmackor ska dock med fördel släppas igenom!</TextBlock>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">Målet med spelet är enkelt. Som FVC vill du förhindra<LineBreak/>
+                pengar och 55-årspension att nå pilotkollektivet.<LineBreak/>
+                 Bajsmackor ska dock med fördel släppas igenom!<LineBreak/>
+                Spelet är slut om lönehöjningarna når 4500 kr.
+            </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
                 <Image Width="50" gif:AnimationBehavior.SourceUri="Images/Joystick.gif"></Image>
