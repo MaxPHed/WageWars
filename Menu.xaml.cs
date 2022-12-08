@@ -110,81 +110,81 @@ namespace RalsShooterWindowMenu
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            if (!introPlaying)
+
+            if (e.Key == Key.Down)
             {
-                if (e.Key == Key.Down)
+                if (HighLight == 1)
                 {
-                    if (HighLight == 1)
-                    {
-                        HighLight = 2;
-                    }
-                    else if (HighLight == 2)
-                    {
-                        HighLight = 3;
-
-                    }
-                    else if (HighLight == 3)
-                    {
-                        HighLight = 4;
-
-                    }
-                    else if (HighLight == 4)
-                    {
-                        HighLight = 1;
-
-                    }
+                    HighLight = 2;
                 }
-                if (e.Key == Key.Up)
+                else if (HighLight == 2)
                 {
-                    if (HighLight == 1)
-                    {
-                        HighLight = 4;
-                    }
-                    else if (HighLight == 2)
-                    {
-                        HighLight = 1;
+                    HighLight = 3;
 
-                    }
-                    else if (HighLight == 3)
-                    {
-                        HighLight = 2;
-                    }
-                    else if (HighLight == 4)
-                    {
-                        HighLight = 3;
-                    }
                 }
-                if (e.Key == Key.Enter)
+                else if (HighLight == 3)
                 {
-                    if (HighLight == 1)
-                    {
-                        Game game = new Game(highScoreList);
-                        this.Close();
-                        backgroundMusic.Stop();
-                        game.ShowDialog();
-                    }
-                    else if (HighLight == 2)
-                    {
-                        HighScoreWindow highScoreWindow = new HighScoreWindow(this, highScoreList);
-                        this.Hide();
-                        //backgroundMusic.Stop();
-                        highScoreWindow.Show();
+                    HighLight = 4;
 
-                    }
-                    else if (HighLight == 3)
-                    {
-                        HighLight = 2;
-                    }
-                    else if (HighLight == 4)
-                    {
-                        Intro intro = new Intro(this);
-                        intro.Show();
-                        this.Hide();
-                    }
                 }
-                highLightFrame();
+                else if (HighLight == 4)
+                {
+                    HighLight = 1;
+
+                }
             }
-            
+            if (e.Key == Key.Up)
+            {
+                if (HighLight == 1)
+                {
+                    HighLight = 4;
+                }
+                else if (HighLight == 2)
+                {
+                    HighLight = 1;
+
+                }
+                else if (HighLight == 3)
+                {
+                    HighLight = 2;
+                }
+                else if (HighLight == 4)
+                {
+                    HighLight = 3;
+                }
+            }
+            if (e.Key == Key.Enter)
+            {
+                if (HighLight == 1)
+                {
+                    Game game = new Game(highScoreList);
+                    this.Close();
+                    backgroundMusic.Stop();
+                    game.ShowDialog();
+                }
+                else if (HighLight == 2)
+                {
+                    HighScoreWindow highScoreWindow = new HighScoreWindow(this, highScoreList);
+                    this.Hide();
+                    //backgroundMusic.Stop();
+                    highScoreWindow.Show();
+
+                }
+                else if (HighLight == 3)
+                {
+                    HowToPlay howToPlay = new HowToPlay(this);
+                    this.Hide();
+                    howToPlay.Show();
+
+                }
+                else if (HighLight == 4)
+                {
+                    Intro intro = new Intro(this);
+                    intro.Show();
+                    this.Hide();
+                }
+            }
+            highLightFrame();
         }
         public void writeHighScoreToFile()
         {
