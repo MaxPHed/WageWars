@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RalsShooterWindowMenu"
         mc:Ignorable="d"
-        Title="Game" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen">
+        Title="Game" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen" WindowStyle="None" Closing="Window_Closing">
     <Window.Resources>
         <Style TargetType="Label" x:Key="Labelz">
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -17,7 +17,7 @@
                         <EventTrigger.Actions>
                             <BeginStoryboard>
                                 <Storyboard BeginTime="00:00:00" RepeatBehavior="Forever" Storyboard.TargetName="GlowingLabel" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">
-                                    <ColorAnimation From="Black" To="Red" Duration="0:0:1" />
+                                    <ColorAnimation From="Black" To="Gold" Duration="0:0:1" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger.Actions>
@@ -26,21 +26,25 @@
             </Label>
         </ControlTemplate>
 
+
     </Window.Resources>
-    <Canvas x:Name="MyCanvas" Focusable="True"  Height="800" Width="540" Background="Black" KeyDown="OnKeyDown" KeyUp="OnKeyUp">
+    <Canvas x:Name="MyCanvas" Focusable="True"  Height="762" Width="540" Background="Black" KeyDown="OnKeyDown" KeyUp="OnKeyUp">
 
-        <Rectangle x:Name="player" Height="50" Width="60" Fill="Yellow" Canvas.Left="240" Canvas.Top="680" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-
-        <ProgressBar x:Name="pBar" Foreground="Yellow"  Canvas.Top="109" Maximum="5" Height="15" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Opacity="0.5">
-            <ProgressBar.Effect>
-                <DropShadowEffect ShadowDepth="1"/>
-            </ProgressBar.Effect>
-        </ProgressBar>
-
-        <Label Name="scoreText" Content="Score: 0" FontSize="18" FontWeight="Bold" Foreground="Yellow" BorderBrush="GreenYellow"/>
+        <Rectangle x:Name="player" Height="50" Width="60" Fill="Yellow" Canvas.Left="240" Canvas.Top="648" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <WrapPanel Canvas.Top="70">
+            <ProgressBar x:Name="pBar" Foreground="Gold"  Canvas.Top="70" Canvas.Left="15"
+                     Maximum="10" Height="15" Width="100" HorizontalAlignment="Center"
+                     VerticalAlignment="Top" Opacity="0.5">
+                <ProgressBar.Effect>
+                    <DropShadowEffect ShadowDepth="1"/>
+                </ProgressBar.Effect>
+            </ProgressBar>
+            <Image Name="progressPoop" Source="Images/pooop.png" Height="15" Canvas.Top="70"/>
+        </WrapPanel>
+        <Label Name="progessBarFullLabel" Content="Joystick Up!" Canvas.Top="65" Visibility="Hidden"/>
+        <Label Name="scoreText" Content="Score: 0" FontSize="18" FontWeight="Bold" Foreground="Gold" BorderBrush="GreenYellow"/>
         <Label Name="damageText" Content="Damage: 0" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="34" />
-        <Label Name="pooText" Content="Damage: 0" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="70" />
-        <Label Content="Pilotkollektivet" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" FontSize="30" FontWeight="Bold" Foreground="White" BorderBrush="Yellow" BorderThickness="5"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="736" Width="540" Height="64"  />
+        <Label Content="Pilotkollektivet" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" FontSize="30" FontWeight="Bold" Foreground="Gold" BorderBrush="Gold" BorderThickness="5"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="698" Width="540" Height="64"  />
         <Grid x:Name="GameGrid"  VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="70" Canvas.Top="150" Width="400" Height="360">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -49,5 +53,5 @@
             </Grid.RowDefinitions>
         </Grid>
     </Canvas>
-
 </Window>
+

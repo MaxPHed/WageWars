@@ -1,27 +1,16 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
-using System.Text;
-using System.Threading.Tasks;
+using System.Media;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 using Image = System.Windows.Controls.Image;
 
 namespace RalsShooterWindowMenu
@@ -31,19 +20,35 @@ namespace RalsShooterWindowMenu
     /// </summary>
     public partial class Game : Window
     {
-        DispatcherTimer gameTimer = new DispatcherTimer();
+        DispatcherTimer gameTimer = new DispatcherTimer(DispatcherPriority.Render);
         bool moveLeft, moveRight;
         List<Rectangle> itemRemover = new List<Rectangle>();
+        static DirectoryInfo currentdirectory = new DirectoryInfo(".");
+        SoundPlayer gunSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Guns.Wav");
+        MediaPlayer backgroundMusic = new MediaPlayer();
+        MediaPlayer moneySound = new MediaPlayer();
+        MediaPlayer poopSound = new MediaPlayer();
+        MediaPlayer highScoreSound = new MediaPlayer();
+        MediaPlayer gameOverSound = new MediaPlayer();
+        MediaPlayer floskelSound = new MediaPlayer();
+        MediaPlayer pensionSound = new MediaPlayer();
+        MediaPlayer floskelHit = new MediaPlayer();
+        MediaPlayer floskelDead = new MediaPlayer();
+
+
 
         Random rand = new Random();
         List<HighScore> highScoreList;
         bool timerOn;
         bool newHighScore;
-        int enemyCounter = 50;
+        int moneyCounter = 50;
         int pooCounter = 110;
+
         int pensionCounter = 900;
-        int playerSpeed = 15;
-        int limit = 50;
+        int pensionSpawnRate = 900;
+        int pensionHealth = 3;
+        int playerSpeed = 14;
+        int moneySpawnRate = 50;
         int score = 0;
         int damage = 0;
         int enemySpeed = 10;
@@ -51,6 +56,7 @@ namespace RalsShooterWindowMenu
         int pensionSpeed = 10;
         int bajsMackor = 0;
         bool pensionLeft = false;
+        bool floskelAlive = false;
 
         Rect playerHitBox;
         public Game(List<HighScore> highScoreList)
@@ -74,54 +80,155 @@ namespace RalsShooterWindowMenu
             ImageBrush playerImage = new ImageBrush();
             playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom.jpg"));
             player.Fill = playerImage;
+            backgroundMusic.Open(new Uri(@"Sounds/DangerZone.mp3", UriKind.Relative));
+            backgroundMusic.Play();
         }
+
 
         private void GameLoop(object sender, EventArgs e)
         {
             playerHitBox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
-            enemyCounter -= 1;
+            moneyCounter -= 1;
             pooCounter -= 1;
             pensionCounter -= 1;
 
 
             scoreText.Content = "Förhindrad lönehöjning: " + (score) + " kr";
             damageText.Content = "Lönehöjning " + (damage) + "kr";
-            pooText.Content = "Bajsmackor igenomsläppta " + bajsMackor;
+            makeObjects();
+            checkMovement();
+            progressBarLook();
 
-            if (enemyCounter < 0)
+            checkIfBulletHit();
+            floskelKill();
+            moveFloskel();
+            removeItems();
+            checkGameOverAndIncreaseSpeed();
+        }
+
+        private void floskelKill()
+        {
+            if (floskelAlive == true)
+
             {
-                MakeEnemies();
-                enemyCounter = limit;
+
+                foreach (var y in MyCanvas.Children.OfType<Rectangle>())
+                {
+                    if (y is Rectangle && (string)y.Tag == "money")
+                    {
+                        itemRemover.Add(y);
+                        score += 100;
+                    }
+                    if (y is Rectangle && (string)y.Tag == "55")
+                    {
+                        if(pensionHealth>1)
+                        {
+                            pensionHit(y, 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void progressBarLook()
+        {
+            if (pBar.Value == pBar.Maximum)
+            {
+                pBar.Opacity = 1;
+                progressPoop.Height = 20;
+                progessBarFullLabel.Visibility = Visibility.Visible;
+            }
+            if (pBar.Value != pBar.Maximum)
+            {
+                progessBarFullLabel.Visibility = Visibility.Hidden;
+                progressPoop.Height = 15;
+                pBar.Opacity = 0.5;
+                pBar.Foreground = Brushes.Gold;
+
+            }
+        }
+
+        private void checkGameOverAndIncreaseSpeed()
+        {
+            if (score > 500)
+            {
+                moneySpawnRate = 20;
+                enemySpeed = 11;
+            }
+            if (score > 1000)
+            {
+                moneySpawnRate = 20;
+                enemySpeed = 12;
+            }
+            if (score > 2000)
+            {
+                moneySpawnRate = 19;
+                enemySpeed = 13;
+            }
+            if (score > 4000)
+            {
+                moneySpawnRate = 18;
+                enemySpeed = 14;
+                pensionSpawnRate = 800;
+            }
+            if (score > 8000)
+            {
+                moneySpawnRate = 17;
+                pensionSpawnRate = 700;
+                enemySpeed = 15;
             }
 
-            if (pooCounter < 0)
+            if (damage > 90)
             {
-                MakePoo();
-                pooCounter = 55;
-            }
-            if (pensionCounter < 0)
-            {
-                MakePension();
-                pensionCounter = 900;
-            }
+                gameTimer.Stop();
+                timerOn = false;
+                damageText.Foreground = Brushes.Red;
 
+                addGameOverTextToCanvas();
+                checkHighScore();
+                //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                //Application.Current.Shutdown();
+            }
+        }
+
+        private void removeItems()
+        {
+            foreach (Rectangle i in itemRemover)
+            {
+                MyCanvas.Children.Remove(i);
+            }
+        }
+
+        private void moveFloskel()
+        {
+            foreach (Image floskel in MyCanvas.Children.OfType<Image>().ToList())
+            {
+                Canvas.SetTop(floskel, Canvas.GetTop(floskel) - 10);
+
+                if (Canvas.GetTop(floskel) < 10)
+                {
+                    MyCanvas.Children.Remove(floskel);
+                    floskelAlive = false;
+                    ImageBrush playerImage = new ImageBrush();
+                    playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom.jpg"));
+                    player.Fill = playerImage;
+                }
+            }
+        }
+
+        private void checkMovement()
+        {
             if (moveLeft == true && Canvas.GetLeft(player) > 0)
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) - playerSpeed);
             }
-            if (moveRight == true && Canvas.GetLeft(player) + 90 < (MyCanvas.ActualWidth + (player.Width / 2)))//Application.Current.MainWindow.Width)
+            else if (moveRight == true && Canvas.GetLeft(player) + 90 < (MyCanvas.ActualWidth + (player.Width / 2)))//Application.Current.MainWindow.Width)
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + playerSpeed);
             }
-
-            if (pBar.Value == pBar.Maximum)
-            {
-                pBar.Opacity = 1;
-            }
-
-
-
-
+        }
+        private void checkIfBulletHit()
+        {
             foreach (var x in MyCanvas.Children.OfType<Rectangle>())
             {
                 if (x is Rectangle && (string)x.Tag == "bullet")
@@ -134,78 +241,49 @@ namespace RalsShooterWindowMenu
                     {
                         itemRemover.Add(x);
                     }
-
                     foreach (var y in MyCanvas.Children.OfType<Rectangle>())
                     {
-                        if (y is Rectangle && (string)y.Tag == "enemy")
+
+                        if (y is Rectangle && (string)y.Tag == "money")
                         {
-                            Rect enemyHit = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
-
-                            if (bulletHitBox.IntersectsWith(enemyHit))
-                            {
-                                itemRemover.Add(x);
-                                itemRemover.Add(y);
-                                score += 100;
-                            }
-
+                            bulletHitObject(bulletHitBox, x, y, 100);
                         }
-                    }
-                    foreach (var y in MyCanvas.Children.OfType<Rectangle>())
-                    {
-                        if (y is Rectangle && (string)y.Tag == "55")
-                        {
-                            Rect pensionHit = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
-
-                            if (bulletHitBox.IntersectsWith(pensionHit))
-                            {
-                                itemRemover.Add(x);
-                                itemRemover.Add(y);
-                                score += 500;
-                            }
-
-                        }
-                    }
-                    foreach (var y in MyCanvas.Children.OfType<Rectangle>())
-                    {
                         if (y is Rectangle && (string)y.Tag == "poo")
                         {
-                            Rect pooHit = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+                            bulletHitObject(bulletHitBox, x, y, -50);
+                        }
+                        if (y is Rectangle && (string)y.Tag == "55")
+                        {
+                            Rect hitBox = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
 
-                            if (bulletHitBox.IntersectsWith(pooHit))
+                            if (bulletHitBox.IntersectsWith(hitBox))
                             {
                                 itemRemover.Add(x);
-                                itemRemover.Add(y);
-                                score -= 50;
-                            }
+                                pensionHit(y, 1);
 
+                            }
                         }
                     }
                 }
 
-                if (x is Rectangle && (string)x.Tag == "enemy")
+                if (x is Rectangle && (string)x.Tag == "money")
                 {
                     Canvas.SetTop(x, Canvas.GetTop(x) + enemySpeed);
                     if (Canvas.GetTop(x) > 750)
                     {
                         itemRemover.Add(x);
                         damage += 100;
+                        moneySound.Open(new Uri(@"Sounds/Money.wav", UriKind.Relative));
+                        moneySound.Play();
                     }
-
-                    Rect enemyHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-
-                    if (playerHitBox.IntersectsWith(enemyHitBox))
-                    {
-                        itemRemover.Add(x);
-                        damage += 50;
-                    }
-
+                    objectHitPlayer(x, 50);
                 }
                 if (x is Rectangle && (string)x.Tag == "55")
                 {
-                    Canvas.SetTop(x, Canvas.GetTop(x) + (pensionSpeed/2));
+                    Canvas.SetTop(x, Canvas.GetTop(x) + (pensionSpeed / 2));
                     if (Canvas.GetLeft(x) < 28)
                     {
-                        pensionLeft=false;
+                        pensionLeft = false;
                     }
                     if (pensionLeft == false)
                     {
@@ -225,15 +303,7 @@ namespace RalsShooterWindowMenu
                         itemRemover.Add(x);
                         damage += 1000;
                     }
-
-                    Rect pensionHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-
-                    if (playerHitBox.IntersectsWith(pensionHitBox))
-                    {
-                        itemRemover.Add(x);
-                        damage += 50;
-                    }
-
+                    objectHitPlayer(x, 50);
                 }
                 if (x is Rectangle && (string)x.Tag == "poo")
                 {
@@ -243,75 +313,66 @@ namespace RalsShooterWindowMenu
                         itemRemover.Add(x);
                         bajsMackor += 1;
                         pBar.Value += 1;
+                        poopSound.Open(new Uri(@"Sounds/Poop.wav", UriKind.Relative));
+                        poopSound.Play();
 
                     }
-
-                    Rect pooHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-
-                    if (playerHitBox.IntersectsWith(pooHitBox))
-                    {
-                        itemRemover.Add(x);
-                    }
-
-                }
-
-            }
-            foreach (Image floskel in MyCanvas.Children.OfType<Image>().ToList())
-            {
-                Canvas.SetTop(floskel, Canvas.GetTop(floskel) - 10);
-
-                if (Canvas.GetTop(floskel) < 10)
-                {
-                    MyCanvas.Children.Remove(floskel);
-
+                    objectHitPlayer(x, 0);
                 }
             }
+        }
 
-
-            foreach (Rectangle i in itemRemover)
+        private void pensionHit(Rectangle y, int damage)
+        {
+            pensionHealth = pensionHealth - damage;
+            floskelHit.Open(new Uri(@"Sounds/Hit_Floskel.wav", UriKind.Relative));
+            floskelHit.Play();
+            y.Stroke = Brushes.Gold;
+            y.StrokeThickness = y.StrokeThickness + 1;
+            y.Width = y.Width - 10;
+            y.Height = y.Height - 10;
+            if (pensionHealth <= 0)
             {
-                MyCanvas.Children.Remove(i);
+                floskelDead.Open(new Uri(@"Sounds/FloskelDead.wav", UriKind.Relative));
+                floskelDead.Play();
+                itemRemover.Add(y);
+                score += 500;
+                pensionHealth = 3;
             }
+        }
 
-            if (score > 500)
+        private void objectHitPlayer(Rectangle x, int points)
+        {
+            Rect objectHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+
+            if (playerHitBox.IntersectsWith(objectHitBox))
             {
-                limit = 20;
-                enemySpeed = 11;
+                itemRemover.Add(x);
+                damage += points;
             }
-            if (score > 1000)
+        }
+
+        private void bulletHitObject(Rect bulletHitBox, Rectangle x, Rectangle y, int v)
+        {
+            Rect hitBox = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+
+            if (bulletHitBox.IntersectsWith(hitBox))
             {
-                limit = 20;
-                enemySpeed = 12;
-            }
-            if (score > 2000)
-            {
-                limit = 20;
-                enemySpeed = 15;
-            }
-
-            if (damage > 100)
-            {
-                gameTimer.Stop();
-                timerOn = false;
-                damageText.Foreground = Brushes.Red;
-
-                addGameOverTextToCanvas();
-                checkHighScore();
-
-
-
-                //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                //Application.Current.Shutdown();
+                itemRemover.Add(x);
+                itemRemover.Add(y);
+                score += v;
             }
         }
 
         public void checkHighScore()
         {
-            //HighScoreWindow highscore = new HighScoreWindow();
             int placement;
             HighScore highScore = new HighScore(highScoreList);
             if (score > highScore.lowestHighScore())
             {
+                backgroundMusic.Volume = 0.1;
+                highScoreSound.Open(new Uri(@"Sounds/Highscore_1.wav", UriKind.Relative));
+                highScoreSound.Play();
                 newHighScore = true;
                 placement = highScore.getPlaceInHighScoreList(score);
 
@@ -322,18 +383,20 @@ namespace RalsShooterWindowMenu
             }
             else
             {
-                string content1 = "Too low score for High Score ";
-                string content2 = "Press enter to go back to main menu";
+                gameOverSound.Open(new Uri(@"Sounds/Game_over_1.wav", UriKind.Relative));
+                backgroundMusic.Stop();
+                gameOverSound.Play();
+                string content1 = "Game Over";
+                string content2 = "Press ENTER";
                 addLabelToGrid(content1, 40, 0);
                 addLabelToGrid(content2, 30, 2);
             }
-            highScore.showHighScoreListInMessageBox();
         }
 
         public void addGameOverTextToCanvas()
         {
-            string content = "Spelet är slut. Du släppte igenom " + bajsMackor + " bajsmackor \r\npå pilotkollektivet och" +
-                "förhindrade " + score + " i lönehöjning!";
+            string content =
+                "Du förhindrade " + score + " kr i lönehöjning!";
             addLabelToGrid(content, 20, 1);
         }
         public void addLabelToGrid(string content, int size, int row)
@@ -342,6 +405,7 @@ namespace RalsShooterWindowMenu
             label.FontSize = size;
             label.Content = content;
             label.HorizontalAlignment = HorizontalAlignment.Center;
+            label.Foreground = Brushes.Gold;
             if (content.StartsWith("NEW H"))
             {
                 ControlTemplate controlTemplate = new ControlTemplate();
@@ -377,6 +441,8 @@ namespace RalsShooterWindowMenu
                 if (timerOn == true)
                 {
                     Menu menu = new Menu();
+                    gameTimer.Stop();
+                    backgroundMusic.Stop();
                     this.Close();
                     menu.Show();
                 }
@@ -384,15 +450,17 @@ namespace RalsShooterWindowMenu
                 {
                     if (newHighScore == true)
                     {
+                        backgroundMusic.Volume = 0.5;
                         newHighScore = false;
                         NewHighScore newhighScoreName = new NewHighScore(this, highScoreList, score, bajsMackor);
-                        this.Close();
+                        this.Hide();
                         newhighScoreName.Show();
                     }
                     else if (newHighScore == false)
                     {
                         Menu menu = new Menu();
                         this.Close();
+                        backgroundMusic.Stop();
                         menu.Show();
                     }
                 }
@@ -400,32 +468,35 @@ namespace RalsShooterWindowMenu
             }
             if (e.Key == Key.Up)
             {
-                if (pBar.Value >= pBar.Maximum)
+                if (timerOn)
                 {
-                    foreach (var y in MyCanvas.Children.OfType<Rectangle>())
+                    if (pBar.Value >= pBar.Maximum)
                     {
-                        if (y is Rectangle && (string)y.Tag == "enemy")
-                        {
-                            itemRemover.Add(y);
-                            score += 100;
-                        }
-                        if (y is Rectangle && (string)y.Tag == "55")
-                        {
-                            itemRemover.Add(y);
-                            score += 1000;
-                        }
-                    }
-                    pBar.Value = 0;
-                    pBar.Opacity = 0.5;
-                    pBar.Foreground = Brushes.Yellow;
-                    Image floskel = new Image();
-                    floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel.png", UriKind.Relative));
-                    floskel.Width = 250;
-                    floskel.Stretch = Stretch.Uniform;
-                    Canvas.SetLeft(floskel, Canvas.GetLeft(player) + player.Width);
-                    Canvas.SetTop(floskel, Canvas.GetTop(player) - 40);
-                    MyCanvas.Children.Add(floskel);
+                        floskelSound.Open(new Uri(@"Sounds/Floskel_1.wav", UriKind.Relative));
 
+                        floskelSound.Play();
+                        floskelAlive = true;
+                        ImageBrush playerImage = new ImageBrush();
+                        playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom_2.jpg"));
+                        player.Fill = playerImage;
+
+                        pBar.Value = 0;
+
+                        Image floskel = new Image();
+                        floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel2.png", UriKind.Relative));
+                        floskel.Width = 240;
+                        floskel.Stretch = Stretch.Uniform;
+                        if (Canvas.GetLeft(player) > 300)
+                        {
+                            Canvas.SetLeft(floskel, 300);
+                        }
+                        else
+                        {
+                            Canvas.SetLeft(floskel, Canvas.GetLeft(player) + player.Width);
+                        }
+                        Canvas.SetTop(floskel, Canvas.GetTop(player) - 40);
+                        MyCanvas.Children.Add(floskel);
+                    }
                 }
             }
         }
@@ -442,69 +513,68 @@ namespace RalsShooterWindowMenu
             }
             if (e.Key == Key.Space)
             {
-                Rectangle newBullet = new Rectangle
+                if (timerOn)
                 {
-                    Tag = "bullet",
-                    Height = 20,
-                    Width = 5,
-                    Fill = Brushes.White,
-                    Stroke = Brushes.Red,
-                };
+                    Rectangle newBullet = new Rectangle
+                    {
+                        Tag = "bullet",
+                        Height = 20,
+                        Width = 5,
+                        Fill = Brushes.White,
+                        Stroke = Brushes.Red,
+                    };
 
-                Canvas.SetLeft(newBullet, Canvas.GetLeft(player) + player.Width / 2);
-                Canvas.SetTop(newBullet, Canvas.GetTop(player) - newBullet.Height);
+                    Canvas.SetLeft(newBullet, Canvas.GetLeft(player) + player.Width / 2);
+                    Canvas.SetTop(newBullet, Canvas.GetTop(player) - newBullet.Height);
+                    MyCanvas.Children.Add(newBullet);
+                    gunSound.Play();
+                }
 
-                MyCanvas.Children.Add(newBullet);
             }
         }
- 
-        private void MakeEnemies()
+        private void makeObjects()
+        {
+            if (moneyCounter < 0)
+            {
+                makeEnemy("money", "pack://application:,,,/Images/money.png");
+                moneyCounter = moneySpawnRate;
+            }
+
+            if (pooCounter < 0)
+            {
+                makeEnemy("poo", "pack://application:,,,/Images/pooop.png");
+                pooCounter = 55;
+            }
+            if (pensionCounter < 0)
+            {
+                makeEnemy("55", "pack://application:,,,/Images/55.jpg");
+                pensionSound.Open(new Uri(@"Sounds/pensionIncoming.wav", UriKind.Relative));
+                pensionSound.Play();
+                pensionCounter = pensionSpawnRate;
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            backgroundMusic.Stop();
+        }
+
+        private void makeEnemy(string type, string filePath)
         {
             ImageBrush enemySprite = new ImageBrush();
-            enemySprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/money.png"));
+            enemySprite.ImageSource = new BitmapImage(new Uri(filePath));
             Rectangle newEnemy = new Rectangle
             {
-                Tag = "enemy",
+                Tag = type,
                 Height = 50,
                 Width = 56,
                 Fill = enemySprite
             };
-
+            
             Canvas.SetTop(newEnemy, 0);
             Canvas.SetLeft(newEnemy, rand.Next(30, 430));
             MyCanvas.Children.Add(newEnemy);
         }
-        private void MakePoo()
-        {
-            ImageBrush pooSprite = new ImageBrush();
-            pooSprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/pooop.png"));
-            Rectangle newPoo = new Rectangle
-            {
-                Tag = "poo",
-                Height = 50,
-                Width = 56,
-                Fill = pooSprite
-            };
 
-            Canvas.SetTop(newPoo, 0);
-            Canvas.SetLeft(newPoo, rand.Next(30, 430));
-            MyCanvas.Children.Add(newPoo);
-        }
-        private void MakePension()
-        {
-            ImageBrush p55Sprite = new ImageBrush();
-            p55Sprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/55.jpg"));
-            Rectangle newPension = new Rectangle
-            {
-                Tag = "55",
-                Height = 50,
-                Width = 56,
-                Fill = p55Sprite
-            };
-
-            Canvas.SetTop(newPension, 0);
-            Canvas.SetLeft(newPension, rand.Next(90, 400));
-            MyCanvas.Children.Add(newPension);
-        }
     }
 }

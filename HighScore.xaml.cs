@@ -43,13 +43,24 @@ namespace RalsShooterWindowMenu
 
         public void addHighScoresLabelsOnHighScorePage(List<HighScore> highScoreList)
         {
-
+            int place = 1;
             foreach (HighScore highScore in highScoreList)
             {
                 Label label = new Label();
-                label.FontSize = 20;
-                label.Content = highScore.name + " " + highScore.score;
+                label.FontSize = 32;
+                label.Foreground = Brushes.Gold;
+                if(place == 10)
+                {
+                    label.Content = place.ToString() + " " + highScore.name + "  " + highScore.score;
+                    HSStack.Children.Add(label);
+                    place++;
+                }
+                else
+                {
+                label.Content = place.ToString() + "   " + highScore.name + "  " + highScore.score;
                 HSStack.Children.Add(label);
+                place++;
+                }
             }
         }
  

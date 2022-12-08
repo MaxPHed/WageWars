@@ -1,0 +1,73 @@
+﻿<Window x:Class="RalsShooterWindowMenu.HowToPlay"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RalsShooterWindowMenu"
+        mc:Ignorable="d"
+        Title="HowToPlay" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Gold"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
+    <Grid Height="650" Width="540" Background="Black">
+        <Image Source="/Images/WWStars.png" Margin="0,-257,0,257"></Image>
+        <Grid Margin="0,170,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">Målet med spelet är enkelt. Som FVC vill du förhindra<LineBreak/>
+                pengar och 55-årspension att nå pilotkollektivet.<LineBreak/>
+                 Bajsmackor ska dock med fördel släppas igenom!<LineBreak/>
+                Spelet är slut om lönehöjningarna når 4500 kr.
+            </TextBlock>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                <Image Width="50" gif:AnimationBehavior.SourceUri="Images/Joystick.gif"></Image>
+                <TextBlock Text="Rör FVC åt sidorna "></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                <Image Width="50" gif:AnimationBehavior.SourceUri="Images/red-button-spam.gif"></Image>
+                <TextBlock Text="Tryck på BLASTER-knappen för att skjuta"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+                <Image Width="50" Source="Images/money.png"></Image>
+                <TextBlock Text="är värd 100 kr"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+                <Image Width="50" Source="Images/55.jpg"></Image>
+                <TextBlock Text="är värd 500 kr, men tål tre skott"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="5"  Grid.Column="1" Grid.ColumnSpan="2">
+                <Image Width="50" Source="Images/pooop.png"></Image>
+                <TextBlock Text="samla bajsmackor för att ladda upp din Floskelmätare"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="2">
+                <Image Width="50" Source="Images/powerUp.png"></Image>
+                <TextBlock Text="När denna blir full kan du skjuta iväg en floskel"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="7"  Grid.Column="1" Grid.ColumnSpan="2">
+                <Image Width="50" Source="Images/floskel2.png"></Image>
+                <TextBlock Text="Floskeln tar bort alla pengar och skadar pensionen!"></TextBlock>
+            </StackPanel>
+        </Grid>
+        
+    </Grid>
+</Window>

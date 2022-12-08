@@ -28,49 +28,64 @@ namespace RalsShooterWindowMenu
 
         int _highLight = 1;
         public int HighLight { get => _highLight; set => _highLight = value; }
+        public bool IntroPlaying { get => introPlaying; set => introPlaying = value; }
+
         List<HighScore> highScoreList = new List<HighScore>();
+        MediaPlayer backgroundMusic = new MediaPlayer();
+        bool introPlaying = false;
+
 
 
         public Menu()
         {
-            
+
             InitializeComponent();
             readHighScoreFromFile();
             highLightFrame();
-            
+            backgroundMusic.Open(new Uri(@"Sounds/TopGunTheme.mp3", UriKind.Relative));
+            backgroundMusic.Play();
         }
         public Menu(List<HighScore> highScoreList)
         {
+            InitializeComponent();
             this.highScoreList = highScoreList;
             sortHighScoreList();
             writeHighScoreToFile();
-            InitializeComponent();
             highLightFrame();
+            backgroundMusic.Open(new Uri(@"Sounds/TopGunTheme.mp3", UriKind.Relative));
+            backgroundMusic.Play();
         }
         public void sortHighScoreList()
         {
             highScoreList.Sort((x, y) => y.score.CompareTo(x.score));
+            if(highScoreList.Count > 10)
+            {
+                highScoreList.RemoveAt(10);
+            }
         }
         private void highLightFrame()
         {
             if (HighLight == 1)
             {
                 NGLine.StrokeThickness = 8;
-                NGLine.Stroke = Brushes.Yellow;
+                NGLine.Stroke = Brushes.Gold;
                 HSLine.StrokeThickness = 3;
                 HSLine.Stroke = Brushes.RoyalBlue;
                 HTPLine.StrokeThickness = 3;
                 HTPLine.Stroke = Brushes.RoyalBlue;
-
+                ILine.StrokeThickness = 3;
+                ILine.Stroke = Brushes.RoyalBlue;
             }
             if (HighLight == 2)
             {
                 NGLine.StrokeThickness = 3;
                 NGLine.Stroke = Brushes.RoyalBlue;
                 HSLine.StrokeThickness = 8;
-                HSLine.Stroke = Brushes.Yellow;
+                HSLine.Stroke = Brushes.Gold;
                 HTPLine.StrokeThickness = 3;
                 HTPLine.Stroke = Brushes.RoyalBlue;
+                ILine.StrokeThickness = 3;
+                ILine.Stroke = Brushes.RoyalBlue;
 
             }
             if (HighLight == 3)
@@ -80,12 +95,26 @@ namespace RalsShooterWindowMenu
                 HSLine.StrokeThickness = 3;
                 HSLine.Stroke = Brushes.RoyalBlue;
                 HTPLine.StrokeThickness = 8;
-                HTPLine.Stroke = Brushes.Yellow;
+                HTPLine.Stroke = Brushes.Gold;
+                ILine.StrokeThickness = 3;
+                ILine.Stroke = Brushes.RoyalBlue;
+            }
+            if (HighLight == 4)
+            {
+                NGLine.StrokeThickness = 3;
+                NGLine.Stroke = Brushes.RoyalBlue;
+                HSLine.StrokeThickness = 3;
+                HSLine.Stroke = Brushes.RoyalBlue;
+                HTPLine.StrokeThickness = 3;
+                HTPLine.Stroke = Brushes.RoyalBlue;
+                ILine.StrokeThickness = 8;
+                ILine.Stroke = Brushes.Gold;
             }
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
+
             if (e.Key == Key.Down)
             {
                 if (HighLight == 1)
@@ -95,19 +124,24 @@ namespace RalsShooterWindowMenu
                 else if (HighLight == 2)
                 {
                     HighLight = 3;
-                    
+
                 }
                 else if (HighLight == 3)
                 {
+                    HighLight = 4;
+
+                }
+                else if (HighLight == 4)
+                {
                     HighLight = 1;
-                    
+
                 }
             }
             if (e.Key == Key.Up)
             {
                 if (HighLight == 1)
                 {
-                    HighLight = 3;
+                    HighLight = 4;
                 }
                 else if (HighLight == 2)
                 {
@@ -117,6 +151,10 @@ namespace RalsShooterWindowMenu
                 else if (HighLight == 3)
                 {
                     HighLight = 2;
+                }
+                else if (HighLight == 4)
+                {
+                    HighLight = 3;
                 }
             }
             if (e.Key == Key.Enter)
@@ -125,18 +163,29 @@ namespace RalsShooterWindowMenu
                 {
                     Game game = new Game(highScoreList);
                     this.Close();
+                    backgroundMusic.Stop();
                     game.ShowDialog();
                 }
                 else if (HighLight == 2)
                 {
                     HighScoreWindow highScoreWindow = new HighScoreWindow(this, highScoreList);
                     this.Hide();
-                    highScoreWindow.ShowDialog();
+                    //backgroundMusic.Stop();
+                    highScoreWindow.Show();
 
                 }
                 else if (HighLight == 3)
                 {
-                    HighLight = 2;
+                    HowToPlay howToPlay = new HowToPlay(this);
+                    this.Hide();
+                    howToPlay.Show();
+
+                }
+                else if (HighLight == 4)
+                {
+                    Intro intro = new Intro(this);
+                    intro.Show();
+                    this.Hide();
                 }
             }
             highLightFrame();
@@ -147,7 +196,7 @@ namespace RalsShooterWindowMenu
             string filePath = currentdirectory.FullName + "\\Files" + @"\HighScore.txt";
             string[] arrLine = new string[5];
             string hs;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 10; i++)
             {
                 hs = highScoreList[i].name + "," + highScoreList[i].score + "," + highScoreList[i].bajsmackor;
                 arrLine[i] = hs;
