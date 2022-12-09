@@ -11,13 +11,28 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
         <ControlTemplate x:Key="GlowingLabel" TargetType="Label">
-            <Label Name="GlowingLabel" Content="New High Score">
+            <Label Name="GlowingLabel" Content="New High Score!">
                 <Label.Triggers>
                     <EventTrigger RoutedEvent="Label.Loaded">
                         <EventTrigger.Actions>
                             <BeginStoryboard>
                                 <Storyboard BeginTime="00:00:00" RepeatBehavior="Forever" Storyboard.TargetName="GlowingLabel" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">
                                     <ColorAnimation From="Black" To="Gold" Duration="0:0:1" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Label.Triggers>
+            </Label>
+        </ControlTemplate>
+        <ControlTemplate x:Key="FlashingLabel" TargetType="Label">
+            <Label Name="GlowingLabel" Content="2xPoints">
+                <Label.Triggers>
+                    <EventTrigger RoutedEvent="Label.Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard BeginTime="00:00:00" RepeatBehavior="Forever" Storyboard.TargetName="GlowingLabel" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">
+                                    <ColorAnimation From="Red" To="Gold" Duration="0:0:1" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger.Actions>
@@ -44,6 +59,8 @@
         <Label Name="progessBarFullLabel" Content="Joystick Up!" Canvas.Top="65" Visibility="Hidden"/>
         <Label Name="scoreText" Content="Score: 0" FontSize="18" FontWeight="Bold" Foreground="Gold" BorderBrush="GreenYellow"/>
         <Label Name="damageText" Content="Damage: 0" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="34" />
+        <Label Name="doubleScore" Visibility="Hidden" Template="{StaticResource ResourceKey=FlashingLabel}" Content="2xPoints" FontSize="18" FontWeight="Bold" Foreground="Red" BorderBrush="GreenYellow" Canvas.Top="90"/>
+
         <Label Content="Pilotkollektivet" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" FontSize="30" FontWeight="Bold" Foreground="Gold" BorderBrush="Gold" BorderThickness="5"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="698" Width="540" Height="64"  />
         <Grid x:Name="GameGrid"  VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="70" Canvas.Top="150" Width="400" Height="360">
             <Grid.RowDefinitions>

@@ -17,9 +17,10 @@
     </Window.Resources>
     <Grid Height="650" Width="540" Background="Black">
         <Image Source="/Images/WWStars.png" Margin="0,-257,0,257"></Image>
-        <Grid Margin="0,170,0,0">
+        <Grid Margin="0,140,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -66,6 +67,10 @@
             <StackPanel Orientation="Horizontal" Grid.Row="7"  Grid.Column="1" Grid.ColumnSpan="2">
                 <Image Width="50" Source="Images/floskel2.png"></Image>
                 <TextBlock Text="Floskeln tar bort alla pengar och skadar pensionen!"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="8"  Grid.Column="1" Grid.ColumnSpan="2">
+                <Image Width="50" Source="Images/byden.png"></Image>
+                <TextBlock Text="Fånga Bydén för dubbla poäng i 5 sekunder!"></TextBlock>
             </StackPanel>
         </Grid>
         

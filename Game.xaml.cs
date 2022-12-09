@@ -44,8 +44,10 @@ namespace WageWars
         int moneyCounter = 50;
         int pooCounter = 110;
 
-        int pensionCounter = 900;
-        int pensionSpawnRate = 900;
+        int pensionCounter = 800;
+        int pensionSpawnRate = 800;
+        int bydenCounter = 900;
+        int bydenSpawnRate = 900;
         int pensionHealth = 3;
         int playerSpeed = 14;
         int moneySpawnRate = 50;
@@ -55,8 +57,10 @@ namespace WageWars
         int pooSpeed = 10;
         int pensionSpeed = 10;
         int bajsMackor = 0;
+        int doublePointsCounter = 200;
         bool pensionLeft = false;
         bool floskelAlive = false;
+        bool doublePointsBool = false;
 
         Rect playerHitBox;
         public Game(List<HighScore> highScoreList)
@@ -91,7 +95,8 @@ namespace WageWars
             moneyCounter -= 1;
             pooCounter -= 1;
             pensionCounter -= 1;
-
+            bydenCounter -= 1;
+            checkIfDoublePointsIsStillTrue();
 
             scoreText.Content = "Förhindrad lönehöjning: " + (score) + " kr";
             damageText.Content = "Lönehöjning " + (damage) + "kr";
@@ -105,6 +110,8 @@ namespace WageWars
             removeItems();
             checkGameOverAndIncreaseSpeed();
         }
+
+        
 
         private void floskelKill()
         {
@@ -320,7 +327,49 @@ namespace WageWars
                     }
                     objectHitPlayer(x, 0);
                 }
+                if (x is Rectangle && (string)x.Tag == "byden")
+                {
+                    Rect objectHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+
+                   
+                    Canvas.SetTop(x, Canvas.GetTop(x) + enemySpeed);
+                    
+                    if (playerHitBox.IntersectsWith(objectHitBox))
+                    {
+                        itemRemover.Add(x);
+                        doublePoints();
+                    }
+                    if (Canvas.GetTop(x) > 750)
+                    {
+                        itemRemover.Add(x);
+                    }
+                    
+                }
             }
+        }
+        private void checkIfDoublePointsIsStillTrue()
+        {
+            if (doublePointsBool)
+            {
+                doublePointsCounter -= 1;
+                if (doublePointsCounter <= 0)
+                {
+                    doublePointsBool = false;
+                    doubleScore.Visibility = Visibility.Hidden;
+                    doublePointsCounter = 200;
+                    ImageBrush playerImage = new ImageBrush();
+                    playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom.jpg"));
+                    player.Fill = playerImage;
+                }
+            }
+        }
+        private void doublePoints()
+        {
+            doubleScore.Visibility = Visibility.Visible;
+            doublePointsBool = true;
+            ImageBrush playerImage = new ImageBrush();
+            playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/byden.png"));
+            player.Fill = playerImage;
         }
 
         private void pensionHit(Rectangle y, int damage)
@@ -337,7 +386,15 @@ namespace WageWars
                 floskelDead.Open(new Uri(@"Sounds/FloskelDead.wav", UriKind.Relative));
                 floskelDead.Play();
                 itemRemover.Add(y);
-                score += 500;
+                if (doublePointsBool)
+                {
+                    score += (2*500);
+                }
+                else
+                {
+                    score += 500;
+                }
+                
                 pensionHealth = 3;
             }
         }
@@ -361,7 +418,15 @@ namespace WageWars
             {
                 itemRemover.Add(x);
                 itemRemover.Add(y);
-                score += v;
+                if (doublePointsBool)
+                {
+                    score += (2*v);
+                }
+                else
+                {
+                    score += v;
+                }
+                
                 damage+= w;
             }
         }
@@ -563,6 +628,11 @@ namespace WageWars
                 pensionSound.Open(new Uri(@"Sounds/pensionIncoming.wav", UriKind.Relative));
                 pensionSound.Play();
                 pensionCounter = pensionSpawnRate;
+            }
+            if (bydenCounter < 0)
+            {
+                makeEnemy("byden", "pack://application:,,,/Images/byden.png");
+                bydenCounter = bydenSpawnRate;
             }
         }
 
