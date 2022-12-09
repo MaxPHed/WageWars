@@ -246,11 +246,12 @@ namespace WageWars
 
                         if (y is Rectangle && (string)y.Tag == "money")
                         {
-                            bulletHitObject(bulletHitBox, x, y, 100);
+                            bulletHitObject(bulletHitBox, x, y, 100, 0);
                         }
                         if (y is Rectangle && (string)y.Tag == "poo")
                         {
-                            bulletHitObject(bulletHitBox, x, y, -50);
+                            bulletHitObject(bulletHitBox, x, y, -50, 50);
+                            
                         }
                         if (y is Rectangle && (string)y.Tag == "55")
                         {
@@ -352,7 +353,7 @@ namespace WageWars
             }
         }
 
-        private void bulletHitObject(Rect bulletHitBox, Rectangle x, Rectangle y, int v)
+        private void bulletHitObject(Rect bulletHitBox, Rectangle x, Rectangle y, int v, int w)
         {
             Rect hitBox = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
 
@@ -361,6 +362,7 @@ namespace WageWars
                 itemRemover.Add(x);
                 itemRemover.Add(y);
                 score += v;
+                damage+= w;
             }
         }
 
