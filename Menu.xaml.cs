@@ -18,7 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace RalsShooterWindowMenu
+namespace WageWars
 {
     /// <summary>
     /// Interaction logic for Menu.xaml
@@ -44,7 +44,15 @@ namespace RalsShooterWindowMenu
             highLightFrame();
             backgroundMusic.Open(new Uri(@"Sounds/TopGunTheme.mp3", UriKind.Relative));
             backgroundMusic.Play();
+            backgroundMusic.MediaEnded += new EventHandler(Media_Ended);
         }
+
+        private void Media_Ended(object sender, EventArgs e)
+        {
+            backgroundMusic.Open(new Uri(@"Sounds/TopGunTheme.mp3", UriKind.Relative));
+            backgroundMusic.Play();
+        }
+
         public Menu(List<HighScore> highScoreList)
         {
             InitializeComponent();

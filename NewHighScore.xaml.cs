@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace RalsShooterWindowMenu
+namespace WageWars
 {
     /// <summary>
     /// Interaction logic for NewHighScore.xaml
@@ -116,7 +116,7 @@ namespace RalsShooterWindowMenu
             Label formerScoresLabel = new Label();
             Label labelScore = new Label();
             formerScoresLabel.Content = place.ToString();
-            formerScoresLabel.Content += "  " + highscore.score;
+            formerScoresLabel.Content += "   " + highscore.score;
 
             formerScoresLabel.Content += "  " + highscore.name;
             formerScoresLabel.Foreground = Brushes.White;

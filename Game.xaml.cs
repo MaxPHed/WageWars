@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Image = System.Windows.Controls.Image;
 
-namespace RalsShooterWindowMenu
+namespace WageWars
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
@@ -44,8 +44,10 @@ namespace RalsShooterWindowMenu
         int moneyCounter = 50;
         int pooCounter = 110;
 
-        int pensionCounter = 900;
-        int pensionSpawnRate = 900;
+        int pensionCounter = 800;
+        int pensionSpawnRate = 800;
+        int bydenCounter = 900;
+        int bydenSpawnRate = 900;
         int pensionHealth = 3;
         int playerSpeed = 14;
         int moneySpawnRate = 50;
@@ -55,8 +57,10 @@ namespace RalsShooterWindowMenu
         int pooSpeed = 10;
         int pensionSpeed = 10;
         int bajsMackor = 0;
+        int doublePointsCounter = 200;
         bool pensionLeft = false;
         bool floskelAlive = false;
+        bool doublePointsBool = false;
 
         Rect playerHitBox;
         public Game(List<HighScore> highScoreList)
@@ -91,7 +95,8 @@ namespace RalsShooterWindowMenu
             moneyCounter -= 1;
             pooCounter -= 1;
             pensionCounter -= 1;
-
+            bydenCounter -= 1;
+            checkIfDoublePointsIsStillTrue();
 
             scoreText.Content = "Förhindrad lönehöjning: " + (score) + " kr";
             damageText.Content = "Lönehöjning " + (damage) + "kr";
@@ -105,6 +110,8 @@ namespace RalsShooterWindowMenu
             removeItems();
             checkGameOverAndIncreaseSpeed();
         }
+
+        
 
         private void floskelKill()
         {
@@ -121,7 +128,7 @@ namespace RalsShooterWindowMenu
                     }
                     if (y is Rectangle && (string)y.Tag == "55")
                     {
-                        if(pensionHealth>1)
+                        if (pensionHealth > 1)
                         {
                             pensionHit(y, 1);
                         }
@@ -246,11 +253,12 @@ namespace RalsShooterWindowMenu
 
                         if (y is Rectangle && (string)y.Tag == "money")
                         {
-                            bulletHitObject(bulletHitBox, x, y, 100);
+                            bulletHitObject(bulletHitBox, x, y, 100, 0);
                         }
                         if (y is Rectangle && (string)y.Tag == "poo")
                         {
-                            bulletHitObject(bulletHitBox, x, y, -50);
+                            bulletHitObject(bulletHitBox, x, y, -50, 50);
+                            
                         }
                         if (y is Rectangle && (string)y.Tag == "55")
                         {
@@ -319,7 +327,49 @@ namespace RalsShooterWindowMenu
                     }
                     objectHitPlayer(x, 0);
                 }
+                if (x is Rectangle && (string)x.Tag == "byden")
+                {
+                    Rect objectHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+
+                   
+                    Canvas.SetTop(x, Canvas.GetTop(x) + enemySpeed);
+                    
+                    if (playerHitBox.IntersectsWith(objectHitBox))
+                    {
+                        itemRemover.Add(x);
+                        doublePoints();
+                    }
+                    if (Canvas.GetTop(x) > 750)
+                    {
+                        itemRemover.Add(x);
+                    }
+                    
+                }
             }
+        }
+        private void checkIfDoublePointsIsStillTrue()
+        {
+            if (doublePointsBool)
+            {
+                doublePointsCounter -= 1;
+                if (doublePointsCounter <= 0)
+                {
+                    doublePointsBool = false;
+                    doubleScore.Visibility = Visibility.Hidden;
+                    doublePointsCounter = 200;
+                    ImageBrush playerImage = new ImageBrush();
+                    playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/edstrom.jpg"));
+                    player.Fill = playerImage;
+                }
+            }
+        }
+        private void doublePoints()
+        {
+            doubleScore.Visibility = Visibility.Visible;
+            doublePointsBool = true;
+            ImageBrush playerImage = new ImageBrush();
+            playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/byden.png"));
+            player.Fill = playerImage;
         }
 
         private void pensionHit(Rectangle y, int damage)
@@ -336,7 +386,15 @@ namespace RalsShooterWindowMenu
                 floskelDead.Open(new Uri(@"Sounds/FloskelDead.wav", UriKind.Relative));
                 floskelDead.Play();
                 itemRemover.Add(y);
-                score += 500;
+                if (doublePointsBool)
+                {
+                    score += (2*500);
+                }
+                else
+                {
+                    score += 500;
+                }
+                
                 pensionHealth = 3;
             }
         }
@@ -352,7 +410,7 @@ namespace RalsShooterWindowMenu
             }
         }
 
-        private void bulletHitObject(Rect bulletHitBox, Rectangle x, Rectangle y, int v)
+        private void bulletHitObject(Rect bulletHitBox, Rectangle x, Rectangle y, int v, int w)
         {
             Rect hitBox = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
 
@@ -360,7 +418,16 @@ namespace RalsShooterWindowMenu
             {
                 itemRemover.Add(x);
                 itemRemover.Add(y);
-                score += v;
+                if (doublePointsBool)
+                {
+                    score += (2*v);
+                }
+                else
+                {
+                    score += v;
+                }
+                
+                damage+= w;
             }
         }
 
@@ -481,9 +548,19 @@ namespace RalsShooterWindowMenu
                         player.Fill = playerImage;
 
                         pBar.Value = 0;
-
+                        int random = rand.Next(1, 7);
+                        string flosk = @"/Images/Floskel" + random.ToString() + ".png";
+                        
+                        /*switch (random)
+                        {
+                            case 1:
+                                flosk = "floskel1";
+                                break;
+                                case 2: flosk = "floskel2";
+                                break;
+                        }*/
                         Image floskel = new Image();
-                        floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel2.png", UriKind.Relative));
+                        floskel.Source = new BitmapImage(new Uri(flosk, UriKind.Relative));
                         floskel.Width = 240;
                         floskel.Stretch = Stretch.Uniform;
                         if (Canvas.GetLeft(player) > 300)
@@ -552,6 +629,11 @@ namespace RalsShooterWindowMenu
                 pensionSound.Play();
                 pensionCounter = pensionSpawnRate;
             }
+            if (bydenCounter < 0)
+            {
+                makeEnemy("byden", "pack://application:,,,/Images/byden.png");
+                bydenCounter = bydenSpawnRate;
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -570,7 +652,7 @@ namespace RalsShooterWindowMenu
                 Width = 56,
                 Fill = enemySprite
             };
-            
+
             Canvas.SetTop(newEnemy, 0);
             Canvas.SetLeft(newEnemy, rand.Next(30, 430));
             MyCanvas.Children.Add(newEnemy);
