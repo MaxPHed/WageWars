@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Image = System.Windows.Controls.Image;
 
-namespace RalsShooterWindowMenu
+namespace WageWars
 {
     /// <summary>
     /// Interaction logic for Window1.xaml

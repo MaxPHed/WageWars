@@ -18,7 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace RalsShooterWindowMenu
+namespace WageWars
 {
     /// <summary>
     /// Interaction logic for Menu.xaml

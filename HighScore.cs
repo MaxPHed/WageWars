@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace RalsShooterWindowMenu
+namespace WageWars
 {
     public class HighScore
     {

@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace RalsShooterWindowMenu
+namespace WageWars
 {
     /// <summary>
     /// Interaction logic for NewHighScore.xaml

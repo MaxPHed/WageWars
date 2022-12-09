@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RalsShooterWindowMenu.Properties
+namespace WageWars.Properties
 {
 
 
