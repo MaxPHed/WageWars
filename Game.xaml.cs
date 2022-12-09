@@ -178,7 +178,7 @@ namespace RalsShooterWindowMenu
                 enemySpeed = 15;
             }
 
-            if (damage > 90)
+            if (damage > 4500)
             {
                 gameTimer.Stop();
                 timerOn = false;
