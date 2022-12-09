@@ -183,10 +183,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="Images\edstrom_2.jpg" />
-    <Resource Include="Sounds\DangerZone.mp3">
+    <Content Include="Sounds\TopGunTheme.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
+    <Resource Include="Images\edstrom_2.jpg" />
+    <Content Include="Sounds\DangerZone.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Images\WWStars.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

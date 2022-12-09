@@ -194,7 +194,7 @@ namespace RalsShooterWindowMenu
         {
             DirectoryInfo currentdirectory = new DirectoryInfo(".");
             string filePath = currentdirectory.FullName + "\\Files" + @"\HighScore.txt";
-            string[] arrLine = new string[5];
+            string[] arrLine = new string[10];
             string hs;
             for (int i = 0; i < 10; i++)
             {
