@@ -116,7 +116,7 @@ namespace WageWars
             Label formerScoresLabel = new Label();
             Label labelScore = new Label();
             formerScoresLabel.Content = place.ToString();
-            formerScoresLabel.Content += "  " + highscore.score;
+            formerScoresLabel.Content += "   " + highscore.score;
 
             formerScoresLabel.Content += "  " + highscore.name;
             formerScoresLabel.Foreground = Brushes.White;

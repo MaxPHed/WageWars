@@ -44,7 +44,15 @@ namespace WageWars
             highLightFrame();
             backgroundMusic.Open(new Uri(@"Sounds/TopGunTheme.mp3", UriKind.Relative));
             backgroundMusic.Play();
+            backgroundMusic.MediaEnded += new EventHandler(Media_Ended);
         }
+
+        private void Media_Ended(object sender, EventArgs e)
+        {
+            backgroundMusic.Open(new Uri(@"Sounds/TopGunTheme.mp3", UriKind.Relative));
+            backgroundMusic.Play();
+        }
+
         public Menu(List<HighScore> highScoreList)
         {
             InitializeComponent();

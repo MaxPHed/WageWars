@@ -121,7 +121,7 @@ namespace WageWars
                     }
                     if (y is Rectangle && (string)y.Tag == "55")
                     {
-                        if(pensionHealth>1)
+                        if (pensionHealth > 1)
                         {
                             pensionHit(y, 1);
                         }
@@ -481,9 +481,19 @@ namespace WageWars
                         player.Fill = playerImage;
 
                         pBar.Value = 0;
-
+                        int random = rand.Next(1, 7);
+                        string flosk = @"/Images/Floskel" + random.ToString() + ".png";
+                        
+                        /*switch (random)
+                        {
+                            case 1:
+                                flosk = "floskel1";
+                                break;
+                                case 2: flosk = "floskel2";
+                                break;
+                        }*/
                         Image floskel = new Image();
-                        floskel.Source = new BitmapImage(new Uri(@"/Images/Floskel2.png", UriKind.Relative));
+                        floskel.Source = new BitmapImage(new Uri(flosk, UriKind.Relative));
                         floskel.Width = 240;
                         floskel.Stretch = Stretch.Uniform;
                         if (Canvas.GetLeft(player) > 300)
@@ -570,7 +580,7 @@ namespace WageWars
                 Width = 56,
                 Fill = enemySprite
             };
-            
+
             Canvas.SetTop(newEnemy, 0);
             Canvas.SetLeft(newEnemy, rand.Next(30, 430));
             MyCanvas.Children.Add(newEnemy);
