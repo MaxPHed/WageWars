@@ -364,9 +364,7 @@ namespace WageWars
                     if (playerHitBox.IntersectsWith(objectHitBox))
                     {
                         itemRemover.Add(x);
-                        twinSound.Open(new Uri(@"Sounds/en_till.wav", UriKind.Relative));
-                        twinSound.Play();
-                        twinSound.Volume= 1;
+                        
                         twinMode();
 
                     }
@@ -380,7 +378,10 @@ namespace WageWars
 
         private void twinMode()
         {
-            twinModeBool= true;
+            twinSound.Open(new Uri(@"Sounds/en_till.wav", UriKind.Relative));
+            twinSound.Play();
+            twinSound.Volume = 1;
+            twinModeBool = true;
             ImageBrush playerImage = new ImageBrush();
             playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/twin.png"));
             player.Fill = playerImage;
@@ -723,16 +724,22 @@ namespace WageWars
             }
             if (bydenCounter < 0)
             {
-                makeEnemy("byden", "pack://application:,,,/Images/byden.png");
-                befaletSound.Open(new Uri(@"Sounds/Jag_tar_befalet.wav", UriKind.Relative));
-                befaletSound.Play();
-                befaletSound.Volume= 1;
-                bydenCounter = bydenSpawnRate;
+                if (!twinModeBool)
+                {
+                    makeEnemy("byden", "pack://application:,,,/Images/byden.png");
+                    befaletSound.Open(new Uri(@"Sounds/Jag_tar_befalet.wav", UriKind.Relative));
+                    befaletSound.Play();
+                    befaletSound.Volume = 1;
+                    bydenCounter = bydenSpawnRate;
+                }
             }
             if (TwinCounter < 0)
             {
-                makeEnemy("twin", "pack://application:,,,/Images/carl-fredrik.png");
-                TwinCounter = twinSpawnRate;
+                if (!doublePointsBool)
+                {
+                    makeEnemy("twin", "pack://application:,,,/Images/carl-fredrik.png");
+                    TwinCounter = twinSpawnRate;
+                }
             }
         }
 
