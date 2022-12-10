@@ -36,6 +36,8 @@ namespace WageWars
         MediaPlayer floskelHit = new MediaPlayer();
         MediaPlayer floskelDead = new MediaPlayer();
         MediaPlayer twinSound = new MediaPlayer();
+        MediaPlayer besvikenSound = new MediaPlayer();
+        MediaPlayer befaletSound = new MediaPlayer();
 
 
 
@@ -364,6 +366,7 @@ namespace WageWars
                         itemRemover.Add(x);
                         twinSound.Open(new Uri(@"Sounds/en_till.wav", UriKind.Relative));
                         twinSound.Play();
+                        twinSound.Volume= 1;
                         twinMode();
 
                     }
@@ -411,11 +414,17 @@ namespace WageWars
                     ImageBrush playerImage = new ImageBrush();
                     playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/carl-johan1.png"));
                     player.Fill = playerImage;
+                    besvikenSound.Stop();
+                    backgroundMusic.Play();
                 }
             }
         }
         private void doublePoints()
         {
+            backgroundMusic.Pause();
+            besvikenSound.Open(new Uri(@"Sounds/Besviken.wav", UriKind.Relative));
+            besvikenSound.Play();
+            besvikenSound.Volume = 1;
             doubleScore.Visibility = Visibility.Visible;
             doublePointsBool = true;
             ImageBrush playerImage = new ImageBrush();
@@ -715,6 +724,9 @@ namespace WageWars
             if (bydenCounter < 0)
             {
                 makeEnemy("byden", "pack://application:,,,/Images/byden.png");
+                befaletSound.Open(new Uri(@"Sounds/Jag_tar_befalet.wav", UriKind.Relative));
+                befaletSound.Play();
+                befaletSound.Volume= 1;
                 bydenCounter = bydenSpawnRate;
             }
             if (TwinCounter < 0)
