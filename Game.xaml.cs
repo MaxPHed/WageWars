@@ -47,7 +47,7 @@ namespace WageWars
         bool newHighScore;
         int moneyCounter = 50;
         int pooCounter = 110;
-        int TwinCounter = 50;
+        int TwinCounter = 700;
         int twinSpawnRate = 700;
         int twinModeCounter = 200;
 
