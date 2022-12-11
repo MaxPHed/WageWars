@@ -17,9 +17,10 @@
     </Window.Resources>
     <Grid Height="650" Width="540" Background="Black">
         <Image Source="/Images/WWStars.png" Margin="0,-257,0,257"></Image>
-        <Grid Margin="0,140,0,0">
+        <Grid Margin="0,90,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -34,10 +35,11 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">Målet med spelet är enkelt. Som FVC vill du förhindra<LineBreak/>
-                pengar och 55-årspension att nå pilotkollektivet.<LineBreak/>
-                 Bajsmackor ska dock med fördel släppas igenom!<LineBreak/>
-                Spelet är slut om lönehöjningarna når 4500 kr.
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">
+                Målet med spelet är enkelt. Som FVC vill du förhindra pengar och<LineBreak/>
+                  55-årspension att nå pilotkollektivet. Bajsmackor ska dock med<LineBreak/>
+                     fördel släppas igenom! Spelet är slut om lönehöjningarna når 4500 kr.
+                
             </TextBlock>
 
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
@@ -71,6 +73,10 @@
             <StackPanel Orientation="Horizontal" Grid.Row="8"  Grid.Column="1" Grid.ColumnSpan="2">
                 <Image Width="50" Source="Images/byden.png"></Image>
                 <TextBlock Text="Fånga Bydén för dubbla poäng i 5 sekunder!"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="9"  Grid.Column="1" Grid.ColumnSpan="2">
+                <Image Width="50" Source="Images/carl-fredrik.png"></Image>
+                <TextBlock Text="Fånga Carl-Fredrik för dubbla skott i 5 sekunder!"></TextBlock>
             </StackPanel>
         </Grid>
         
