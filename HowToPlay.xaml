@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WageWars"
         mc:Ignorable="d"
-        Title="HowToPlay" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="HowToPlay" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen" WindowStyle="None" Cursor="None">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="Gold"/>
@@ -56,7 +56,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
                 <Image Width="50" Source="Images/55.jpg"></Image>
-                <TextBlock Text="är värd 500 kr, men tål tre skott"></TextBlock>
+                <TextBlock Text="är värd 1000 kr, men tål tre skott"></TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="5"  Grid.Column="1" Grid.ColumnSpan="2">
                 <Image Width="50" Source="Images/pooop.png"></Image>

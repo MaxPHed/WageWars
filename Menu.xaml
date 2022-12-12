@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WageWars"
         mc:Ignorable="d"
-        Title="Menu" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="Menu" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen" WindowStyle="None" Cursor="None">
     <Window.Resources>
         <ControlTemplate x:Key="GlowingLabel" TargetType="Label">
             <Label Name="GlowingLabel" Content="RALS SHOOTER">
@@ -26,20 +26,20 @@
 
     </Window.Resources>
 
-    <Grid Height="650" Width="540" Background="Black">
+    <Grid Height="650" Width="540" Background="Black" >
         <Image Source="/Images/WWStars.png" Margin="0,-257,0,257"></Image>
 
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,8">
-            <Grid Name="NewGame" Margin="0,0,0,20">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,100,0,8">
+            <Grid Name="NewGame" Margin="0,0,0,20" Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="/Images/edstrom.jpg" Stretch="Uniform" Margin="2" Height="50"/>
+                <Image Grid.Column="0" Source="/Images/carl-johan1.png" Stretch="Uniform" Margin="2" Height="50"/>
                 <TextBlock Grid.Column="1" Text="New Game" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Gold" FontSize="30" VerticalAlignment="Center"/>
                 <Rectangle Grid.Column="0" Name="NGLine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
             </Grid>
-            <Grid Name="HighScore" Margin="0,0,0,20">
+            <Grid Name="HighScore" Margin="0,0,0,20" Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="200"/>
@@ -48,23 +48,23 @@
                 <TextBlock Grid.Column="1" Text="High Score" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Gold" FontSize="30" VerticalAlignment="Center"/>
                 <Rectangle Grid.Column="0" Name="HSLine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
             </Grid>
-            <Grid Name="HowToPlay" Margin="0,0,0,20">
+            <Grid Name="HowToPlay" Margin="0,0,0,20" Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="/Images/floskel2.png" Stretch="Uniform" Margin="2" Height="50"/>
-                <TextBlock Grid.Column="1" Text="How to play" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Gold" FontSize="30" VerticalAlignment="Center"/>
+                <Image Grid.Column="0" Grid.ColumnSpan="2" Source="/Images/floskel2.png" Stretch="Uniform" Margin="-5" HorizontalAlignment="Left" Height="50" Width="75"/>
+                <TextBlock Grid.Column="1" Text="How To Play" TextAlignment="Center" TextWrapping="Wrap" Margin="2,2,2,2" Foreground="Gold" FontSize="30" VerticalAlignment="Center"/>
                 <Rectangle Grid.Column="0" Name="HTPLine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
             </Grid>
-            <Grid Name="Intro" Margin="0,0,0,20">
+            <Grid Name="Intro" Margin="0,0,0,20" Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0" Source="/Images/pooop.png" Stretch="Uniform"  Height="50"/>
                 <TextBlock Grid.Column="1" Text="Intro" TextAlignment="Center" TextWrapping="Wrap"  Foreground="Gold" FontSize="30" VerticalAlignment="Top"/>
-                <Rectangle Grid.Column="0" Name="ILine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5" Grid.ColumnSpan="2"/>
+                <Rectangle Grid.Column="0" Name="ILine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
             </Grid>
         </StackPanel>
     </Grid>

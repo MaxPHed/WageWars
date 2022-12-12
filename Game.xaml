@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WageWars"
         mc:Ignorable="d"
-        Title="Game" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen" WindowStyle="None" Closing="Window_Closing">
+        Title="Game" WindowState="Maximized" Background="Black" WindowStartupLocation="CenterScreen" WindowStyle="None" Closing="Window_Closing" Cursor="None">
     <Window.Resources>
         <Style TargetType="Label" x:Key="Labelz">
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -62,7 +62,7 @@
         <Label Name="doubleScore" Visibility="Hidden" Template="{StaticResource ResourceKey=FlashingLabel}" Content="2xPoints" FontSize="18" FontWeight="Bold" Foreground="Red" BorderBrush="GreenYellow" Canvas.Top="90"/>
 
         <Label Content="Pilotkollektivet" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" FontSize="30" FontWeight="Bold" Foreground="Gold" BorderBrush="Gold" BorderThickness="5"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="698" Width="540" Height="64"  />
-        <Grid x:Name="GameGrid"  VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="70" Canvas.Top="150" Width="400" Height="360">
+        <Grid x:Name="GameGrid"  VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="70" Canvas.Top="150" Width="400" Height="360" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
