@@ -24,7 +24,7 @@ namespace WageWars
         bool moveLeft, moveRight;
         List<Rectangle> itemRemover = new List<Rectangle>();
         static DirectoryInfo currentdirectory = new DirectoryInfo(".");
-        SoundPlayer gunSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Guns.Wav");
+        SoundPlayer gunSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Guns-10.Wav");
         SoundPlayer doubleGunSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\retro.Wav");
         MediaPlayer backgroundMusic = new MediaPlayer();
         MediaPlayer moneySound = new MediaPlayer();
@@ -94,6 +94,7 @@ namespace WageWars
             player.Fill = playerImage;
             backgroundMusic.Open(new Uri(@"Sounds/DangerZone.mp3", UriKind.Relative));
             backgroundMusic.Play();
+            backgroundMusic.Volume = 0.5;
         }
 
 
@@ -114,7 +115,7 @@ namespace WageWars
             checkMovement();
             progressBarLook();
 
-            checkIfBulletHit();
+            checkIfBulletHitObject();
             floskelKill();
             moveFloskel();
             removeItems();
@@ -226,11 +227,30 @@ namespace WageWars
                 {
                     MyCanvas.Children.Remove(floskel);
                     floskelAlive = false;
-                    ImageBrush playerImage = new ImageBrush();
-                    playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/carl-johan1.png"));
-                    player.Fill = playerImage;
+                    changeBackPlayerPicture();
                 }
             }
+        }
+
+        private void changeBackPlayerPicture()
+        {
+            ImageBrush playerImage = new ImageBrush();
+            if (twinModeBool)
+            {
+                playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/twin.png"));
+
+            }
+            else if (doublePointsBool)
+            {
+                playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/Byden.png"));
+
+            }
+            else
+            {
+                playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/carl-johan1.png"));
+
+            }
+            player.Fill = playerImage;
         }
 
         private void checkMovement()
@@ -244,7 +264,7 @@ namespace WageWars
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + playerSpeed);
             }
         }
-        private void checkIfBulletHit()
+        private void checkIfBulletHitObject()
         {
             foreach (var x in MyCanvas.Children.OfType<Rectangle>())
             {
@@ -321,7 +341,7 @@ namespace WageWars
                         itemRemover.Add(x);
                         damage += 1000;
                     }
-                    objectHitPlayer(x, 50);
+                    objectHitPlayer(x, 500);
                 }
                 if (x is Rectangle && (string)x.Tag == "poo")
                 {
@@ -375,6 +395,7 @@ namespace WageWars
                 }
             }
         }
+   
 
         private void twinMode()
         {
@@ -396,9 +417,7 @@ namespace WageWars
                 {
                     twinModeBool= false;
                     twinModeCounter = 200;
-                    ImageBrush playerImage = new ImageBrush();
-                    playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/carl-johan1.png"));
-                    player.Fill = playerImage;
+                    changeBackPlayerPicture();
                 }
             }
         }
@@ -412,17 +431,16 @@ namespace WageWars
                     doublePointsBool = false;
                     doubleScore.Visibility = Visibility.Hidden;
                     doublePointsCounter = 200;
-                    ImageBrush playerImage = new ImageBrush();
-                    playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/carl-johan1.png"));
-                    player.Fill = playerImage;
+                    
+                    changeBackPlayerPicture();
                     besvikenSound.Stop();
-                    backgroundMusic.Play();
+                    backgroundMusic.Volume = 0.5;
                 }
             }
         }
         private void doublePoints()
         {
-            backgroundMusic.Pause();
+            backgroundMusic.Volume = 0.2;
             besvikenSound.Open(new Uri(@"Sounds/Besviken.wav", UriKind.Relative));
             besvikenSound.Play();
             besvikenSound.Volume = 1;
@@ -449,13 +467,12 @@ namespace WageWars
                 itemRemover.Add(y);
                 if (doublePointsBool)
                 {
-                    score += (2*500);
+                    score += (2*1000);
                 }
                 else
                 {
-                    score += 500;
+                    score += 1000;
                 }
-                
                 pensionHealth = 3;
             }
         }
@@ -542,6 +559,7 @@ namespace WageWars
 
             }
             Grid.SetRow(label, row);
+            Canvas.SetZIndex(GameGrid, 5);
             GameGrid.Children.Add(label);
             //Panel.SetZIndex(label, 0);
 
@@ -759,7 +777,18 @@ namespace WageWars
                 Width = 56,
                 Fill = enemySprite
             };
-
+            if (type.Equals("byden"))
+            {
+                Canvas.SetZIndex(newEnemy, 4);
+            }
+            if (type.Equals("twin"))
+            {
+                Canvas.SetZIndex(newEnemy, 3);
+            }
+            if (type.Equals("55"))
+            {
+                Canvas.SetZIndex(newEnemy, 2);
+            }
             Canvas.SetTop(newEnemy, 0);
             Canvas.SetLeft(newEnemy, rand.Next(30, 430));
             MyCanvas.Children.Add(newEnemy);

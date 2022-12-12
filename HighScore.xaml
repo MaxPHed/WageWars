@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WageWars"
         mc:Ignorable="d"
-        Title="HighScore" WindowState="Maximized" WindowStartupLocation="CenterScreen" Background="Black" WindowStyle="None">
+        Title="HighScore" WindowState="Maximized" WindowStartupLocation="CenterScreen" Background="Black" WindowStyle="None" Cursor="None">
     <Grid Height="650" Width="540" Background="Black">
         
         <Image Source="/Images/WWStars.png" Margin="0,-257,0,257"></Image>
