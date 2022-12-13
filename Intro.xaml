@@ -18,7 +18,7 @@
             </BeginStoryboard>
         </EventTrigger>
     </Window.Triggers>
-    <Grid Width="540">
+    <Grid Width="600">
         <Viewport3D Name="viewport3D1" >
             <Viewport3D.Camera>
                 <PerspectiveCamera x:Name="camMain" Position="0.5 -1 0.6" LookDirection="0 5 -1">

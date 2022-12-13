@@ -1,10 +1,10 @@
-Bydén,25100,66
-Carl-Johan,24250,58
-Uffe-PM,19800,51
-Knugen,4000,11
-Rolle,500,4
-Pål,500,4
-Hultan,500,4
-El Falco,500,4
-Pappa Legardt,500,4
+Bydén,10000,66
+Carl-Johan,10000,58
+Uffe-PM,10000,51
+Knugen,10000,11
+Rolle,10000,4
+Pål,10000,4
+Hultan,10000,4
+El Falco,10000,4
+Pappa Legardt,10000,4
 Personaldirektören,-1000,4

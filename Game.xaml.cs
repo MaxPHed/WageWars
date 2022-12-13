@@ -203,7 +203,7 @@ namespace WageWars
                 enemySpeed = 15;
             }
 
-            if (damage > 4500)
+            if (damage >= 4000)
             {
                 gameTimer.Stop();
                 timerOn = false;
@@ -450,7 +450,7 @@ namespace WageWars
         }
         private void doublePoints()
         {
-            twinModeCounter += 200;
+            TwinCounter += 200;
             backgroundMusic.Volume = 0.2;
             besvikenSound.Open(new Uri(@"Sounds/Besviken.wav", UriKind.Relative));
             besvikenSound.Play();
