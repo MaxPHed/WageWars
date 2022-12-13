@@ -1,10 +1,10 @@
-AAA,25100,66
-AAA,24250,58
-AAA,19800,51
-AAA,4000,11
-AAB,500,4
-AAB,500,4
-AAB,500,4
-AAB,500,4
-AAB,500,4
-AAB,500,4
+Bydén,25100,66
+Carl-Johan,24250,58
+Uffe-PM,19800,51
+Knugen,4000,11
+Rolle,500,4
+Pål,500,4
+Hultan,500,4
+El Falco,500,4
+Pappa Legardt,500,4
+Personaldirektören,-1000,4

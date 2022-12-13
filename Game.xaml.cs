@@ -24,7 +24,7 @@ namespace WageWars
         bool moveLeft, moveRight;
         List<Rectangle> itemRemover = new List<Rectangle>();
         static DirectoryInfo currentdirectory = new DirectoryInfo(".");
-        SoundPlayer gunSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Guns-10.Wav");
+        SoundPlayer gunSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\Guns-5.Wav");
         SoundPlayer doubleGunSound = new SoundPlayer(currentdirectory.FullName + "\\Sounds" + "\\retro.Wav");
         MediaPlayer backgroundMusic = new MediaPlayer();
         MediaPlayer moneySound = new MediaPlayer();
@@ -51,7 +51,7 @@ namespace WageWars
         int twinSpawnRate = 700;
         int twinModeCounter = 200;
 
-        int pensionCounter = 800;
+        int pensionCounter = 300;
         int pensionSpawnRate = 800;
         int bydenCounter = 900;
         int bydenSpawnRate = 900;
@@ -95,8 +95,14 @@ namespace WageWars
             backgroundMusic.Open(new Uri(@"Sounds/DangerZone.mp3", UriKind.Relative));
             backgroundMusic.Play();
             backgroundMusic.Volume = 0.5;
+            backgroundMusic.MediaEnded += new EventHandler(Media_Ended);
         }
 
+        private void Media_Ended(object sender, EventArgs e)
+        {
+            backgroundMusic.Open(new Uri(@"Sounds/DangerZone.mp3", UriKind.Relative));
+            backgroundMusic.Play();
+        }
 
         private void GameLoop(object sender, EventArgs e)
         {
@@ -182,6 +188,7 @@ namespace WageWars
             {
                 moneySpawnRate = 19;
                 enemySpeed = 13;
+                
             }
             if (score > 4000)
             {
@@ -287,8 +294,10 @@ namespace WageWars
                         }
                         if (y is Rectangle && (string)y.Tag == "poo")
                         {
-                            bulletHitObject(bulletHitBox, x, y, -50, 50);
-                            
+                            if (!twinModeBool && !doublePointsBool)
+                            {
+                                bulletHitObject(bulletHitBox, x, y, -50, 50);
+                            }
                         }
                         if (y is Rectangle && (string)y.Tag == "55")
                         {
@@ -399,6 +408,7 @@ namespace WageWars
 
         private void twinMode()
         {
+            bydenCounter += 200;
             twinSound.Open(new Uri(@"Sounds/en_till.wav", UriKind.Relative));
             twinSound.Play();
             twinSound.Volume = 1;
@@ -440,6 +450,7 @@ namespace WageWars
         }
         private void doublePoints()
         {
+            twinModeCounter += 200;
             backgroundMusic.Volume = 0.2;
             besvikenSound.Open(new Uri(@"Sounds/Besviken.wav", UriKind.Relative));
             besvikenSound.Play();
