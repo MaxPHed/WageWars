@@ -60,7 +60,7 @@
         <Label Name="scoreText" Content="Score: 0" FontSize="18" FontWeight="Bold" Foreground="Gold" BorderBrush="GreenYellow"/>
         <Label Name="damageText" Content="Damage: 0" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="34" />
         <Label Name="doubleScore" Visibility="Hidden" Template="{StaticResource ResourceKey=FlashingLabel}" Content="2xPoints" FontSize="18" FontWeight="Bold" Foreground="Red" BorderBrush="GreenYellow" Canvas.Top="90"/>
-
+        
         <Label Content="Pilotkollektivet" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" FontSize="30" FontWeight="Bold" Foreground="Gold" BorderBrush="Gold" BorderThickness="5"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="698" Width="540" Height="64"  />
         <Grid x:Name="GameGrid"  VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="70" Canvas.Top="150" Width="400" Height="360" >
             <Grid.RowDefinitions>

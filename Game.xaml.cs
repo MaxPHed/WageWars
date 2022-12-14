@@ -49,7 +49,7 @@ namespace WageWars
         int pooCounter = 110;
         int TwinCounter = 700;
         int twinSpawnRate = 700;
-        int twinModeCounter = 200;
+        int twinModeCounter = 160;
 
         int pensionCounter = 300;
         int pensionSpawnRate = 800;
@@ -64,11 +64,12 @@ namespace WageWars
         int pooSpeed = 10;
         int pensionSpeed = 10;
         int bajsMackor = 0;
-        int doublePointsCounter = 200;
+        int doublePointsCounter = 160;
         bool pensionLeft = false;
         bool floskelAlive = false;
         bool doublePointsBool = false;
         bool twinModeBool= false;
+
 
         Rect playerHitBox;
         public Game(List<HighScore> highScoreList)
@@ -426,7 +427,7 @@ namespace WageWars
                 if(twinModeCounter <= 0)
                 {
                     twinModeBool= false;
-                    twinModeCounter = 200;
+                    twinModeCounter = 160;
                     changeBackPlayerPicture();
                 }
             }
@@ -440,7 +441,7 @@ namespace WageWars
                 {
                     doublePointsBool = false;
                     doubleScore.Visibility = Visibility.Hidden;
-                    doublePointsCounter = 200;
+                    doublePointsCounter = 160;
                     
                     changeBackPlayerPicture();
                     besvikenSound.Stop();
