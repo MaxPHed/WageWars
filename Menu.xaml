@@ -67,5 +67,6 @@
                 <Rectangle Grid.Column="0" Name="ILine" Fill="Transparent" Stroke="Gold" StrokeDashArray="" StrokeThickness="3" Margin="-5,0,0,0" Grid.ColumnSpan="2"/>
             </Grid>
         </StackPanel>
+        <Label Content="by Asphyx and Snuggles" FontSize="8" Margin="400,600,0,0" Foreground="Silver" ></Label>
     </Grid>
 </Window>

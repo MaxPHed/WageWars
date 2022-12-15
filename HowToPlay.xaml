@@ -38,7 +38,7 @@
             <TextBlock Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">
                 Målet med spelet är enkelt. Som FVC vill du förhindra pengar och<LineBreak/>
                   55-årspension att nå pilotkollektivet. Bajsmackor ska dock med<LineBreak/>
-                     fördel släppas igenom! Spelet är slut om lönehöjningarna når 4500 kr.
+                     fördel släppas igenom! Spelet är slut om lönehöjningarna når 4000 kr.
                 
             </TextBlock>
 
@@ -60,7 +60,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="5"  Grid.Column="1" Grid.ColumnSpan="2">
                 <Image Width="50" Source="Images/pooop.png"></Image>
-                <TextBlock Text="samla bajsmackor för att ladda upp din Floskelmätare"></TextBlock>
+                <TextBlock >Samla bajsmackor för att ladda upp din Floskelmätare<LineBreak/>men var försiktig, skjuter du den så får kollektivet 50 kr</TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="2">
                 <Image Width="50" Source="Images/powerUp.png"></Image>
@@ -72,11 +72,11 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="8"  Grid.Column="1" Grid.ColumnSpan="2">
                 <Image Width="50" Source="Images/byden.png"></Image>
-                <TextBlock Text="Fånga Bydén för dubbla poäng i 5 sekunder!"></TextBlock>
+                <TextBlock>Fånga Bydén för dubbla poäng i 5 sekunder! <LineBreak/>Gör även Bajsmackor immuna mot skott</TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="9"  Grid.Column="1" Grid.ColumnSpan="2">
                 <Image Width="50" Source="Images/carl-fredrik.png"></Image>
-                <TextBlock Text="Fånga Carl-Fredrik för dubbla skott i 5 sekunder!"></TextBlock>
+                <TextBlock >Fånga Carl-Fredrik för dubbla skott i 5 sekunder!<LineBreak/>Gör även Bajsmackor immuna mot skott</TextBlock>
             </StackPanel>
         </Grid>
         

@@ -18,10 +18,10 @@
             </BeginStoryboard>
         </EventTrigger>
     </Window.Triggers>
-    <Grid>
+    <Grid Width="600">
         <Viewport3D Name="viewport3D1" >
             <Viewport3D.Camera>
-                <PerspectiveCamera x:Name="camMain" Position="0.5 -1 0.4" LookDirection="0 5 -1">
+                <PerspectiveCamera x:Name="camMain" Position="0.5 -1 0.6" LookDirection="0 5 -1">
                 </PerspectiveCamera>
             </Viewport3D.Camera>
             <ModelVisual3D>
@@ -45,7 +45,7 @@
                                 <DiffuseMaterial.Brush>
                                     <VisualBrush>
                                         <VisualBrush.Visual>
-                                            <Grid Width="220" Height="1000" Background="Black">
+                                            <Grid Width="200" Height="1000" Background="Black">
                                                 <Border BorderBrush="Black">
                                                     <TextBlock  Background="Black"
                                                              TextWrapping="Wrap"
@@ -57,11 +57,12 @@
                                                              LineHeight="17"
                                                              LineStackingStrategy="BlockLineHeight"
                                                              >
-                                                        Året är 2022. Det gror ett missnöje bland pilotkollektivet som riskerar att omkullkasta dina planer på en tredje Gulfstream 
+                                                       Året är 2022. Det gror ett missnöje bland pilotkollektivet som riskerar att omkullkasta dina planer på en tredje Gulfstream 
                                                         om budgeten inte håller. Du tar rollen som Flygvapenchef och måste stoppa alla försök till löneökningar.<LineBreak/> <LineBreak/>
                                                         Använd alla till buds stående medel, våld och lögner om så krävs. Den farligaste fienden är 55 års pension. Låter du den passera mellan dina fingrar
                                                         kommer det stå dig dyrt.<LineBreak/> <LineBreak/>
-                                                        Bajsmackor däremot är bara en fördel om de passerar ner i linjen. Tveka inte att använda Facebook, bloggar och okommenterbara 
+                                                        Bajsmackor däremot är bara en fördel om de passerar ner i linjen.<LineBreak/> <LineBreak/>
+                                                        Tveka inte att använda Facebook, bloggar och okommenterbara 
                                                         inlägg för att sprida det viktigaste budskapet av alla. <LineBreak/> <LineBreak/>
                                                         PERSONALEN <LineBreak/> ÄR<LineBreak/> VÅR<LineBreak/> VIKTIGASTE<LineBreak/> RESURS!<LineBreak/> <LineBreak/>
                                                         Lycka till.<LineBreak/> <LineBreak/>
